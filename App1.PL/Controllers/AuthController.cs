@@ -48,14 +48,12 @@ namespace App1.PL.Controllers
             var data = userContext.Users.Find(request.Username);
             if (data == null)
             {
-                return BadRequest("User doesnot exist!");
+                return BadRequest("User doesn't exist!");
             }
             else if (!VerifyPasswordHash(request.Password, data.PasswordHash, data.PasswordSalt))
             {
                 return BadRequest("Wrong Password!");
             }
-
-
             string token = CreateToken(request);
             return token;
         }
