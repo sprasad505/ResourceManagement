@@ -7,7 +7,7 @@ using App.DAL.Models;
 using App.DAL.DataContext;
 using App.DAL.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
-
+using Newtonsoft.Json;
 
 namespace App.DAL.Repositories
 {
@@ -138,7 +138,8 @@ namespace App.DAL.Repositories
                 data.Role=alloc.Role;
                 data.HoursPerDay = alloc.HoursPerDay;
                 this.resourcedbContext.SaveChanges();
-                return "success";
+                var json = JsonConvert.SerializeObject(data);
+                return json;
 
             }
             catch
@@ -158,7 +159,9 @@ namespace App.DAL.Repositories
 
                 data.Name = proj.Name;
                 this.resourcedbContext.SaveChanges();
-                return "success";
+                var json = JsonConvert.SerializeObject(data);
+                return json;
+
 
             }
             catch
@@ -178,7 +181,9 @@ namespace App.DAL.Repositories
 
                 data.Name = team.Name;
                 this.resourcedbContext.SaveChanges();
-                return "success";
+                var json = JsonConvert.SerializeObject(data);
+                return json;
+
 
             }
             catch
@@ -201,7 +206,9 @@ namespace App.DAL.Repositories
                 data.Name = res.Name;
                 data.Designation = res.Designation;
                 this.resourcedbContext.SaveChanges();
-                return "success";
+                var json = JsonConvert.SerializeObject(data);
+                return json;
+
 
             }
             catch
@@ -223,7 +230,9 @@ namespace App.DAL.Repositories
                 }
                 this.resourcedbContext.Projects.Remove(data);
                 this.resourcedbContext.SaveChanges();
-                return "deleted";
+                var json = JsonConvert.SerializeObject(data);
+                return json;
+
 
             }
             catch
@@ -247,7 +256,9 @@ namespace App.DAL.Repositories
                 }
                 this.resourcedbContext.Allocations.Remove(data);
                 this.resourcedbContext.SaveChanges();
-                return "deleted";
+                var json = JsonConvert.SerializeObject(data);
+                return json;
+
 
             }
 
@@ -272,7 +283,9 @@ namespace App.DAL.Repositories
                 }
                 this.resourcedbContext.Teams.Remove(data);
                 this.resourcedbContext.SaveChanges();
-                return "deleted";
+                var json = JsonConvert.SerializeObject(data);
+                return json;
+
 
 
             }
@@ -296,7 +309,9 @@ namespace App.DAL.Repositories
                 }
                 this.resourcedbContext.Resources.Remove(data);
                 this.resourcedbContext.SaveChanges();
-                return "deleted";
+                var json = JsonConvert.SerializeObject(data);
+                return json;
+
             }
 
             catch

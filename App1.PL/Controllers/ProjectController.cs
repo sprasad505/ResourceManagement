@@ -44,16 +44,16 @@ namespace App1.PL.Controllers
             }
         }
         [HttpPatch("UpdateProject/{id}")]
-        public string PatchProj(string Id, Project p)
+        public ContentResult PatchProj(string Id, Project p)
         {
-            _projectService.PatchProject(Id, p);
-            return "succesfully updated";
+             var data=_projectService.PatchProject(Id, p);
+            return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
         [HttpDelete("DeleteProject/{id}")]
-        public string DeleteProject(string Id)
+        public ContentResult DeleteProject(string Id)
         {
-            this._projectService.DeleteProject(Id);
-            return "deleted";
+            var data=_projectService.DeleteProject(Id);
+            return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
     }
 }
