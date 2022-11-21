@@ -305,5 +305,90 @@ namespace App.DAL.Repositories
                 throw;
             }
         }
+
+        public async Task<Allocation> SearchAllocation(string Id)
+        {
+            try
+            {
+                Allocation a = new Allocation();
+                var result = await this.resourcedbContext.Set<Allocation>().ToListAsync();
+                foreach (var item in result)
+                {
+                    if (item.EmployeeId == Id)
+                    {
+                        a = item;
+                        break;
+                    }
+                }
+                return a;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public async Task<Resource> SearchResource(string Id)
+        {
+            try
+            {
+                Resource r = new Resource();
+                var result = await this.resourcedbContext.Set<Resource>().ToListAsync();
+                foreach (var item in result)
+                {
+                    if (item.EmployeeId == Id)
+                    {
+                        r = item;
+                        break;
+                    }
+                }
+                return r;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public async Task<Team> SearchTeam(string name)
+        {
+           try
+           {
+                    Team t = new Team();
+                    var result = await this.resourcedbContext.Set<Team>().ToListAsync();
+                    foreach (var item in result)
+                    {
+                        if (item.Name == name)
+                        {
+                            t = item;
+                            break;
+                        }
+                    }
+                    return t;
+                }
+                catch
+                {
+                    throw;
+                }
+            }
+        public async Task<Project> SearchProject(string name)
+        {
+            try
+            {
+                Project p = new Project();
+                var result = await this.resourcedbContext.Set<Project>().ToListAsync();
+                foreach (var item in result)
+                {
+                    if (item.Name == name)
+                    {
+                        p = item;
+                        break;
+                    }
+                }
+                return p;
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

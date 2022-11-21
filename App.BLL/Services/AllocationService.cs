@@ -1,6 +1,7 @@
 ﻿using App.BLL.Services.Contracts;
 using App.DAL.Models;
 using App.DAL.Repositories.Contracts;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,6 +58,19 @@ namespace App.BLL.Services
             try
             {
                 return genericRepository.DeleteAllocation(Id);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<Allocation> SearchAllocation(string Id)
+        {
+            try
+            {
+                var result = await genericRepository.SearchAllocation(Id);
+                return result;
             }
             catch
             {

@@ -62,5 +62,17 @@ namespace App.BLL.Services
                 throw;
             }
         }
+        public async Task<Project> SearchProject(string name)
+        {
+            try
+            {
+                var result = await genericRepository.SearchProject(name);
+                return result;
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

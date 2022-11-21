@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using App.DAL.Models;
 using App.BLL.Services.Contracts;
+using App.BLL.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace App1.PL.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProjectController : ControllerBase
@@ -15,7 +18,7 @@ namespace App1.PL.Controllers
         {
             _projectService = projectService;
         }
-        [HttpPost("Projects")]
+        [HttpPost("AddProject")]
         public Project AddProjects(Project p)
         {
             _projectService.AddProjects(p);
@@ -27,13 +30,26 @@ namespace App1.PL.Controllers
             List<Project> projects = await _projectService.GetProjects();
             return projects;
         }
-        [HttpPatch("Projects")]
+        [HttpGet("SearchProject/{name}")]
+        public async Task<Project> SearchProject(string name)
+        {
+            try
+            {
+                Project result = await _projectService.SearchProject(name);
+                return result;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        [HttpPatch("UpdateProject/{id}")]
         public string PatchProj(string Id, Project p)
         {
             _projectService.PatchProject(Id, p);
-            return "done";
+            return "succesfully updated";
         }
-        [HttpDelete("Projects")]
+        [HttpDelete("DeleteProject/{id}")]
         public string DeleteProject(string Id)
         {
             this._projectService.DeleteProject(Id);

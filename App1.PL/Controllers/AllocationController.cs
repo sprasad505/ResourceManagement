@@ -1,10 +1,12 @@
 ﻿using App.BLL.Services.Contracts;
 using App.DAL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App1.PL.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AllocationController : ControllerBase
@@ -14,7 +16,7 @@ namespace App1.PL.Controllers
         {
             this.allocationService = allocationService;
         }
-        [HttpPost("Allocations")]
+        [HttpPost("AddAllocation")]
         public Allocation AddAlloc(Allocation a)
         {
             this.allocationService.AddAlloc(a);
@@ -26,13 +28,26 @@ namespace App1.PL.Controllers
             List<Allocation> allocations = await this.allocationService.GetAllocations();
             return allocations;
         }
-        [HttpPatch("Allocations")]
+        [HttpGet("SearchAllocation/{id}")]
+        public async Task<Allocation> SearchAllocation(string id)
+        {
+            try
+            {
+                Allocation result = await allocationService.SearchAllocation(id);
+                return result;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        [HttpPatch("UpdateAllocation/{id}")]
         public string PatchAlloc(string Id, Allocation a)
         {
             this.allocationService.PatchAlloc(Id, a);
-            return "done";
+            return "succesfully updated";
         }
-        [HttpDelete("Allocations")]
+        [HttpDelete("DeleteAllocation/{id}")]
         public string DeleteAllocation(string Id)
         {
             this.allocationService.DeleteAllocation(Id);

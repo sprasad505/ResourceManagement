@@ -11,6 +11,7 @@ namespace App.BLL.Services.Contracts
     {
         public Allocation AddAlloc(Allocation a);
         Task<List<Allocation>> GetAllocations();
+        Task<Allocation> SearchAllocation(string Id);
         public string PatchAlloc(string Id, Allocation a);
         public string DeleteAllocation(string Id);
        

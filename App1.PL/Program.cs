@@ -5,9 +5,22 @@ using App.BLL.Services;
 using App.BLL.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System;
-
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+var _loggrer = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.File($"C:\\Users\\shankar.prasad\\Desktop\\Log File.txt")
+    .WriteTo.Console()
+    .CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(_loggrer);
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -16,7 +29,10 @@ builder.Services.AddDbContext<ResourcedbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("Sql"));
 });
-
+builder.Services.AddDbContext<UsersContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Sql"));
+});
 builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IResourceService,ResourceService>();
 builder.Services.AddScoped<IAllocationService, AllocationService>();
@@ -29,6 +45,19 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+        .GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value)),
+        ValidateIssuer = false,
+        ValidateAudience = false
+
+    };
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -39,6 +68,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

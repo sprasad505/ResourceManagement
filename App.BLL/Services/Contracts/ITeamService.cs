@@ -11,6 +11,7 @@ namespace App.BLL.Services.Contracts
     {
         public Team AddTeams(Team t);
         Task<List<Team>> GetTeams();
+        Task<Team> SearchTeam(string name);
         public string PatchTeam(string Id, Team t);
         public string DeleteTeam(string Id);
         

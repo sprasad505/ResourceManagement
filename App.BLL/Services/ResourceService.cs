@@ -64,6 +64,18 @@ namespace App.BLL.Services
                 throw;
             }
         }
+        public async Task<Resource> SearchResource(string Id)
+        {
+            try
+            {
+                var result = await genericRepository.SearchResource(Id);
+                return result;
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 
 }

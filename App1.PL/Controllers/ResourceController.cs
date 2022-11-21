@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using App.DAL.Models;
 using App.BLL.Services.Contracts;
 using System.Diagnostics;
+using App.BLL.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace App1.PL.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ResourceController : ControllerBase
@@ -18,7 +21,7 @@ namespace App1.PL.Controllers
             _resourceService = resourceService;
         }
 
-        [HttpPost("Resources")]
+        [HttpPost("AddResource")]
         public Resource Addresources(Resource r)
         {
             _resourceService.AddResources(r);
@@ -30,13 +33,26 @@ namespace App1.PL.Controllers
             List<Resource> resources = await _resourceService.GetResources();
             return resources;
         }
-        [HttpPatch("Resources")]
+        [HttpGet("SearchResource/{id}")]
+        public async Task<Resource> SearchResource(string id)
+        {
+            try
+            {
+                Resource result = await _resourceService.SearchResource(id);
+                return result;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        [HttpPatch("UpdateResource/{id}")]
         public string PatchResource(string Id, Resource r)
         {
             this._resourceService.PatchResource(Id, r);
-            return "done";
+            return "succesfully updated";
         }
-        [HttpDelete("Resources")]
+        [HttpDelete("DeleteResource/{id}")]
         public string DeleteResource(string Id)
         {
             this._resourceService.DeleteResource(Id);

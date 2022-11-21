@@ -14,6 +14,10 @@ namespace App.DAL.Repositories.Contracts
         Task<List<Team>> GetTeams();
         Task<List<Project>> GetProjects();
         Task<List<Resource>> GetResources();
+        Task<Allocation>SearchAllocation(string Id);
+        Task<Resource> SearchResource(string Id);
+        Task<Team> SearchTeam(string name);
+        Task<Project> SearchProject(string name);
         public Resource AddResources(Resource r);
         public Project AddProjects(Project p);
         public Team AddTeams(Team t);
