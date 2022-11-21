@@ -50,7 +50,7 @@ namespace App1.PL.Controllers
         [HttpDelete("DeleteTeam/{id}")]
         public ContentResult DeleteTeam(string Id)
         {
-            var data=0teamService.DeleteTeam(Id);
+            var data=teamService.DeleteTeam(Id);
             return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
     }
