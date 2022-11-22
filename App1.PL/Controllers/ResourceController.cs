@@ -47,16 +47,16 @@ namespace App1.PL.Controllers
             }
         }
         [HttpPatch("UpdateResource/{id}")]
-        public string PatchResource(string Id, Resource r)
+        public ContentResult PatchResource(string Id, Resource r)
         {
-            this._resourceService.PatchResource(Id, r);
-            return "succesfully updated";
+            var data=_resourceService.PatchResource(Id, r);
+            return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
         [HttpDelete("DeleteResource/{id}")]
-        public string DeleteResource(string Id)
+        public ContentResult DeleteResource(string Id)
         {
-            this._resourceService.DeleteResource(Id);
-            return "deleted";
+            var data=_resourceService.DeleteResource(Id);
+            return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
     }
 }

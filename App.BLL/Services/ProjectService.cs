@@ -32,7 +32,8 @@ namespace App.BLL.Services
         {
             try
             {
-                return genericRepository.DeleteProject(Id);
+               var data= genericRepository.DeleteProject(Id);
+                return data;
             }
             catch
             {
@@ -55,7 +56,8 @@ namespace App.BLL.Services
         {
             try
             {
-                return genericRepository.PatchProject(Id, p);
+               var data= genericRepository.PatchProject(Id, p);
+                return data;
             }
             catch
             {

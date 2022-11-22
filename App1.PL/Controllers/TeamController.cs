@@ -42,16 +42,16 @@ namespace App1.PL.Controllers
             }
         }
         [HttpPatch("UpdateTeam/{id}")]
-        public string PatchTeam(string Id, Team t)
+        public ContentResult PatchTeam(string Id, Team t)
         {
-            this.teamService.PatchTeam(Id, t);
-            return "succesfully updated";
+            var data=teamService.PatchTeam(Id, t);
+            return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
         [HttpDelete("DeleteTeam/{id}")]
-        public string DeleteTeam(string Id)
+        public ContentResult DeleteTeam(string Id)
         {
-            this.teamService.DeleteTeam(Id);
-            return "deleted";
+            var data=teamService.DeleteTeam(Id);
+            return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
     }
 }

@@ -42,16 +42,16 @@ namespace App1.PL.Controllers
             }
         }
         [HttpPatch("UpdateAllocation/{id}")]
-        public string PatchAlloc(string Id, Allocation a)
+        public ContentResult PatchAlloc(string Id, Allocation a)
         {
-            this.allocationService.PatchAlloc(Id, a);
-            return "succesfully updated";
+            var data=allocationService.PatchAlloc(Id, a);
+            return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
         [HttpDelete("DeleteAllocation/{id}")]
-        public string DeleteAllocation(string Id)
+        public ContentResult DeleteAllocation(string Id)
         {
-            this.allocationService.DeleteAllocation(Id);
-            return "deleted";
+            var data=allocationService.DeleteAllocation(Id);
+            return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
     }
 }

@@ -44,7 +44,8 @@ namespace App.BLL.Services
         {
             try
             {
-                return genericRepository.PatchAllocation(Id, a);
+                var data= genericRepository.PatchAllocation(Id, a);
+                return data;
 
             }
             catch
@@ -57,7 +58,8 @@ namespace App.BLL.Services
         {
             try
             {
-                return genericRepository.DeleteAllocation(Id);
+                var data= genericRepository.DeleteAllocation(Id);
+                return data;
             }
             catch
             {
