@@ -44,7 +44,8 @@ namespace App.BLL.Services
         {
             try
             {
-                return genericRepository.PatchResource(Id, r);
+              var data= genericRepository.PatchResource(Id, r);
+                return data;
 
             }
             catch
@@ -57,7 +58,8 @@ namespace App.BLL.Services
         {
             try
             {
-                return genericRepository.DeleteResource(Id);
+                var data= genericRepository.DeleteResource(Id);
+                return data;
             }
             catch
             {

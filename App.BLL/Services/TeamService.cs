@@ -33,7 +33,8 @@ namespace App.BLL.Services
         {
             try
             {
-                return genericRepository.DeleteTeam(Id);
+                var data= genericRepository.DeleteTeam(Id);
+                return data;
             }
             catch
             {
@@ -57,7 +58,8 @@ namespace App.BLL.Services
         {
             try
             {
-                return genericRepository.PatchTeam(Id, t);
+                var data= genericRepository.PatchTeam(Id, t);
+                return data;
 
             }
             catch
