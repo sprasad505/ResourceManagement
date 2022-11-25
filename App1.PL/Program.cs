@@ -38,6 +38,7 @@ builder.Services.AddScoped<IResourceService,ResourceService>();
 builder.Services.AddScoped<IAllocationService, AllocationService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<ITeamService, TeamService>();
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 
 builder.Services.AddControllers();

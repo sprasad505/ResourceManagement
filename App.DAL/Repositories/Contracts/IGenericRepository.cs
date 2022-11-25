@@ -22,6 +22,8 @@ namespace App.DAL.Repositories.Contracts
         public Project AddProjects(Project p);
         public Team AddTeams(Team t);
         public Allocation AddAlloc(Allocation a);
+        public void Adduser(string email, byte[] passwordHash, byte[] passwordSalt);
+        public User Login(Userdto request);
         public string PatchAllocation(string Id, Allocation allocation);
         public string PatchTeam(string Id, Team team);
         public string PatchProject(string Id, Project project);
