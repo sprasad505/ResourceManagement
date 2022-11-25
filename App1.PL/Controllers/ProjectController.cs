@@ -1,10 +1,6 @@
 ﻿using App.BLL.Services.Contracts;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using App.DAL.Models;
-using App.BLL.Services.Contracts;
-using App.BLL.Services;
-using Microsoft.AspNetCore.Authorization;
 
 namespace App1.PL.Controllers
 {
