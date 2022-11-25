@@ -68,6 +68,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors(x => x.AllowAnyHeader()
+      .AllowAnyMethod()
+      .AllowAnyOrigin());
+      /*.WithOrigins("https://our-react-site.com"));*/ ;
 
 app.UseAuthentication();
 
