@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using App.DAL.DataContext;
 using App.DAL.Models;
-using App.DAL.DataContext;
 using App.DAL.Repositories.Contracts;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
@@ -14,15 +10,26 @@ namespace App.DAL.Repositories
     public class GenericRepository<TModel> : IGenericRepository<TModel> where TModel : class
     {
         private readonly ResourcedbContext resourcedbContext;
+        private readonly IAuthenticationService authenticationService;
+        private readonly UsersContext usersContext;
 
-        public GenericRepository(ResourcedbContext resourcedbContext)
+        public GenericRepository(ResourcedbContext resourcedbContext, UsersContext usersContext, IAuthenticationService authenticationService)
         {
             this.resourcedbContext = resourcedbContext;
+            this.authenticationService = authenticationService;
+            this.usersContext = usersContext;
         }
         public Allocation AddAlloc(Allocation a)
         {
             try
             {
+                /*var data = this.resourcedbContext.Allocations.Find(Convert.ToInt64(a.EmployeeId));
+                if (data == null)
+                {
+                    var data1 = this.resourcedbContext.Resources.Find(Convert.ToInt64(a.EmployeeId));
+                    string password = "random"; 
+                    Adduser(data1.Email, password);
+                }*/
                 this.resourcedbContext.Add(a);
                 this.resourcedbContext.SaveChanges();
                 return a;
@@ -113,7 +120,7 @@ namespace App.DAL.Repositories
 
         public async Task<List<Team>> GetTeams()
         {
-             try
+            try
             {
                 return await this.resourcedbContext.Set<Team>().ToListAsync();
             }
@@ -127,7 +134,7 @@ namespace App.DAL.Repositories
         {
             try
             {
-               
+
                 var data = this.resourcedbContext.Allocations.Find(Convert.ToInt64(Id));
                 if (data == null)
                     return "Empty";
@@ -135,7 +142,7 @@ namespace App.DAL.Repositories
                 data.EmployeeId = alloc.EmployeeId;
                 data.TeamId = alloc.TeamId;
                 data.ProjectId = alloc.ProjectId;
-                data.Role=alloc.Role;
+                data.Role = alloc.Role;
                 data.HoursPerDay = alloc.HoursPerDay;
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data);
@@ -365,25 +372,25 @@ namespace App.DAL.Repositories
         }
         public async Task<Team> SearchTeam(string name)
         {
-           try
-           {
-                    Team t = new Team();
-                    var result = await this.resourcedbContext.Set<Team>().ToListAsync();
-                    foreach (var item in result)
-                    {
-                        if (item.Name == name)
-                        {
-                            t = item;
-                            break;
-                        }
-                    }
-                    return t;
-                }
-                catch
+            try
+            {
+                Team t = new Team();
+                var result = await this.resourcedbContext.Set<Team>().ToListAsync();
+                foreach (var item in result)
                 {
-                    throw;
+                    if (item.Name == name)
+                    {
+                        t = item;
+                        break;
+                    }
                 }
+                return t;
             }
+            catch
+            {
+                throw;
+            }
+        }
         public async Task<Project> SearchProject(string name)
         {
             try
@@ -403,6 +410,38 @@ namespace App.DAL.Repositories
             catch
             {
                 throw;
+            }
+        }
+
+        public void Adduser(string email, byte[] passwordHash, byte[] passwordSalt)
+        {
+            try
+            {
+                User user = new User();
+                //CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
+                user.Username = email;
+                user.PasswordSalt = passwordSalt;
+                user.PasswordHash = passwordHash;
+                this.usersContext.Add(user);
+                this.usersContext.SaveChanges();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public User Login(Userdto request)
+        {
+            try
+            {
+                var data = this.usersContext.Users.Find(request.Username);
+                return data;
+            }
+            catch
+            {
+                throw;
+
             }
         }
     }
