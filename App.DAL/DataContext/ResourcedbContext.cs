@@ -90,7 +90,10 @@ namespace App.DAL.DataContext
             {
                 entity.ToTable("Sprint");
 
+                entity.HasKey(e => e.Id).HasName("Id");
+
                 entity.Property(e => e.Name).HasMaxLength(50);
+
             });
 
             OnModelCreatingPartial(modelBuilder);

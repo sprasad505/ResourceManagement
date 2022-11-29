@@ -25,7 +25,7 @@ namespace App1.PL.Controllers
         {
             return this.sprintService.AddSprints(s);
         }
-        [HttpGet("SearchSprint/{id}")]
+        [HttpGet("SearchSprint/{name}")]
         public async Task<Sprint> SearchSprint(string name)
         {
             return await this.sprintService.SearchSprint(name);  

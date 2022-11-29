@@ -227,7 +227,6 @@ namespace App.DAL.Repositories
         {
             try
             {
-
                 var data = this.resourcedbContext.Sprints.Find(Convert.ToInt64(Id));
                 if (data == null)
                     return "Empty";
