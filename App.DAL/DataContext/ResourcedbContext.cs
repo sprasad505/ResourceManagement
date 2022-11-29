@@ -22,6 +22,8 @@ namespace App.DAL.DataContext
         public virtual DbSet<Resource> Resources { get; set; } = null!;
         public virtual DbSet<Team> Teams { get; set; } = null!;
 
+        public virtual DbSet<Sprint> Sprints { get; set; } = null!;
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             /*if (!optionsBuilder.IsConfigured)
@@ -82,6 +84,16 @@ namespace App.DAL.DataContext
                 entity.ToTable("Team");
 
                 entity.Property(e => e.Name).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Sprint>(entity =>
+            {
+                entity.ToTable("Sprint");
+
+                entity.HasKey(e => e.Id).HasName("Id");
+
+                entity.Property(e => e.Name).HasMaxLength(50);
+
             });
 
             OnModelCreatingPartial(modelBuilder);
