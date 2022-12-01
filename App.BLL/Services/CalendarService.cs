@@ -28,5 +28,17 @@ namespace App.BLL.Services
                 throw;
             }
         }
+        public async Task<List<Calendar22>> GetHolidays()
+        {
+            try
+            {
+                return await this.genericrepository.GetHolidays();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
     }
 }

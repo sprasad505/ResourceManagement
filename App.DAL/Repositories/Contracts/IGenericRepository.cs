@@ -28,6 +28,7 @@ namespace App.DAL.Repositories.Contracts
         public void Adduser(string email, byte[] passwordHash, byte[] passwordSalt);
         public User Login(Userdto request);
         public Calendar22 AddHolidays(Calendar22 c);
+        Task<List<Calendar22>> GetHolidays();
         public string PatchAllocation(string Id, Allocation allocation);
         public string PatchTeam(string Id, Team team);
         public string PatchProject(string Id, Project project);

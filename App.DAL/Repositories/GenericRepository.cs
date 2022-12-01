@@ -122,6 +122,17 @@ namespace App.DAL.Repositories
                 throw;
             }
         }
+        public async Task<List<Calendar22>> GetHolidays()
+        {
+            try
+            {
+                return await this.resourcedbContext.Set<Calendar22>().ToListAsync();
+            }
+            catch
+            {
+                throw;
+            }
+        }
         public async Task<List<Allocation>> GetAllocations()
         {
             try
