@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace App1.PL.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AllocationController : ControllerBase
