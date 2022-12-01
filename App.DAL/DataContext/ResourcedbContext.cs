@@ -21,6 +21,7 @@ namespace App.DAL.DataContext
         public virtual DbSet<Project> Projects { get; set; } = null!;
         public virtual DbSet<Resource> Resources { get; set; } = null!;
         public virtual DbSet<Team> Teams { get; set; } = null!;
+        public virtual DbSet<Calendar22> Calender22s { get; set; } = null!;
 
         public virtual DbSet<Sprint> Sprints { get; set; } = null!;
 
@@ -94,6 +95,20 @@ namespace App.DAL.DataContext
 
                 entity.Property(e => e.Name).HasMaxLength(50);
 
+            });
+
+            modelBuilder.Entity<Calendar22>(entity =>
+            {
+                entity.HasKey(e => e.Date)
+                    .HasName("PK__Calender__77387D067ED05455");
+
+                entity.ToTable("Calender22");
+
+                entity.Property(e => e.Date).HasColumnType("date");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
             });
 
             OnModelCreatingPartial(modelBuilder);
