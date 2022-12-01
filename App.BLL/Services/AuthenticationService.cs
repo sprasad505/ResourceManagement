@@ -61,11 +61,11 @@ namespace App.BLL.Services
             var data=genericRepository.Login(request);
             if (data == null)
             {
-                return "User doesn't exist!";
+                return "Wrong Credentials!";
             }
             else if (!VerifyPasswordHash(request.Password, data.PasswordHash, data.PasswordSalt))
             {
-                return "Wrong Password!";
+                return "Wrong Credentials!";
             }
             string token = CreateToken(request);
             return token;

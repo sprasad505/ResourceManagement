@@ -1,10 +1,11 @@
 ﻿using App.BLL.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using App.DAL.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace App1.PL.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProjectController : ControllerBase
