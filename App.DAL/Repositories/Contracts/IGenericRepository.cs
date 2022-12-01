@@ -27,6 +27,7 @@ namespace App.DAL.Repositories.Contracts
         public Sprint AddSprint(Sprint s);
         public void Adduser(string email, byte[] passwordHash, byte[] passwordSalt);
         public User Login(Userdto request);
+        public Calendar22 AddHolidays(Calendar22 c);
         public string PatchAllocation(string Id, Allocation allocation);
         public string PatchTeam(string Id, Team team);
         public string PatchProject(string Id, Project project);
