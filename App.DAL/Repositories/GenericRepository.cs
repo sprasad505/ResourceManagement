@@ -94,12 +94,29 @@ namespace App.DAL.Repositories
                 throw;
             }
         }
+
         public async Task<List<Sprint>> GetSprints()
         {
             try
             {
                 return await this.resourcedbContext.Set<Sprint>().ToListAsync();
             }
+            catch
+            {
+                throw;
+            }
+        }
+        public Calendar22 AddHolidays(Calendar22 c)
+        {
+            try
+            {
+                //var shortDateValue = c;
+                //shortDateValue.Date = c.Date.ToShortDateString();
+                this.resourcedbContext.Add(c);
+                this.resourcedbContext.SaveChanges();
+                return c;
+            } 
+
             catch
             {
                 throw;
