@@ -10,5 +10,6 @@ namespace App.BLL.Services.Contracts
     public interface ICalendarService
     {
         public Calendar22 AddHolidays(Calendar22 c);
+        Task<List<Calendar22>> GetHolidays();
     }
 }
