@@ -12,7 +12,7 @@ namespace App.BLL.Services.Contracts
         public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt);
         public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt);
         public string CreateToken(Userdto user);
-       // public void AddUser(Userdto user);
+        // public void AddUser(Userdto user);
         public string Login(Userdto request);
     }
 }

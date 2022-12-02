@@ -33,6 +33,19 @@ namespace App.DAL.Repositories
                 throw;
             }
         }
+        public Sprint AddSprint(Sprint s)
+        {
+            try
+            {
+                this.resourcedbContext.Add(s);
+                this.resourcedbContext.SaveChanges();
+                return s;
+            }
+            catch
+            {
+                throw;
+            }
+        }
 
         public Project AddProjects(Project p)
         {
@@ -76,6 +89,44 @@ namespace App.DAL.Repositories
             }
         }
 
+        public async Task<List<Sprint>> GetSprints()
+        {
+            try
+            {
+                return await this.resourcedbContext.Set<Sprint>().ToListAsync();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public Calendar22 AddHolidays(Calendar22 c)
+        {
+            try
+            {
+                //var shortDateValue = c;
+                //shortDateValue.Date = c.Date.ToShortDateString();
+                this.resourcedbContext.Add(c);
+                this.resourcedbContext.SaveChanges();
+                return c;
+            } 
+
+            catch
+            {
+                throw;
+            }
+        }
+        public async Task<List<Calendar22>> GetHolidays()
+        {
+            try
+            {
+                return await this.resourcedbContext.Set<Calendar22>().ToListAsync();
+            }
+            catch
+            {
+                throw;
+            }
+        }
         public async Task<List<Allocation>> GetAllocations()
         {
             try
@@ -193,6 +244,30 @@ namespace App.DAL.Repositories
 
             }
         }
+
+        public string PatchSprint(string Id, Sprint sprint)
+        {
+            try
+            {
+                var data = this.resourcedbContext.Sprints.Find(Convert.ToInt64(Id));
+                if (data == null)
+                    return "Empty";
+
+                data.Name = sprint.Name;
+                data.Duration = sprint.Duration;
+                this.resourcedbContext.SaveChanges();
+                var json = JsonConvert.SerializeObject(data);
+                return json;
+
+
+            }
+            catch
+            {
+                throw;
+
+            }
+        }
+
         public string PatchResource(string Id, Resource res)
         {
             try
@@ -298,6 +373,31 @@ namespace App.DAL.Repositories
             }
         }
 
+        public string DeleteSprint(string Id)
+        {
+            try
+            {
+
+
+                var data = this.resourcedbContext.Sprints.Find(Convert.ToInt64(Id));
+                if (data == null)
+                {
+                    return "no data found";
+
+                }
+                this.resourcedbContext.Sprints.Remove(data);
+                this.resourcedbContext.SaveChanges();
+                var json = JsonConvert.SerializeObject(data);
+                return json;
+            }
+
+            catch
+            {
+
+                throw;
+            }
+        }
+
         public string DeleteResource(string EmployeeId)
         {
             try
@@ -385,6 +485,27 @@ namespace App.DAL.Repositories
                 throw;
             }
         }
+        public async Task<Sprint> SearchSprint(string name)
+        {
+            try
+            {
+                Sprint s = new Sprint();
+                var result = await this.resourcedbContext.Set<Sprint>().ToListAsync();
+                foreach (var item in result)
+                {
+                    if (item.Name == name)
+                    {
+                        s = item;
+                        break;
+                    }
+                }
+                return s;
+            }
+            catch
+            {
+                throw;
+            }
+        }
         public async Task<Project> SearchProject(string name)
         {
             try
@@ -429,8 +550,7 @@ namespace App.DAL.Repositories
         {
             try
             {
-                var data = this.usersContext.Users.Find(request.Username);
-                return data;
+                return this.usersContext.Users.Find(request.Username);
             }
             catch
             {
