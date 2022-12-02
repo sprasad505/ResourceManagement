@@ -17,13 +17,13 @@ namespace App1.PL.Controllers
         {
             this.calendarService = calendarService;
         }
-        [HttpPost]
+        [HttpPost("AddHoliday")]
         public Calendar22 AddHolidays(Calendar22 c)
         {
             return this.calendarService.AddHolidays(c);
         }
 
-        [HttpGet]
+        [HttpGet("GetHoliday")]
         public async Task<List<Calendar22>> GetHolidays()
         {
             List<Calendar22> calendar22s = await calendarService.GetHolidays();
