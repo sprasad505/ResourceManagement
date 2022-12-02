@@ -23,13 +23,7 @@ namespace App.DAL.Repositories
         {
             try
             {
-                /*var data = this.resourcedbContext.Allocations.Find(Convert.ToInt64(a.EmployeeId));
-                if (data == null)
-                {
-                    var data1 = this.resourcedbContext.Resources.Find(Convert.ToInt64(a.EmployeeId));
-                    string password = "random"; 
-                    Adduser(data1.Email, password);
-                }*/
+                
                 this.resourcedbContext.Add(a);
                 this.resourcedbContext.SaveChanges();
                 return a;
