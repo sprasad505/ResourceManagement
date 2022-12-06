@@ -13,13 +13,13 @@ using Serilog;
 var builder = WebApplication.CreateBuilder(args);
 
 
-var _loggrer = new LoggerConfiguration()
+var _logger = new LoggerConfiguration()
     .MinimumLevel.Debug()
     .WriteTo.File($"C:\\Users\\shankar.prasad\\Desktop\\Log File.txt")
     .WriteTo.Console()
     .CreateLogger();
 builder.Logging.ClearProviders();
-builder.Logging.AddSerilog(_loggrer);
+builder.Logging.AddSerilog(_logger);
 
 
 // Add services to the container.
@@ -55,7 +55,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
         .GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value)),
         ValidateIssuer = false,
-        ValidateAudience = false
+        ValidateAudience = false,
+        RequireExpirationTime = false
 
     };
 });
