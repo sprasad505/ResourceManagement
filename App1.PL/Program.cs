@@ -9,22 +9,34 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Serilog;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
 
-var _loggrer = new LoggerConfiguration()
+var _logger = new LoggerConfiguration()
     .MinimumLevel.Debug()
-    .WriteTo.File($"C:\\Users\\shankar.prasad\\Desktop\\Log File.txt")
+    .WriteTo.File($"D:\\Publish\\log.txt")
     .WriteTo.Console()
     .CreateLogger();
 builder.Logging.ClearProviders();
-builder.Logging.AddSerilog(_loggrer);
+builder.Logging.AddSerilog(_logger);
 
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
-
+builder.Services.AddControllers();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(MyAllowSpecificOrigins,
+                          policy =>
+                          {
+                              policy.WithOrigins("*")
+                                                  .AllowAnyHeader()
+                                                  .AllowAnyMethod();
+                          });
+});
 builder.Services.AddDbContext<ResourcedbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("Sql"));
@@ -55,7 +67,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
         .GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value)),
         ValidateIssuer = false,
-        ValidateAudience = false
+        ValidateAudience = false,
+        RequireExpirationTime = false
 
     };
 });
@@ -70,6 +83,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseAuthentication();
 

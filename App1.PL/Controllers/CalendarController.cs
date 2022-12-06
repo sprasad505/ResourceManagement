@@ -17,17 +17,23 @@ namespace App1.PL.Controllers
         {
             this.calendarService = calendarService;
         }
-        [HttpPost]
-        public Calendar22 AddHolidays(Calendar22 c)
+        [HttpPost("AddHoliday")]
+        public InterCalender AddHolidays(InterCalender c)
         {
             return this.calendarService.AddHolidays(c);
         }
 
-        [HttpGet]
-        public async Task<List<Calendar22>> GetHolidays()
+        [HttpGet("GetHoliday")]
+        public async Task<List<InterCalender>> GetHolidays()
         {
             List<Calendar22> calendar22s = await calendarService.GetHolidays();
-            return calendar22s;
+            List<InterCalender> c = new List<InterCalender>();
+            foreach (Calendar22 calendar22 in calendar22s)
+            {
+                string d = calendar22.Date.ToString("dd-MM-yyyy");
+                c.Add(new InterCalender { Date = d, Name = calendar22.Name });
+            }
+            return c;
         }
     }
 }

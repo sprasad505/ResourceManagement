@@ -61,7 +61,10 @@ namespace App.BLL.Services
                             break;
                         }
                     }
-                    string password = "random";
+                    Random random = new Random();
+                    string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                    string password = new string(Enumerable.Repeat(chars, 8)
+                        .Select(s => s[random.Next(s.Length)]).ToArray());
                     CreatePasswordHash(password, out byte[] PasswordHash, out byte[] PasswordSalt);
                     genericRepository.Adduser(r.Email,PasswordHash,PasswordSalt );
                     return genericRepository.AddAlloc(a);

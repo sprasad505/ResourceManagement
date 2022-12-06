@@ -4,6 +4,8 @@ using App.DAL.Repositories.Contracts;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Globalization;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace App.DAL.Repositories
 {
@@ -23,13 +25,7 @@ namespace App.DAL.Repositories
         {
             try
             {
-                /*var data = this.resourcedbContext.Allocations.Find(Convert.ToInt64(a.EmployeeId));
-                if (data == null)
-                {
-                    var data1 = this.resourcedbContext.Resources.Find(Convert.ToInt64(a.EmployeeId));
-                    string password = "random"; 
-                    Adduser(data1.Email, password);
-                }*/
+                
                 this.resourcedbContext.Add(a);
                 this.resourcedbContext.SaveChanges();
                 return a;
@@ -106,13 +102,16 @@ namespace App.DAL.Repositories
                 throw;
             }
         }
-        public Calendar22 AddHolidays(Calendar22 c)
+        public InterCalender AddHolidays(InterCalender c)
         {
             try
             {
-                //var shortDateValue = c;
-                //shortDateValue.Date = c.Date.ToShortDateString();
-                this.resourcedbContext.Add(c);
+                Calendar22 c1 = new Calendar22();
+                //c1.Date = DateTime.Parse(c.Date);
+                //c1.Date = Convert.ToDateTime(c.Date);
+                c1.Date = Convert.ToDateTime(DateTime.ParseExact(c.Date , "dd-MM-yyyy", CultureInfo.InvariantCulture));
+                c1.Name = c.Name;
+                this.resourcedbContext.Calender22s.Add(c1);
                 this.resourcedbContext.SaveChanges();
                 return c;
             } 
