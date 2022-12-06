@@ -115,7 +115,7 @@ namespace App.DAL.Repositories
                 Calendar22 c1 = new Calendar22();
                 //c1.Date = DateTime.Parse(c.Date);
                 //c1.Date = Convert.ToDateTime(c.Date);
-                c1.Date = Convert.ToDateTime(DateTime.ParseExact(c.Date , "dd-MM-yyyy", CultureInfo.InvariantCulture));
+                c1.Date = Convert.ToDateTime(DateTime.ParseExact(c.Date , "yyyy-MM-dd", CultureInfo.InvariantCulture));
                 c1.Name = c.Name;
                 this.resourcedbContext.Calender22s.Add(c1);
                 this.resourcedbContext.SaveChanges();
