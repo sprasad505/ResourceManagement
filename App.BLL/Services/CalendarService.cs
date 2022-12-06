@@ -17,7 +17,7 @@ namespace App.BLL.Services
             this.genericrepository = genericrepository;
         }
 
-        public Calendar22 AddHolidays(Calendar22 c)
+        public InterCalender AddHolidays(InterCalender c)
         {
             try
             {
