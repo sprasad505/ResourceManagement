@@ -2,6 +2,7 @@
 using App.DAL.Models;
 using App.DAL.Repositories.Contracts;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Globalization;
@@ -96,6 +97,20 @@ namespace App.DAL.Repositories
                 throw;
             }
         }
+        public Story AddStory(Story st)
+        {
+            try
+            {
+                st.CreatedOn = DateTime.Now;
+                this.resourcedbContext.Add(st);
+                this.resourcedbContext.SaveChanges();
+                return st;
+            }
+            catch
+            {
+                throw;
+            }
+        }
 
         public async Task<List<Sprint>> GetSprints()
         {
@@ -115,7 +130,7 @@ namespace App.DAL.Repositories
                 Calendar22 c1 = new Calendar22();
                 //c1.Date = DateTime.Parse(c.Date);
                 //c1.Date = Convert.ToDateTime(c.Date);
-                c1.Date = Convert.ToDateTime(DateTime.ParseExact(c.Date , "dd-MM-yyyy", CultureInfo.InvariantCulture));
+                c1.Date = Convert.ToDateTime(DateTime.ParseExact(c.Date , "yyyy-MM-dd", CultureInfo.InvariantCulture));
                 c1.Name = c.Name;
                 this.resourcedbContext.Calender22s.Add(c1);
                 this.resourcedbContext.SaveChanges();
@@ -179,6 +194,17 @@ namespace App.DAL.Repositories
             try
             {
                 return await this.resourcedbContext.Set<Team>().ToListAsync();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public async Task<List<Story>> GetStories()
+        {
+            try
+            {
+                return await this.resourcedbContext.Set<Story>().ToListAsync();
             }
             catch
             {
@@ -292,6 +318,28 @@ namespace App.DAL.Repositories
                 data.Email = res.Email;
                 data.Name = res.Name;
                 data.Designation = res.Designation;
+                this.resourcedbContext.SaveChanges();
+                var json = JsonConvert.SerializeObject(data);
+                return json;
+
+
+            }
+            catch
+            {
+                throw;
+
+            }
+        }
+        public string PatchStory(string Id, Story st)
+        {
+            try
+            {
+
+                var data = this.resourcedbContext.Stories.Find(Convert.ToInt64(Id));
+                if (data == null)
+                    return "Empty";
+                data.Name = st.Name;
+                data.ModifiedOn = DateTime.Now;
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data);
                 return json;
@@ -429,6 +477,34 @@ namespace App.DAL.Repositories
             catch
             {
 
+                throw;
+            }
+        }
+        public async Task<Story> DeleteStory(string Id)
+        {
+            try
+            {
+                var data = this.resourcedbContext.Stories.Find(Convert.ToInt64(Id));
+                if (data == null)
+                {
+                    //return "no data found";
+                }
+                this.resourcedbContext.Stories.Remove(data);
+                this.resourcedbContext.SaveChanges();
+                var result = await this.resourcedbContext.Set<Point>().ToListAsync();
+                foreach (var item in result)
+                {
+                    if(item.StoryId.Equals(Id))
+                    {
+                        this.resourcedbContext.Points.Remove(item);
+                        this.resourcedbContext.SaveChanges();
+                    }
+                }
+                var json = JsonConvert.SerializeObject(data);
+                return data;
+            }
+            catch
+            {
                 throw;
             }
         }
