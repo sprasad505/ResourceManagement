@@ -21,6 +21,10 @@ namespace App.DAL.DataContext
         public virtual DbSet<Project> Projects { get; set; } = null!;
         public virtual DbSet<Resource> Resources { get; set; } = null!;
         public virtual DbSet<Team> Teams { get; set; } = null!;
+        public virtual DbSet<Calendar22> Calender22s { get; set; } = null!;
+        public virtual DbSet<Sprint> Sprints { get; set; } = null!;
+        public virtual DbSet<Point> Points { get; set; } = null!;
+        public virtual DbSet<Story> Stories { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -82,6 +86,54 @@ namespace App.DAL.DataContext
                 entity.ToTable("Team");
 
                 entity.Property(e => e.Name).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Sprint>(entity =>
+            {
+                entity.ToTable("Sprint");
+
+                entity.HasKey(e => e.Id).HasName("Id");
+
+                entity.Property(e => e.Name).HasMaxLength(50);
+
+            });
+
+            modelBuilder.Entity<Calendar22>(entity =>
+            {
+                entity.HasKey(e => e.Date)
+                    .HasName("PK__Calender__77387D067ED05455");
+
+                entity.ToTable("Calender22");
+
+                entity.Property(e => e.Date).HasColumnType("date");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Point>(entity =>
+            {
+                entity.ToTable("Point");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.HasOne(d => d.Story)
+                    .WithMany(p => p.Points)
+                    .HasForeignKey(d => d.StoryId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Storykey");
+            });
+
+            modelBuilder.Entity<Story>(entity =>
+            {
+                entity.ToTable("Story");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
             });
 
             OnModelCreatingPartial(modelBuilder);
