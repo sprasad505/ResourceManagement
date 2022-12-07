@@ -1,4 +1,5 @@
-﻿using App.DAL.Models;
+﻿using App.BLL.Services.Contracts;
+using App.DAL.Models;
 using App.DAL.Repositories.Contracts;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace App.BLL.Services
 {
-    public class PointService
+    public class PointService : IPointService
     {
         private readonly IGenericRepository<Point> genericRepository;
         public PointService(IGenericRepository<Point> genericRepository)

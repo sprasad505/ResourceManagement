@@ -53,7 +53,7 @@ namespace App.BLL.Services
             }
         }
 
-        public string PatchSprint(string Id, Sprint s)
+        public string PatchSprint(long Id, Sprint s)
         {
             try
             {

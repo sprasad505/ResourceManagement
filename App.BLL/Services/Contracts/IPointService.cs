@@ -9,11 +9,10 @@ namespace App.BLL.Services.Contracts
 {
     public interface IPointService
     {
-        
             public Point AddPoint(Point po);
             Task<List<Point>> GetPoints();
             public string PatchPoint(string Id,Point po);
-            Task<Point> DeletePoint(string Id);
+            public string DeletePoint(string Id);
      
     }
 }

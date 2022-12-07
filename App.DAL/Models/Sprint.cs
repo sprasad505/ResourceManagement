@@ -8,8 +8,15 @@ namespace App.DAL.Models
 {
     public  partial class Sprint
     {
+        public Sprint()
+        {
+            Stories = new HashSet<Story>();
+        }
+
         public long Id { get; set; }
         public string Name { get; set; } = null!;
         public long Duration { get; set; }
+
+        public virtual ICollection<Story> Stories { get; set; }
     }
 }

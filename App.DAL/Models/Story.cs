@@ -17,6 +17,8 @@ namespace App.DAL.Models
         public string Name { get; set; } = null!;
         public DateTime CreatedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }
+        public long? SprintId { get; set; }
+        public virtual Sprint? Sprint { get; set; }
 
         public virtual ICollection<Point> Points { get; set; }
     }
