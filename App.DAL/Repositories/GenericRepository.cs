@@ -1,4 +1,4 @@
-﻿using App.DAL.DataContext;
+using App.DAL.DataContext;
 using App.DAL.Models;
 using App.DAL.Repositories.Contracts;
 using Microsoft.AspNetCore.Authentication;
@@ -26,7 +26,6 @@ namespace App.DAL.Repositories
         {
             try
             {
-                
                 this.resourcedbContext.Add(a);
                 this.resourcedbContext.SaveChanges();
                 return a;
@@ -96,6 +95,7 @@ namespace App.DAL.Repositories
             try
             {
                 st.CreatedOn = DateTime.Now;
+                st.ModifiedOn = DateTime.Now;
                 this.resourcedbContext.Add(st);
                 this.resourcedbContext.SaveChanges();
                 return st;
@@ -342,8 +342,6 @@ namespace App.DAL.Repositories
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data);
                 return json;
-
-
             }
             catch
             {
