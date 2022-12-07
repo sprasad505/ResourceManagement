@@ -1,4 +1,4 @@
-﻿using App.DAL.DataContext;
+using App.DAL.DataContext;
 using App.DAL.Models;
 using App.DAL.Repositories.Contracts;
 using Microsoft.AspNetCore.Authentication;
