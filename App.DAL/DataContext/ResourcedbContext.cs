@@ -116,8 +116,6 @@ namespace App.DAL.DataContext
             {
                 entity.ToTable("Point");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.HasOne(d => d.Story)
                     .WithMany(p => p.Points)
                     .HasForeignKey(d => d.StoryId)
@@ -125,16 +123,16 @@ namespace App.DAL.DataContext
                     .HasConstraintName("Storykey");
             });
 
+            
             modelBuilder.Entity<Story>(entity =>
             {
                 entity.ToTable("Story");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedOn).HasColumnType("datetime");
 
                 entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
             });
+           
 
             OnModelCreatingPartial(modelBuilder);
         }

@@ -26,13 +26,6 @@ namespace App.DAL.Repositories
         {
             try
             {
-                /*var data = this.resourcedbContext.Allocations.Find(Convert.ToInt64(a.EmployeeId));
-                if (data == null)
-                {
-                    var data1 = this.resourcedbContext.Resources.Find(Convert.ToInt64(a.EmployeeId));
-                    string password = "random"; 
-                    Adduser(data1.Email, password);
-                }*/
                 this.resourcedbContext.Add(a);
                 this.resourcedbContext.SaveChanges();
                 return a;
@@ -102,6 +95,7 @@ namespace App.DAL.Repositories
             try
             {
                 st.CreatedOn = DateTime.Now;
+                st.ModifiedOn = DateTime.Now;
                 this.resourcedbContext.Add(st);
                 this.resourcedbContext.SaveChanges();
                 return st;
@@ -321,8 +315,6 @@ namespace App.DAL.Repositories
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data);
                 return json;
-
-
             }
             catch
             {
