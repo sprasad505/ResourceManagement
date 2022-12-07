@@ -389,9 +389,8 @@ namespace App.DAL.Repositories
                 data.UserId = po.UserId;
                 data.Points = po.Points;
                 this.resourcedbContext.SaveChanges();
-                return "updated";
-                /*var json = JsonConvert.SerializeObject(data);
-                return json;*/
+                var json = JsonConvert.SerializeObject(data);
+                return json;
             }
             catch
             {

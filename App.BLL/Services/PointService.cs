@@ -33,7 +33,8 @@ namespace App.BLL.Services
         {
             try
             {
-                return this.genericRepository.DeletePoint(Id);
+                var data=genericRepository.DeletePoint(Id);
+                return data;
             }
             catch
             {
@@ -57,7 +58,8 @@ namespace App.BLL.Services
         {
             try
             {
-                return this.genericRepository.PatchPoint(Id, po);
+                var data=genericRepository.PatchPoint(Id, po);
+                return data;
             }
             catch
             {
