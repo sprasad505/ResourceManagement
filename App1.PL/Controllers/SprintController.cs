@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace App1.PL.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class SprintController : ControllerBase
@@ -33,7 +33,7 @@ namespace App1.PL.Controllers
             return await this.sprintService.SearchSprint(name);  
         }
         [HttpPatch("UpdateSprint/{id}")]
-        public ContentResult PatchSprint(string Id, Sprint s)
+        public ContentResult PatchSprint(long Id, Sprint s)
         {
             var data = this.sprintService.PatchSprint(Id, s);
             return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);

@@ -110,7 +110,9 @@ namespace App.DAL.Repositories
         {
             try
             {
-               
+                var data = this.resourcedbContext.Stories.Find(po.StoryId);
+                data.ModifiedOn = DateTime.Now;
+                this.resourcedbContext.SaveChanges();
                 this.resourcedbContext.Add(po);
                 this.resourcedbContext.SaveChanges();
                 return po;
@@ -303,7 +305,7 @@ namespace App.DAL.Repositories
             }
         }
 
-        public string PatchSprint(string Id, Sprint sprint)
+        public string PatchSprint(long Id, Sprint sprint)
         {
             try
             {
@@ -376,26 +378,24 @@ namespace App.DAL.Repositories
         {
             try
             {
-
                 var data = this.resourcedbContext.Points.Find(Convert.ToInt64(Id));
                 if (data == null)
                     return "Empty";
+              
+                var data1 = this.resourcedbContext.Stories.Find(data.StoryId);
+                data1.ModifiedOn = DateTime.Now;
+                this.resourcedbContext.SaveChanges();
 
-               
                 data.UserId = po.UserId;
                 data.Points = po.Points;
-               
-               
                 this.resourcedbContext.SaveChanges();
-                var json = JsonConvert.SerializeObject(data);
-                return json;
-
-
+                return "updated";
+                /*var json = JsonConvert.SerializeObject(data);
+                return json;*/
             }
             catch
             {
                 throw;
-
             }
         }
         public string DeleteProject(string ProjectId)
@@ -565,7 +565,9 @@ namespace App.DAL.Repositories
                 {
                     return "no data found";
                 }
-               
+                var data1 = this.resourcedbContext.Stories.Find(data.StoryId);
+                data1.ModifiedOn = DateTime.Now;
+                this.resourcedbContext.SaveChanges();
                 this.resourcedbContext.Points.Remove(data);
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data);

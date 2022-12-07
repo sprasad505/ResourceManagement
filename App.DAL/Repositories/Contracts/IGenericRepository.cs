@@ -37,7 +37,7 @@ namespace App.DAL.Repositories.Contracts
         public string PatchTeam(string Id, Team team);
         public string PatchProject(string Id, Project project);
         public string PatchResource(string Id, Resource resource);
-        public string PatchSprint(string Id, Sprint sprint);
+        public string PatchSprint(long Id, Sprint sprint);
         public string PatchStory(string Id, Story st);
         public string PatchPoint(String Id,Point po);
         public string DeleteAllocation(string Id);
