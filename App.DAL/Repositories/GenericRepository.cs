@@ -106,6 +106,21 @@ namespace App.DAL.Repositories
             }
         }
 
+        public Point AddPoint(Point po)
+        {
+            try
+            {
+               
+                this.resourcedbContext.Add(po);
+                this.resourcedbContext.SaveChanges();
+                return po;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public async Task<List<Sprint>> GetSprints()
         {
             try
@@ -199,6 +214,18 @@ namespace App.DAL.Repositories
             try
             {
                 return await this.resourcedbContext.Set<Story>().ToListAsync();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<List<Point>> GetPoints()
+        {
+            try
+            {
+                return await this.resourcedbContext.Set<Point>().ToListAsync();
             }
             catch
             {
@@ -332,6 +359,33 @@ namespace App.DAL.Repositories
                     return "Empty";
                 data.Name = st.Name;
                 data.ModifiedOn = DateTime.Now;
+                this.resourcedbContext.SaveChanges();
+                var json = JsonConvert.SerializeObject(data);
+                return json;
+
+
+            }
+            catch
+            {
+                throw;
+
+            }
+        }
+
+        public string PatchPoint(string Id, Point po)
+        {
+            try
+            {
+
+                var data = this.resourcedbContext.Points.Find(Convert.ToInt64(Id));
+                if (data == null)
+                    return "Empty";
+
+               
+                data.UserId = po.UserId;
+                data.Points = po.Points;
+               
+               
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data);
                 return json;
@@ -494,6 +548,28 @@ namespace App.DAL.Repositories
                 }
                 var json = JsonConvert.SerializeObject(data);
                 return data;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+
+        public string DeletePoint(string Id)
+        {
+            try
+            {
+                var data = this.resourcedbContext.Points.Find(Convert.ToInt64(Id));
+                if (data == null)
+                {
+                    return "no data found";
+                }
+               
+                this.resourcedbContext.Points.Remove(data);
+                this.resourcedbContext.SaveChanges();
+                var json = JsonConvert.SerializeObject(data);
+                return json;
             }
             catch
             {
