@@ -13,6 +13,6 @@ namespace App.DAL.Models
         public long StoryId { get; set; }
         public int Points { get; set; }
         public long UserId { get; set; }
-        public virtual Story Story { get; set; } = null!;
+        public virtual Story? Story { get; set; } = null!;
     }
 }

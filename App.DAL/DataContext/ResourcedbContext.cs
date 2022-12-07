@@ -131,6 +131,11 @@ namespace App.DAL.DataContext
                 entity.Property(e => e.CreatedOn).HasColumnType("datetime");
 
                 entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+                
+                entity.HasOne(d => d.Sprint)
+                  .WithMany(p => p.Stories)
+                  .HasForeignKey(d => d.SprintId)
+                  .HasConstraintName("FK_Story_Sprint");
             });
            
 
