@@ -15,6 +15,7 @@ namespace App.DAL.Repositories.Contracts
         Task<List<Project>> GetProjects();
         Task<List<Resource>> GetResources();
         Task<List<Sprint>> GetSprints();
+        Task<List<Story>> GetStories();
         Task<Allocation>SearchAllocation(string Id);
         Task<Resource> SearchResource(string Id);
         Task<Team> SearchTeam(string name);
@@ -25,6 +26,7 @@ namespace App.DAL.Repositories.Contracts
         public Team AddTeams(Team t);
         public Allocation AddAlloc(Allocation a);
         public Sprint AddSprint(Sprint s);
+        public Story AddStory(Story st);
         public void Adduser(string email, byte[] passwordHash, byte[] passwordSalt);
         public User Login(Userdto request);
         public InterCalender AddHolidays(InterCalender c);
@@ -34,10 +36,12 @@ namespace App.DAL.Repositories.Contracts
         public string PatchProject(string Id, Project project);
         public string PatchResource(string Id, Resource resource);
         public string PatchSprint(string Id, Sprint sprint);
+        public string PatchStory(string Id, Story st);
         public string DeleteAllocation(string Id);
         public string DeleteTeam(string Id);
         public string DeleteProject(string Id);
         public string DeleteResource(string Id);
         public string DeleteSprint(string Id);
+        Task<Story> DeleteStory(string Id);
     }
 }
