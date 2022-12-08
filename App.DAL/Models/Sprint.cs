@@ -16,7 +16,9 @@ namespace App.DAL.Models
         public long Id { get; set; }
         public string Name { get; set; } = null!;
         public long Duration { get; set; }
+        public long? ProjectId { get; set; }
 
+        public virtual Project? Project { get; set; }
         public virtual ICollection<Story> Stories { get; set; }
     }
 }

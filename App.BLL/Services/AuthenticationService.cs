@@ -1,6 +1,8 @@
 ﻿using App.BLL.Services.Contracts;
+using App.DAL.DataContext;
 using App.DAL.Models;
 using App.DAL.Repositories.Contracts;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
@@ -19,10 +21,12 @@ namespace App.BLL.Services
     {
         private readonly IGenericRepository<User> genericRepository;
         private readonly IConfiguration configuration;
-        public AuthenticationService(IGenericRepository<User> genericRepository, IConfiguration configuration)
+        private readonly ResourcedbContext resourcedb;
+        public AuthenticationService(IGenericRepository<User> genericRepository, IConfiguration configuration,ResourcedbContext resourcedb)
         {
             this.genericRepository = genericRepository;
             this.configuration = configuration;
+            this.resourcedb = resourcedb;
         }
 
         public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
@@ -36,9 +40,20 @@ namespace App.BLL.Services
 
         public string CreateToken(Userdto user)
         {
+            Resource r = new Resource();
+            var result1 = resourcedb.Set<Resource>().ToList();
+            foreach (var item1 in result1)
+            {
+                if (item1.Email == user.Username)
+                {
+                    r = item1;
+                    break;
+                }
+            }
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.SerialNumber,r.Id.ToString())
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(configuration.GetSection("AppSettings:Token").Value));

@@ -1,10 +1,12 @@
 ﻿using App.BLL.Services.Contracts;
 using App.DAL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App1.PL.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class StoryController : ControllerBase
@@ -24,6 +26,11 @@ namespace App1.PL.Controllers
         public Story AddStory(Story s)
         {
             return this.storyService.AddStory(s);
+        }
+        [HttpGet("SearchStory/{id}")]
+        public async Task<List<Story>> SearchStory(string Id)
+        {
+            return await storyService.SearchStory(Id);
         }
         [HttpPatch("UpdateStory/{id}")]
         public ContentResult PatchStory(string Id, Story s)

@@ -67,12 +67,11 @@ namespace App.BLL.Services
                 throw;
             }
         }
-        public async Task<Team> SearchTeam(string name)
+        public async Task<List<Team>> SearchTeam(string Id)
         {
             try
             {
-                var result = await genericRepository.SearchTeam(name);
-                return result;
+                return await genericRepository.SearchTeam(Id);
             }
             catch
             {
