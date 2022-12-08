@@ -31,15 +31,8 @@ namespace App1.PL.Controllers
         [HttpGet("SearchTeam/{name}")]
         public async Task<Team> SearchTeam(string name)
         {
-            try
-            {
-                Team result = await teamService.SearchTeam(name);
-                return result;
-            }
-            catch
-            {
-                throw;
-            }
+            Team result = await teamService.SearchTeam(name);
+            return result;
         }
         [HttpPatch("UpdateTeam/{id}")]
         public ContentResult PatchTeam(string Id, Team t)

@@ -31,15 +31,8 @@ namespace App1.PL.Controllers
         [HttpGet("SearchAllocation/{id}")]
         public async Task<Allocation> SearchAllocation(string id)
         {
-            try
-            {
-                Allocation result = await allocationService.SearchAllocation(id);
-                return result;
-            }
-            catch
-            {
-                throw;
-            }
+            Allocation result = await allocationService.SearchAllocation(id);
+            return result;
         }
         [HttpPatch("UpdateAllocation/{id}")]
         public ContentResult PatchAlloc(string Id, Allocation a)

@@ -19,50 +19,22 @@ namespace App.BLL.Services
 
         public Story AddStory(Story st)
         {
-            try
-            {
-                return this.genericRepository.AddStory(st);
-            }
-            catch
-            {
-                throw;
-            }
+            return this.genericRepository.AddStory(st);
         }
 
         public async Task<Story> DeleteStory(string Id)
         {
-            try
-            {
-                return await this.genericRepository.DeleteStory(Id);
-            }
-            catch
-            {
-                throw;
-            }
+            return await this.genericRepository.DeleteStory(Id);
         }
 
         public async Task<List<Story>> GetStories()
         {
-            try
-            {
-                return await this.genericRepository.GetStories();
-            }
-            catch
-            {
-                throw;
-            }
+            return await this.genericRepository.GetStories();
         }
 
         public string PatchStory(string Id, Story st)
         {
-            try
-            {
-                return this.genericRepository.PatchStory(Id, st);
-            }
-            catch
-            {
-                throw;
-            }
+            return this.genericRepository.PatchStory(Id, st);
         }
     }
 }

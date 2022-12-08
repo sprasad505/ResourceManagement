@@ -1,4 +1,5 @@
 using App.DAL.DataContext;
+using App.DAL.Middlewares;
 using App.DAL.Models;
 using App.DAL.Repositories.Contracts;
 using Microsoft.AspNetCore.Authentication;
@@ -123,17 +124,6 @@ namespace App.DAL.Repositories
             }
         }
 
-        public async Task<List<Sprint>> GetSprints()
-        {
-            try
-            {
-                return await this.resourcedbContext.Set<Sprint>().ToListAsync();
-            }
-            catch
-            {
-                throw;
-            }
-        }
         public InterCalender AddHolidays(InterCalender c)
         {
             try
@@ -153,26 +143,54 @@ namespace App.DAL.Repositories
                 throw;
             }
         }
+
+        public async Task<List<Sprint>> GetSprints()
+        {
+            try
+            {
+                var output = await this.resourcedbContext.Set<Sprint>().ToListAsync();
+                if (output == null)
+                {
+                    throw new APIException(404, "Table is empty");
+                }
+                return output;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
         public async Task<List<Calendar22>> GetHolidays()
         {
             try
             {
-                return await this.resourcedbContext.Set<Calendar22>().ToListAsync();
+                var output = await this.resourcedbContext.Set<Calendar22>().ToListAsync();
+                if (output == null)
+                {
+                    throw new APIException(404, "Table is empty");
+                }
+                return output;
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
         public async Task<List<Allocation>> GetAllocations()
         {
             try
             {
-                return await this.resourcedbContext.Set<Allocation>().ToListAsync();
+                var output = await this.resourcedbContext.Set<Allocation>().ToListAsync();
+                if (output == null)
+                {
+                    throw new APIException(404, "Table is empty");
+                }
+                return output;
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 
@@ -180,11 +198,16 @@ namespace App.DAL.Repositories
         {
             try
             {
-                return await this.resourcedbContext.Set<Project>().ToListAsync();
+                var output = await this.resourcedbContext.Set<Project>().ToListAsync();
+                if (output == null)
+                {
+                    throw new APIException(404, "Table is empty");
+                }
+                return output;
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 
@@ -192,11 +215,16 @@ namespace App.DAL.Repositories
         {
             try
             {
-                return await this.resourcedbContext.Set<Resource>().ToListAsync();
+                var output = await this.resourcedbContext.Set<Resource>().ToListAsync();
+                if (output == null)
+                {
+                    throw new APIException(404, "Table is empty");
+                }
+                return output;
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 
@@ -204,22 +232,32 @@ namespace App.DAL.Repositories
         {
             try
             {
-                return await this.resourcedbContext.Set<Team>().ToListAsync();
+                var output = await this.resourcedbContext.Set<Team>().ToListAsync();
+                if (output == null)
+                {
+                    throw new APIException(404, "Table is empty");
+                }
+                return output;
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
         public async Task<List<Story>> GetStories()
         {
             try
             {
-                return await this.resourcedbContext.Set<Story>().ToListAsync();
+                var output = await this.resourcedbContext.Set<Story>().ToListAsync();
+                if (output == null)
+                {
+                    throw new APIException(404, "Table is empty");
+                }
+                return output;
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 
@@ -227,11 +265,16 @@ namespace App.DAL.Repositories
         {
             try
             {
-                return await this.resourcedbContext.Set<Point>().ToListAsync();
+                var output =  await this.resourcedbContext.Set<Point>().ToListAsync();
+                if(output == null)
+                {
+                    throw new APIException(404, "Table is empty");
+                }
+                return output;
             }
-            catch
+            catch(Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 
@@ -242,8 +285,9 @@ namespace App.DAL.Repositories
 
                 var data = this.resourcedbContext.Allocations.Find(Convert.ToInt64(Id));
                 if (data == null)
-                    return "Empty";
-
+                {
+                    throw new APIException(404, "No content with matching Id");
+                }
                 data.EmployeeId = alloc.EmployeeId;
                 data.TeamId = alloc.TeamId;
                 data.ProjectId = alloc.ProjectId;
@@ -252,34 +296,29 @@ namespace App.DAL.Repositories
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data);
                 return json;
-
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
-
+                throw ex;
             }
         }
         public string PatchProject(string Id, Project proj)
         {
             try
             {
-
                 var data = this.resourcedbContext.Projects.Find(Convert.ToInt64(Id));
                 if (data == null)
-                    return "Empty";
-
+                {
+                    throw new APIException(404, "No content with matching Id");
+                }
                 data.Name = proj.Name;
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data);
                 return json;
-
-
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
-
+                throw ex;
             }
         }
         public string PatchTeam(string Id, Team team)
@@ -289,19 +328,17 @@ namespace App.DAL.Repositories
 
                 var data = this.resourcedbContext.Teams.Find(Convert.ToInt64(Id));
                 if (data == null)
-                    return "Empty";
-
+                {
+                    throw new APIException(404, "No content with matching Id");
+                }
                 data.Name = team.Name;
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data);
                 return json;
-
-
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
-
+                throw ex;
             }
         }
 
@@ -311,20 +348,18 @@ namespace App.DAL.Repositories
             {
                 var data = this.resourcedbContext.Sprints.Find(Convert.ToInt64(Id));
                 if (data == null)
-                    return "Empty";
-
+                {
+                    throw new APIException(404, "No content with matching Id");
+                }
                 data.Name = sprint.Name;
                 data.Duration = sprint.Duration;
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data);
                 return json;
-
-
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
-
+                throw ex;
             }
         }
 
@@ -332,11 +367,11 @@ namespace App.DAL.Repositories
         {
             try
             {
-
                 var data = this.resourcedbContext.Resources.Find(Convert.ToInt64(Id));
                 if (data == null)
-                    return "Empty";
-
+                {
+                    throw new APIException(404, "No content with matching Id");
+                }
                 data.EmployeeId = res.EmployeeId;
                 data.Email = res.Email;
                 data.Name = res.Name;
@@ -345,32 +380,30 @@ namespace App.DAL.Repositories
                 var json = JsonConvert.SerializeObject(data);
                 return json;
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
-
+                throw ex;
             }
         }
         public string PatchStory(string Id, Story st)
         {
             try
             {
-
                 var data = this.resourcedbContext.Stories.Find(Convert.ToInt64(Id));
                 if (data == null)
-                    return "Empty";
+                {
+                    throw new APIException(404, "No content with matching Id");
+                }
+                return "Empty";
                 data.Name = st.Name;
                 data.ModifiedOn = DateTime.Now;
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data);
                 return json;
-
-
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
-
+                throw ex;
             }
         }
 
@@ -380,8 +413,9 @@ namespace App.DAL.Repositories
             {
                 var data = this.resourcedbContext.Points.Find(Convert.ToInt64(Id));
                 if (data == null)
-                    return "Empty";
-              
+                {
+                    throw new APIException(404, "No content with matching Id");
+                }
                 var data1 = this.resourcedbContext.Stories.Find(data.StoryId);
                 data1.ModifiedOn = DateTime.Now;
                 this.resourcedbContext.SaveChanges();
@@ -392,9 +426,9 @@ namespace App.DAL.Repositories
                 var json = JsonConvert.SerializeObject(data);
                 return json;
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
         public string DeleteProject(string ProjectId)
@@ -404,21 +438,16 @@ namespace App.DAL.Repositories
                 var data = this.resourcedbContext.Projects.Find(Convert.ToInt64(ProjectId));
                 if (data == null)
                 {
-                    //throw new HttpResponseException(HttpStatusCode.NotFound);
-                    return "no data found";
-
+                    throw new APIException(404, "No content with matching Id");
                 }
                 this.resourcedbContext.Projects.Remove(data);
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data);
                 return json;
-
-
             }
-            catch
+            catch (Exception ex)
             {
-
-                throw;
+                throw ex;
             }
         }
 
@@ -426,26 +455,19 @@ namespace App.DAL.Repositories
         {
             try
             {
-
-
                 var data = this.resourcedbContext.Allocations.Find(Convert.ToInt64(AllocationId));
                 if (data == null)
                 {
-                    return "no data found";
-
+                    throw new APIException(404, "No content with matching Id");
                 }
                 this.resourcedbContext.Allocations.Remove(data);
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data);
                 return json;
-
-
             }
-
-            catch
+            catch (Exception ex)
             {
-
-                throw;
+                throw ex;
             }
         }
 
@@ -453,27 +475,19 @@ namespace App.DAL.Repositories
         {
             try
             {
-
-
                 var data = this.resourcedbContext.Teams.Find(Convert.ToInt64(TeamId));
                 if (data == null)
                 {
-                    return "no data found";
-
+                    throw new APIException(404, "No content with matching Id");
                 }
                 this.resourcedbContext.Teams.Remove(data);
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data);
                 return json;
-
-
-
             }
-
-            catch
+            catch (Exception ex)
             {
-
-                throw;
+                throw ex;
             }
         }
 
@@ -481,24 +495,19 @@ namespace App.DAL.Repositories
         {
             try
             {
-
-
                 var data = this.resourcedbContext.Sprints.Find(Convert.ToInt64(Id));
                 if (data == null)
                 {
-                    return "no data found";
-
+                    throw new APIException(404, "No content with matching Id");
                 }
                 this.resourcedbContext.Sprints.Remove(data);
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data);
                 return json;
             }
-
-            catch
+            catch (Exception ex)
             {
-
-                throw;
+                throw ex;
             }
         }
 
@@ -509,20 +518,16 @@ namespace App.DAL.Repositories
                 var data = this.resourcedbContext.Resources.Find(Convert.ToInt64(EmployeeId));
                 if (data == null)
                 {
-                    return "no data found";
-
+                    throw new APIException(404, "No content with matching Id");
                 }
                 this.resourcedbContext.Resources.Remove(data);
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data);
                 return json;
-
             }
-
-            catch
+            catch (Exception ex)
             {
-
-                throw;
+                throw ex;
             }
         }
         public async Task<Story> DeleteStory(string Id)
@@ -532,7 +537,7 @@ namespace App.DAL.Repositories
                 var data = this.resourcedbContext.Stories.Find(Convert.ToInt64(Id));
                 if (data == null)
                 {
-                    //return "no data found";
+                    throw new APIException(404, "No content with matching Id");
                 }
                 this.resourcedbContext.Stories.Remove(data);
                 this.resourcedbContext.SaveChanges();
@@ -548,9 +553,9 @@ namespace App.DAL.Repositories
                 var json = JsonConvert.SerializeObject(data);
                 return data;
             }
-            catch
+            catch(Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 
@@ -562,7 +567,7 @@ namespace App.DAL.Repositories
                 var data = this.resourcedbContext.Points.Find(Convert.ToInt64(Id));
                 if (data == null)
                 {
-                    return "no data found";
+                    throw new APIException(404, "No content with matching Id");
                 }
                 var data1 = this.resourcedbContext.Stories.Find(data.StoryId);
                 data1.ModifiedOn = DateTime.Now;
@@ -572,9 +577,9 @@ namespace App.DAL.Repositories
                 var json = JsonConvert.SerializeObject(data);
                 return json;
             }
-            catch
+            catch(Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 
@@ -592,11 +597,15 @@ namespace App.DAL.Repositories
                         break;
                     }
                 }
+                if (a.EmployeeId == null)
+                {
+                    throw new APIException(409, "Not found");
+                }
                 return a;
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
         public async Task<Resource> SearchResource(string Id)
@@ -613,11 +622,15 @@ namespace App.DAL.Repositories
                         break;
                     }
                 }
+                if (r.EmployeeId == null)
+                {
+                    throw new APIException(409, "Not found");
+                }
                 return r;
             }
-            catch
+            catch(Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
         public async Task<Team> SearchTeam(string name)
@@ -634,11 +647,15 @@ namespace App.DAL.Repositories
                         break;
                     }
                 }
+                if (t.Id == null)
+                {
+                    throw new APIException(409, "Not found");
+                }
                 return t;
             }
-            catch
+            catch(Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
         public async Task<Sprint> SearchSprint(string name)
@@ -655,11 +672,15 @@ namespace App.DAL.Repositories
                         break;
                     }
                 }
+                if (s.Id == null)
+                {
+                    throw new APIException(409, "Not found");
+                }
                 return s;
             }
-            catch
+            catch(Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
         public async Task<Project> SearchProject(string name)
@@ -676,11 +697,15 @@ namespace App.DAL.Repositories
                         break;
                     }
                 }
+                if (p.Id == null)
+                {
+                    throw new APIException(409, "Not found");
+                }
                 return p;
             }
-            catch
+            catch(Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 

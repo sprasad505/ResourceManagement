@@ -30,15 +30,8 @@ namespace App1.PL.Controllers
         [HttpGet("SearchProject/{name}")]
         public async Task<Project> SearchProject(string name)
         {
-            try
-            {
-                Project result = await _projectService.SearchProject(name);
-                return result;
-            }
-            catch
-            {
-                throw;
-            }
+            Project result = await _projectService.SearchProject(name);
+            return result;
         }
         [HttpPatch("UpdateProject/{id}")]
         public ContentResult PatchProj(string Id, Project p)

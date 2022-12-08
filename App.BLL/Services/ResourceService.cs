@@ -19,64 +19,28 @@ namespace App.BLL.Services
 
         public async Task<List<Resource>> GetResources()
         {
-            try
-            {
-                return await genericRepository.GetResources();
-            }
-            catch
-            {
-                throw;
-            }
+            return await genericRepository.GetResources();
         }
         public Resource AddResources(Resource r)
         {
-            try
-            {
-                return genericRepository.AddResources(r);
-            }
-            catch
-            {
-                throw;
-            }
+            return genericRepository.AddResources(r);
         }
 
         public string PatchResource(string Id, Resource r)
         {
-            try
-            {
-              var data= genericRepository.PatchResource(Id, r);
-                return data;
-
-            }
-            catch
-            {
-                throw;
-            }
+            var data = genericRepository.PatchResource(Id, r);
+            return data;
         }
 
         public string DeleteResource(string Id)
         {
-            try
-            {
-                var data= genericRepository.DeleteResource(Id);
-                return data;
-            }
-            catch
-            {
-                throw;
-            }
+            var data = genericRepository.DeleteResource(Id);
+            return data;
         }
         public async Task<Resource> SearchResource(string Id)
         {
-            try
-            {
-                var result = await genericRepository.SearchResource(Id);
-                return result;
-            }
-            catch
-            {
-                throw;
-            }
+            var result = await genericRepository.SearchResource(Id);
+            return result;
         }
     }
 
