@@ -1,10 +1,12 @@
 ﻿using App.BLL.Services.Contracts;
 using App.DAL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App1.PL.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PointController : ControllerBase

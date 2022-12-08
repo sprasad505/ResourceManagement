@@ -40,7 +40,6 @@ namespace App.BLL.Services
                         break;
                     }
                 }
-                    //var data = dbContext.Allocations.Find(a.EmployeeId);
                 if (test == null)
                 {
                     Resource r = new Resource();
@@ -84,7 +83,7 @@ namespace App.BLL.Services
             return data;
         }
 
-        public async Task<Allocation> SearchAllocation(string Id)
+        public async Task<List<Allocation>> SearchAllocation(string Id)
         {
             var result = await genericRepository.SearchAllocation(Id);
             return result;

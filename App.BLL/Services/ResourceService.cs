@@ -37,10 +37,21 @@ namespace App.BLL.Services
             var data = genericRepository.DeleteResource(Id);
             return data;
         }
-        public async Task<Resource> SearchResource(string Id)
+        public async Task<List<Resource>> SearchResource(string Id)
         {
+<<<<<<< HEAD
             var result = await genericRepository.SearchResource(Id);
             return result;
+=======
+            try
+            {
+                return await genericRepository.SearchResource(Id);
+            }
+            catch
+            {
+                throw;
+            }
+>>>>>>> 9c217ad5d6920d22715a57ae8f0e0dc73b33e031
         }
     }
 

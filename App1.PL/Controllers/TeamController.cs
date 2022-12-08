@@ -28,11 +28,22 @@ namespace App1.PL.Controllers
             List<Team> teams = await this.teamService.GetTeams();
             return teams;
         }
-        [HttpGet("SearchTeam/{name}")]
-        public async Task<Team> SearchTeam(string name)
+        [HttpGet("SearchTeam/{id}")]
+        public async Task<List<Team>> SearchTeam(string Id)
         {
+<<<<<<< HEAD
             Team result = await teamService.SearchTeam(name);
             return result;
+=======
+            try
+            {
+                return await teamService.SearchTeam(Id);
+            }
+            catch
+            {
+                throw;
+            }
+>>>>>>> 9c217ad5d6920d22715a57ae8f0e0dc73b33e031
         }
         [HttpPatch("UpdateTeam/{id}")]
         public ContentResult PatchTeam(string Id, Team t)

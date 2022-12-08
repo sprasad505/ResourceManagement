@@ -34,10 +34,21 @@ namespace App1.PL.Controllers
             return resources;
         }
         [HttpGet("SearchResource/{id}")]
-        public async Task<Resource> SearchResource(string id)
+        public async Task<List<Resource>> SearchResource(string id)
         {
+<<<<<<< HEAD
             Resource result = await _resourceService.SearchResource(id);
             return result;
+=======
+            try
+            {
+               return await _resourceService.SearchResource(id);
+            }
+            catch
+            {
+                throw;
+            }
+>>>>>>> 9c217ad5d6920d22715a57ae8f0e0dc73b33e031
         }
         [HttpPatch("UpdateResource/{id}")]
         public ContentResult PatchResource(string Id, Resource r)

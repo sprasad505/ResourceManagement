@@ -39,6 +39,5 @@ namespace App.BLL.Services
                 throw;
             }
         }
-
     }
 }

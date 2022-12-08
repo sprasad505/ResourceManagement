@@ -11,7 +11,7 @@ namespace App.BLL.Services.Contracts
     {
         public Resource AddResources(Resource r);
         Task<List<Resource>> GetResources();
-        Task<Resource> SearchResource(string Id);
+        Task<List<Resource>> SearchResource(string Id);
         public string PatchResource(string Id, Resource r);
         public string DeleteResource(string Id);
 
