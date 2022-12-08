@@ -17,11 +17,12 @@ namespace App.DAL.Repositories.Contracts
         Task<List<Sprint>> GetSprints();
         Task<List<Story>> GetStories();
         Task<List<Point>> GetPoints();
-        Task<Allocation>SearchAllocation(string Id);
-        Task<Resource> SearchResource(string Id);
-        Task<Team> SearchTeam(string name);
+        Task<List<Allocation>>SearchAllocation(string Id);
+        Task<List<Resource>> SearchResource(string Id);
+        Task<List<Team>> SearchTeam(string Id);
         Task<Project> SearchProject(string name);
-        Task<Sprint> SearchSprint(string name);
+        Task<List<Sprint>> SearchSprint(string Id);
+        Task<List<Story>> SearchStory(string Id);
         public Resource AddResources(Resource r);
         public Project AddProjects(Project p);
         public Team AddTeams(Team t);

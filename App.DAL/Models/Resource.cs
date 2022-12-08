@@ -12,10 +12,12 @@ namespace App.DAL.Models
 
         public long Id { get; set; }
         public string EmployeeId { get; set; } = null!;
-        public string  Email { get; set; } = null!;
+        public string? Email { get; set; }
         public string Name { get; set; } = null!;
         public string Designation { get; set; } = null!;
+        public long? ProjectId { get; set; }
 
+        public virtual Project? Project { get; set; }
         public virtual ICollection<Allocation> Allocations { get; set; }
     }
 }
