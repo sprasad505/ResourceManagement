@@ -16,17 +16,20 @@ namespace App.DAL.Repositories.Contracts
         Task<List<Resource>> GetResources();
         Task<List<Sprint>> GetSprints();
         Task<List<Story>> GetStories();
-        Task<Allocation>SearchAllocation(string Id);
-        Task<Resource> SearchResource(string Id);
-        Task<Team> SearchTeam(string name);
+        Task<List<Point>> GetPoints();
+        Task<List<Allocation>>SearchAllocation(string Id);
+        Task<List<Resource>> SearchResource(string Id);
+        Task<List<Team>> SearchTeam(string Id);
         Task<Project> SearchProject(string name);
-        Task<Sprint> SearchSprint(string name);
+        Task<List<Sprint>> SearchSprint(string Id);
+        Task<List<Story>> SearchStory(string Id);
         public Resource AddResources(Resource r);
         public Project AddProjects(Project p);
         public Team AddTeams(Team t);
         public Allocation AddAlloc(Allocation a);
         public Sprint AddSprint(Sprint s);
         public Story AddStory(Story st);
+        public Point AddPoint(Point po);
         public void Adduser(string email, byte[] passwordHash, byte[] passwordSalt);
         public User Login(Userdto request);
         public InterCalender AddHolidays(InterCalender c);
@@ -35,13 +38,15 @@ namespace App.DAL.Repositories.Contracts
         public string PatchTeam(string Id, Team team);
         public string PatchProject(string Id, Project project);
         public string PatchResource(string Id, Resource resource);
-        public string PatchSprint(string Id, Sprint sprint);
+        public string PatchSprint(long Id, Sprint sprint);
         public string PatchStory(string Id, Story st);
+        public string PatchPoint(String Id,Point po);
         public string DeleteAllocation(string Id);
         public string DeleteTeam(string Id);
         public string DeleteProject(string Id);
         public string DeleteResource(string Id);
         public string DeleteSprint(string Id);
         Task<Story> DeleteStory(string Id);
+        public string DeletePoint(string Id);
     }
 }

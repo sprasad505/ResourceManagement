@@ -29,12 +29,11 @@ namespace App1.PL.Controllers
             return allocations;
         }
         [HttpGet("SearchAllocation/{id}")]
-        public async Task<Allocation> SearchAllocation(string id)
+        public async Task<List<Allocation>> SearchAllocation(string id)
         {
             try
             {
-                Allocation result = await allocationService.SearchAllocation(id);
-                return result;
+              return await allocationService.SearchAllocation(id);
             }
             catch
             {

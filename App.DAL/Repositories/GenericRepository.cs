@@ -1,4 +1,4 @@
-﻿using App.DAL.DataContext;
+using App.DAL.DataContext;
 using App.DAL.Models;
 using App.DAL.Repositories.Contracts;
 using Microsoft.AspNetCore.Authentication;
@@ -26,7 +26,6 @@ namespace App.DAL.Repositories
         {
             try
             {
-                
                 this.resourcedbContext.Add(a);
                 this.resourcedbContext.SaveChanges();
                 return a;
@@ -96,9 +95,27 @@ namespace App.DAL.Repositories
             try
             {
                 st.CreatedOn = DateTime.Now;
+                st.ModifiedOn = DateTime.Now;
                 this.resourcedbContext.Add(st);
                 this.resourcedbContext.SaveChanges();
                 return st;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public Point AddPoint(Point po)
+        {
+            try
+            {
+                var data = this.resourcedbContext.Stories.Find(po.StoryId);
+                data.ModifiedOn = DateTime.Now;
+                this.resourcedbContext.SaveChanges();
+                this.resourcedbContext.Add(po);
+                this.resourcedbContext.SaveChanges();
+                return po;
             }
             catch
             {
@@ -122,8 +139,6 @@ namespace App.DAL.Repositories
             try
             {
                 Calendar22 c1 = new Calendar22();
-                //c1.Date = DateTime.Parse(c.Date);
-                //c1.Date = Convert.ToDateTime(c.Date);
                 c1.Date = Convert.ToDateTime(DateTime.ParseExact(c.Date , "yyyy-MM-dd", CultureInfo.InvariantCulture));
                 c1.Name = c.Name;
                 this.resourcedbContext.Calender22s.Add(c1);
@@ -206,6 +221,18 @@ namespace App.DAL.Repositories
             }
         }
 
+        public async Task<List<Point>> GetPoints()
+        {
+            try
+            {
+                return await this.resourcedbContext.Set<Point>().ToListAsync();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public string PatchAllocation(string Id, Allocation alloc)
         {
             try
@@ -276,7 +303,7 @@ namespace App.DAL.Repositories
             }
         }
 
-        public string PatchSprint(string Id, Sprint sprint)
+        public string PatchSprint(long Id, Sprint sprint)
         {
             try
             {
@@ -315,8 +342,6 @@ namespace App.DAL.Repositories
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data);
                 return json;
-
-
             }
             catch
             {
@@ -337,13 +362,35 @@ namespace App.DAL.Repositories
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data);
                 return json;
-
-
             }
             catch
             {
                 throw;
 
+            }
+        }
+
+        public string PatchPoint(string Id, Point po)
+        {
+            try
+            {
+                var data = this.resourcedbContext.Points.Find(Convert.ToInt64(Id));
+                if (data == null)
+                    return "Empty";
+              
+                var data1 = this.resourcedbContext.Stories.Find(data.StoryId);
+                data1.ModifiedOn = DateTime.Now;
+                this.resourcedbContext.SaveChanges();
+
+                data.UserId = po.UserId;
+                data.Points = po.Points;
+                this.resourcedbContext.SaveChanges();
+                var json = JsonConvert.SerializeObject(data);
+                return json;
+            }
+            catch
+            {
+                throw;
             }
         }
         public string DeleteProject(string ProjectId)
@@ -503,18 +550,41 @@ namespace App.DAL.Repositories
             }
         }
 
-        public async Task<Allocation> SearchAllocation(string Id)
+
+        public string DeletePoint(string Id)
         {
             try
             {
-                Allocation a = new Allocation();
+                var data = this.resourcedbContext.Points.Find(Convert.ToInt64(Id));
+                if (data == null)
+                {
+                    return "no data found";
+                }
+                var data1 = this.resourcedbContext.Stories.Find(data.StoryId);
+                data1.ModifiedOn = DateTime.Now;
+                this.resourcedbContext.SaveChanges();
+                this.resourcedbContext.Points.Remove(data);
+                this.resourcedbContext.SaveChanges();
+                var json = JsonConvert.SerializeObject(data);
+                return json;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<List<Allocation>> SearchAllocation(string Id)
+        {
+            try
+            {
+                List<Allocation> a = new List<Allocation>();
                 var result = await this.resourcedbContext.Set<Allocation>().ToListAsync();
                 foreach (var item in result)
                 {
-                    if (item.EmployeeId == Id)
+                    if (item.ProjectId == Convert.ToInt64(Id))
                     {
-                        a = item;
-                        break;
+                        a.Add(item);
                     }
                 }
                 return a;
@@ -524,18 +594,17 @@ namespace App.DAL.Repositories
                 throw;
             }
         }
-        public async Task<Resource> SearchResource(string Id)
+        public async Task<List<Resource>> SearchResource(string Id)
         {
             try
             {
-                Resource r = new Resource();
+                List<Resource> r = new List<Resource>();
                 var result = await this.resourcedbContext.Set<Resource>().ToListAsync();
                 foreach (var item in result)
                 {
-                    if (item.EmployeeId == Id)
+                    if (item.ProjectId == Convert.ToInt64(Id))
                     {
-                        r = item;
-                        break;
+                        r.Add(item);
                     }
                 }
                 return r;
@@ -545,18 +614,17 @@ namespace App.DAL.Repositories
                 throw;
             }
         }
-        public async Task<Team> SearchTeam(string name)
+        public async Task<List<Team>> SearchTeam(string Id)
         {
             try
             {
-                Team t = new Team();
+                List<Team> t = new List<Team>();
                 var result = await this.resourcedbContext.Set<Team>().ToListAsync();
                 foreach (var item in result)
                 {
-                    if (item.Name == name)
+                    if (item.ProjectId == Convert.ToInt64(Id))
                     {
-                        t = item;
-                        break;
+                        t.Add(item);
                     }
                 }
                 return t;
@@ -566,18 +634,37 @@ namespace App.DAL.Repositories
                 throw;
             }
         }
-        public async Task<Sprint> SearchSprint(string name)
+        public async Task<List<Sprint>> SearchSprint(string Id)
         {
             try
             {
-                Sprint s = new Sprint();
+                List<Sprint> s = new List<Sprint>();    
                 var result = await this.resourcedbContext.Set<Sprint>().ToListAsync();
                 foreach (var item in result)
                 {
-                    if (item.Name == name)
+                    if (item.ProjectId == Convert.ToInt64(Id))
                     {
-                        s = item;
-                        break;
+                        s.Add(item);
+                    }
+                }
+                return s;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public async Task<List<Story>> SearchStory(string Id)
+        {
+            try
+            {
+                List<Story> s = new List<Story>();
+                var result = await this.resourcedbContext.Set<Story>().ToListAsync();
+                foreach (var item in result)
+                {
+                    if (item.ProjectId == Convert.ToInt64(Id))
+                    {
+                        s.Add(item);
                     }
                 }
                 return s;
@@ -608,13 +695,11 @@ namespace App.DAL.Repositories
                 throw;
             }
         }
-
         public void Adduser(string email, byte[] passwordHash, byte[] passwordSalt)
         {
             try
             {
                 User user = new User();
-                //CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
                 user.Username = email;
                 user.PasswordSalt = passwordSalt;
                 user.PasswordHash = passwordHash;

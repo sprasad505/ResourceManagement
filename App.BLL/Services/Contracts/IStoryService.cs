@@ -11,6 +11,7 @@ namespace App.BLL.Services.Contracts
     {
         public Story AddStory(Story st);
         Task<List<Story>> GetStories();
+        Task<List<Story>> SearchStory(string Id);
         public string PatchStory(string Id, Story st);
         Task<Story> DeleteStory(string Id);
     }

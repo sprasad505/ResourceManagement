@@ -9,19 +9,19 @@ using System.Threading.Tasks;
 
 namespace App.BLL.Services
 {
-    public class TeamService : ITeamService
+    public class PointService : IPointService
     {
-        private readonly IGenericRepository<Team> genericRepository;
-        public TeamService(IGenericRepository<Team> genericRepository)
+        private readonly IGenericRepository<Point> genericRepository;
+        public PointService(IGenericRepository<Point> genericRepository)
         {
             this.genericRepository = genericRepository;
         }
 
-        public Team AddTeams(Team t)
+        public Point AddPoint(Point po)
         {
             try
             {
-                return genericRepository.AddTeams(t);
+                return this.genericRepository.AddPoint(po);
             }
             catch
             {
@@ -29,11 +29,11 @@ namespace App.BLL.Services
             }
         }
 
-        public string DeleteTeam(string Id)
+        public string DeletePoint(string Id)
         {
             try
             {
-                var data= genericRepository.DeleteTeam(Id);
+                var data=genericRepository.DeletePoint(Id);
                 return data;
             }
             catch
@@ -42,11 +42,11 @@ namespace App.BLL.Services
             }
         }
 
-        public async Task<List<Team>> GetTeams()
+        public async Task<List<Point>> GetPoints()
         {
             try
             {
-                return await this.genericRepository.GetTeams();
+                return await this.genericRepository.GetPoints();
             }
             catch
             {
@@ -54,24 +54,12 @@ namespace App.BLL.Services
             }
         }
 
-        public string PatchTeam(string Id, Team t)
+        public string PatchPoint(string Id, Point po)
         {
             try
             {
-                var data= genericRepository.PatchTeam(Id, t);
+                var data=genericRepository.PatchPoint(Id, po);
                 return data;
-
-            }
-            catch
-            {
-                throw;
-            }
-        }
-        public async Task<List<Team>> SearchTeam(string Id)
-        {
-            try
-            {
-                return await genericRepository.SearchTeam(Id);
             }
             catch
             {

@@ -67,18 +67,27 @@ namespace App.DAL.DataContext
 
             modelBuilder.Entity<Resource>(entity =>
             {
-                entity.HasIndex(e => e.EmployeeId, "AK_Resources_Column")
+                entity.HasIndex(e => e.EmployeeId, "empid")
                     .IsUnique();
 
                 entity.Property(e => e.Designation).HasMaxLength(50);
 
-                entity.Property(e => e.Email).HasMaxLength(50);
+                entity.Property(e => e.Email)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.EmployeeId)
                     .HasMaxLength(10)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Name).HasMaxLength(50);
+                entity.Property(e => e.Name)
+                    .HasMaxLength(50)
+                    .IsFixedLength();
+
+                entity.HasOne(d => d.Project)
+                    .WithMany(p => p.Resources)
+                    .HasForeignKey(d => d.ProjectId)
+                    .HasConstraintName("FK_Resources_Project");
             });
 
             modelBuilder.Entity<Team>(entity =>
@@ -86,16 +95,23 @@ namespace App.DAL.DataContext
                 entity.ToTable("Team");
 
                 entity.Property(e => e.Name).HasMaxLength(50);
+
+                entity.HasOne(d => d.Project)
+                    .WithMany(p => p.Teams)
+                    .HasForeignKey(d => d.ProjectId)
+                    .HasConstraintName("FK_Team_Project");
             });
 
             modelBuilder.Entity<Sprint>(entity =>
             {
                 entity.ToTable("Sprint");
 
-                entity.HasKey(e => e.Id).HasName("Id");
-
                 entity.Property(e => e.Name).HasMaxLength(50);
 
+                entity.HasOne(d => d.Project)
+                    .WithMany(p => p.Sprints)
+                    .HasForeignKey(d => d.ProjectId)
+                    .HasConstraintName("FK_Sprint_Project");
             });
 
             modelBuilder.Entity<Calendar22>(entity =>
@@ -116,8 +132,6 @@ namespace App.DAL.DataContext
             {
                 entity.ToTable("Point");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.HasOne(d => d.Story)
                     .WithMany(p => p.Points)
                     .HasForeignKey(d => d.StoryId)
@@ -125,16 +139,26 @@ namespace App.DAL.DataContext
                     .HasConstraintName("Storykey");
             });
 
+
             modelBuilder.Entity<Story>(entity =>
             {
                 entity.ToTable("Story");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.CreatedOn).HasColumnType("datetime");
 
                 entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Project)
+                    .WithMany(p => p.Stories)
+                    .HasForeignKey(d => d.ProjectId)
+                    .HasConstraintName("FK_Story_Project");
+
+                entity.HasOne(d => d.Sprint)
+                    .WithMany(p => p.Stories)
+                    .HasForeignKey(d => d.SprintId)
+                    .HasConstraintName("FK_Story_Sprint");
             });
+
 
             OnModelCreatingPartial(modelBuilder);
         }

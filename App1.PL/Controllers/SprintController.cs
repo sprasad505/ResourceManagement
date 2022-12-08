@@ -28,12 +28,12 @@ namespace App1.PL.Controllers
             return this.sprintService.AddSprints(s);
         }
         [HttpGet("SearchSprint/{name}")]
-        public async Task<Sprint> SearchSprint(string name)
+        public async Task<List<Sprint>> SearchSprint(string name)
         {
             return await this.sprintService.SearchSprint(name);  
         }
         [HttpPatch("UpdateSprint/{id}")]
-        public ContentResult PatchSprint(string Id, Sprint s)
+        public ContentResult PatchSprint(long Id, Sprint s)
         {
             var data = this.sprintService.PatchSprint(Id, s);
             return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
