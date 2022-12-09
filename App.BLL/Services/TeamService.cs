@@ -40,19 +40,7 @@ namespace App.BLL.Services
         }
         public async Task<List<Team>> SearchTeam(string Id)
         {
-<<<<<<< HEAD
-            var result = await genericRepository.SearchTeam(name);
-            return result;
-=======
-            try
-            {
-                return await genericRepository.SearchTeam(Id);
-            }
-            catch
-            {
-                throw;
-            }
->>>>>>> 9c217ad5d6920d22715a57ae8f0e0dc73b33e031
+            return await genericRepository.SearchTeam(Id);
         }
     }
 }
