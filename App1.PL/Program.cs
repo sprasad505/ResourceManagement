@@ -11,6 +11,7 @@ using System.Text;
 using Serilog;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using App.DAL.Middlewares;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
@@ -55,6 +56,7 @@ builder.Services.AddScoped<ISprintService, SprintService>();
 builder.Services.AddScoped<ICalendarService, CalendarService>();
 builder.Services.AddScoped<IStoryService, StoryService>();
 builder.Services.AddScoped<IPointService, PointService>();
+builder.Services.AddScoped<GlobalExceptionHandlingMiddleware>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -90,6 +92,8 @@ app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseExceptionMiddleware();
 
 app.MapControllers();
 

@@ -19,56 +19,31 @@ namespace App.BLL.Services
 
         public Team AddTeams(Team t)
         {
-            try
-            {
-                return genericRepository.AddTeams(t);
-            }
-            catch
-            {
-                throw;
-            }
+            return genericRepository.AddTeams(t);
         }
 
         public string DeleteTeam(string Id)
         {
-            try
-            {
-                var data= genericRepository.DeleteTeam(Id);
-                return data;
-            }
-            catch
-            {
-                throw;
-            }
+            var data = genericRepository.DeleteTeam(Id);
+            return data;
         }
 
         public async Task<List<Team>> GetTeams()
         {
-            try
-            {
-                return await this.genericRepository.GetTeams();
-            }
-            catch
-            {
-                throw;
-            }
+            return await this.genericRepository.GetTeams();
         }
 
         public string PatchTeam(string Id, Team t)
         {
-            try
-            {
-                var data= genericRepository.PatchTeam(Id, t);
-                return data;
-
-            }
-            catch
-            {
-                throw;
-            }
+            var data = genericRepository.PatchTeam(Id, t);
+            return data;
         }
         public async Task<List<Team>> SearchTeam(string Id)
         {
+<<<<<<< HEAD
+            var result = await genericRepository.SearchTeam(name);
+            return result;
+=======
             try
             {
                 return await genericRepository.SearchTeam(Id);
@@ -77,6 +52,7 @@ namespace App.BLL.Services
             {
                 throw;
             }
+>>>>>>> 9c217ad5d6920d22715a57ae8f0e0dc73b33e031
         }
     }
 }

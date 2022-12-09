@@ -24,14 +24,7 @@ namespace App.BLL.Services
 
         public async Task<List<Allocation>> GetAllocations()
         {
-            try
-            {
-                return await genericRepository.GetAllocations();
-            }
-            catch
-            {
-                throw;
-            }
+            return await genericRepository.GetAllocations();
         }
         public Allocation AddAlloc(Allocation a)
         {
@@ -80,42 +73,20 @@ namespace App.BLL.Services
         }
         public string PatchAlloc(string Id, Allocation a)
         {
-            try
-            {
-                var data= genericRepository.PatchAllocation(Id, a);
-                return data;
-
-            }
-            catch
-            {
-                throw;
-            }
+            var data = genericRepository.PatchAllocation(Id, a);
+            return data;
         }
 
         public string DeleteAllocation(string Id)
         {
-            try
-            {
-                var data= genericRepository.DeleteAllocation(Id);
-                return data;
-            }
-            catch
-            {
-                throw;
-            }
+            var data = genericRepository.DeleteAllocation(Id);
+            return data;
         }
 
         public async Task<List<Allocation>> SearchAllocation(string Id)
         {
-            try
-            {
-                var result = await genericRepository.SearchAllocation(Id);
-                return result;
-            }
-            catch
-            {
-                throw;
-            }
+            var result = await genericRepository.SearchAllocation(Id);
+            return result;
         }
         public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {

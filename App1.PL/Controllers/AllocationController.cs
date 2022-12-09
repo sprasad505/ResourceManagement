@@ -31,6 +31,10 @@ namespace App1.PL.Controllers
         [HttpGet("SearchAllocation/{id}")]
         public async Task<List<Allocation>> SearchAllocation(string id)
         {
+<<<<<<< HEAD
+            Allocation result = await allocationService.SearchAllocation(id);
+            return result;
+=======
             try
             {
               return await allocationService.SearchAllocation(id);
@@ -39,6 +43,7 @@ namespace App1.PL.Controllers
             {
                 throw;
             }
+>>>>>>> 9c217ad5d6920d22715a57ae8f0e0dc73b33e031
         }
         [HttpPatch("UpdateAllocation/{id}")]
         public ContentResult PatchAlloc(string Id, Allocation a)

@@ -19,54 +19,29 @@ namespace App.BLL.Services
 
         public Sprint AddSprints(Sprint s)
         {
-            try
-            {
-                return this.genericRepository.AddSprint(s);
-            }
-            catch
-            {
-                throw;
-            }
+            return this.genericRepository.AddSprint(s);
         }
 
         public string DeleteSprint(string Id)
         {
-            try
-            {
-                return this.genericRepository.DeleteSprint(Id);  
-            }
-            catch
-            {
-                throw;
-            }
+            return this.genericRepository.DeleteSprint(Id);
         }
 
         public async Task<List<Sprint>> GetSprints()
         {
-            try
-            {
-                return await this.genericRepository.GetSprints();
-            }
-            catch
-            {
-                throw;
-            }
+            return await this.genericRepository.GetSprints();
         }
 
         public string PatchSprint(long Id, Sprint s)
         {
-            try
-            {
-                return this.genericRepository.PatchSprint(Id, s);
-            }
-            catch
-            {
-                throw;
-            }
+            return this.genericRepository.PatchSprint(Id, s);
         }
 
         public async Task<List<Sprint>> SearchSprint(string Id)
         {
+<<<<<<< HEAD
+            return await this.genericRepository.SearchSprint(name);
+=======
             try
             {
                 return await this.genericRepository.SearchSprint(Id);
@@ -75,6 +50,7 @@ namespace App.BLL.Services
             {
                 throw;
             }
+>>>>>>> 9c217ad5d6920d22715a57ae8f0e0dc73b33e031
         }
     }
 }

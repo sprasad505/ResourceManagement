@@ -18,63 +18,28 @@ namespace App.BLL.Services
         }
         public Project AddProjects(Project p)
         {
-            try
-            {
-                return genericRepository.AddProjects(p);
-            }
-            catch
-            {
-                throw;
-            }
+            return genericRepository.AddProjects(p);
         }
 
         public string DeleteProject(string Id)
         {
-            try
-            {
-               var data= genericRepository.DeleteProject(Id);
-                return data;
-            }
-            catch
-            {
-                throw;
-            }
+            var data = genericRepository.DeleteProject(Id);
+            return data;
         }
         public async Task<List<Project>> GetProjects()
         {
-            try
-            {
-                return await this.genericRepository.GetProjects();
-            }
-            catch
-            {
-                throw;
-            }
+            return await this.genericRepository.GetProjects();
         }
 
         public string PatchProject(string Id, Project p)
         {
-            try
-            {
-               var data= genericRepository.PatchProject(Id, p);
-                return data;
-            }
-            catch
-            {
-                throw;
-            }
+            var data = genericRepository.PatchProject(Id, p);
+            return data;
         }
         public async Task<Project> SearchProject(string name)
         {
-            try
-            {
-                var result = await genericRepository.SearchProject(name);
-                return result;
-            }
-            catch
-            {
-                throw;
-            }
+            var result = await genericRepository.SearchProject(name);
+            return result;
         }
     }
 }
