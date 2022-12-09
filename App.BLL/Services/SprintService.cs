@@ -39,18 +39,7 @@ namespace App.BLL.Services
 
         public async Task<List<Sprint>> SearchSprint(string Id)
         {
-<<<<<<< HEAD
-            return await this.genericRepository.SearchSprint(name);
-=======
-            try
-            {
-                return await this.genericRepository.SearchSprint(Id);
-            }
-            catch
-            {
-                throw;
-            }
->>>>>>> 9c217ad5d6920d22715a57ae8f0e0dc73b33e031
+            return await this.genericRepository.SearchSprint(Id);
         }
     }
 }

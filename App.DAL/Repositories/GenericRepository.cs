@@ -599,7 +599,7 @@ namespace App.DAL.Repositories
                         a.Add(item);
                     }
                 }
-                if (a.EmployeeId == null)
+                if (a == null)
                 {
                     throw new APIException(409, "Not found");
                 }
@@ -623,7 +623,7 @@ namespace App.DAL.Repositories
                         r.Add(item);
                     }
                 }
-                if (r.EmployeeId == null)
+                if (r == null)
                 {
                     throw new APIException(409, "Not found");
                 }
@@ -647,7 +647,7 @@ namespace App.DAL.Repositories
                         t.Add(item);
                     }
                 }
-                if (t.Id == null)
+                if (t == null)
                 {
                     throw new APIException(409, "Not found");
                 }
@@ -691,7 +691,7 @@ namespace App.DAL.Repositories
                         s.Add(item);
                     }
                 }
-                if (s.Id == null)
+                if (s == null)
                 {
                     throw new APIException(409, "Not found");
                 }
