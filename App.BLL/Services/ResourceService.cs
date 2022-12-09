@@ -39,19 +39,7 @@ namespace App.BLL.Services
         }
         public async Task<List<Resource>> SearchResource(string Id)
         {
-<<<<<<< HEAD
-            var result = await genericRepository.SearchResource(Id);
-            return result;
-=======
-            try
-            {
-                return await genericRepository.SearchResource(Id);
-            }
-            catch
-            {
-                throw;
-            }
->>>>>>> 9c217ad5d6920d22715a57ae8f0e0dc73b33e031
+            return await genericRepository.SearchResource(Id);
         }
     }
 
