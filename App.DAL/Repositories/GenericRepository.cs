@@ -23,13 +23,15 @@ namespace App.DAL.Repositories
             this.authenticationService = authenticationService;
             this.usersContext = usersContext;
         }
-        public Allocation AddAlloc(Allocation a)
+        public string AddAlloc(Allocation a)
         {
             try
             {
                 this.resourcedbContext.Add(a);
                 this.resourcedbContext.SaveChanges();
-                return a;
+                var json = JsonConvert.SerializeObject(a);
+                return json;
+                
             }
             catch
             {
