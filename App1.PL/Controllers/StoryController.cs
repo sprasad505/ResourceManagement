@@ -23,9 +23,10 @@ namespace App1.PL.Controllers
             return stories;
         }
         [HttpPost("AddStory")]
-        public Story AddStory(Story s)
+        public ContentResult AddStory(Story s)
         {
-            return this.storyService.AddStory(s);
+            var data = this.storyService.AddStory(s);
+            return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
         [HttpGet("SearchStory/{id}")]
         public async Task<List<Story>> SearchStory(string Id)

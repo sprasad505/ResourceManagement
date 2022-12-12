@@ -21,7 +21,7 @@ namespace App.BLL.Services
         {
             return await genericRepository.GetResources();
         }
-        public Resource AddResources(Resource r)
+        public string AddResources(Resource r)
         {
             return genericRepository.AddResources(r);
         }

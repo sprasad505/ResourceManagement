@@ -22,10 +22,10 @@ namespace App1.PL.Controllers
         }
 
         [HttpPost("AddResource")]
-        public Resource Addresources(Resource r)
+        public ContentResult Addresources(Resource r)
         {
-            _resourceService.AddResources(r);
-            return r;
+            var data = this._resourceService.AddResources(r);
+            return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
         [HttpGet("Resources")]
         public async Task<List<Resource>> GetResources()

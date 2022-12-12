@@ -9,7 +9,7 @@ namespace App.BLL.Services.Contracts
 {
     public interface IResourceService
     {
-        public Resource AddResources(Resource r);
+        public string AddResources(Resource r);
         Task<List<Resource>> GetResources();
         Task<List<Resource>> SearchResource(string Id);
         public string PatchResource(string Id, Resource r);

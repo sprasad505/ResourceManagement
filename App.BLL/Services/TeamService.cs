@@ -17,7 +17,7 @@ namespace App.BLL.Services
             this.genericRepository = genericRepository;
         }
 
-        public Team AddTeams(Team t)
+        public string AddTeams(Team t)
         {
             return genericRepository.AddTeams(t);
         }

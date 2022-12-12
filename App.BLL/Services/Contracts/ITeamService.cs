@@ -9,7 +9,7 @@ namespace App.BLL.Services.Contracts
 {
     public interface ITeamService
     {
-        public Team AddTeams(Team t);
+        public string AddTeams(Team t);
         Task<List<Team>> GetTeams();
         Task<List<Team>> SearchTeam(string Id);
         public string PatchTeam(string Id, Team t);

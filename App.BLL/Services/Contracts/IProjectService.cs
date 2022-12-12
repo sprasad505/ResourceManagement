@@ -9,7 +9,7 @@ namespace App.BLL.Services.Contracts
 {
     public interface IProjectService
     {
-        public Project AddProjects(Project p);
+        public string AddProjects(Project p);
         Task<List<Project>> GetProjects();
         Task<Project> SearchProject(string name);
         public string PatchProject(string Id, Project p);

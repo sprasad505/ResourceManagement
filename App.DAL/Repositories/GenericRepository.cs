@@ -38,13 +38,14 @@ namespace App.DAL.Repositories
                 throw;
             }
         }
-        public Sprint AddSprint(Sprint s)
+        public string AddSprint(Sprint s)
         {
             try
             {
                 this.resourcedbContext.Add(s);
                 this.resourcedbContext.SaveChanges();
-                return s;
+                var json = JsonConvert.SerializeObject(s);
+                return json;
             }
             catch
             {
@@ -52,13 +53,14 @@ namespace App.DAL.Repositories
             }
         }
 
-        public Project AddProjects(Project p)
+        public string AddProjects(Project p)
         {
             try
             {
                 this.resourcedbContext.Add(p);
                 this.resourcedbContext.SaveChanges();
-                return p;
+                var json = JsonConvert.SerializeObject(p);
+                return json;
             }
             catch
             {
@@ -66,13 +68,14 @@ namespace App.DAL.Repositories
             }
         }
 
-        public Resource AddResources(Resource r)
+        public string AddResources(Resource r)
         {
             try
             {
                 this.resourcedbContext.Add(r);
                 this.resourcedbContext.SaveChanges();
-                return r;
+                var json = JsonConvert.SerializeObject(r);
+                return json;
             }
             catch
             {
@@ -80,7 +83,7 @@ namespace App.DAL.Repositories
             }
         }
 
-        public Team AddTeams(Team t)
+        public string AddTeams(Team t)
         {
             try
             {
@@ -91,14 +94,15 @@ namespace App.DAL.Repositories
                 }
                 this.resourcedbContext.Add(t);
                 this.resourcedbContext.SaveChanges();
-                return t;
+                var json = JsonConvert.SerializeObject(t);
+                return json;
             }
             catch(Exception ex)
             {
                 throw ex;
             }
         }
-        public Story AddStory(Story st)
+        public string AddStory(Story st)
         {
             try
             {
@@ -106,7 +110,8 @@ namespace App.DAL.Repositories
                 st.ModifiedOn = DateTime.Now;
                 this.resourcedbContext.Add(st);
                 this.resourcedbContext.SaveChanges();
-                return st;
+                var json = JsonConvert.SerializeObject(st);
+                return json;
             }
             catch
             {
@@ -114,7 +119,7 @@ namespace App.DAL.Repositories
             }
         }
 
-        public Point AddPoint(Point po)
+        public string AddPoint(Point po)
         {
             try
             {
@@ -123,7 +128,8 @@ namespace App.DAL.Repositories
                 this.resourcedbContext.SaveChanges();
                 this.resourcedbContext.Add(po);
                 this.resourcedbContext.SaveChanges();
-                return po;
+                var json = JsonConvert.SerializeObject(po);
+                return json;
             }
             catch
             {
