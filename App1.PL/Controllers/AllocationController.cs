@@ -17,10 +17,10 @@ namespace App1.PL.Controllers
             this.allocationService = allocationService;
         }
         [HttpPost("AddAllocation")]
-        public Allocation AddAlloc(Allocation a)
+        public ContentResult AddAlloc(Allocation a)
         {
-            this.allocationService.AddAlloc(a);
-            return a;
+            var data = this.allocationService.AddAlloc(a);
+            return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
         [HttpGet("Allocations")]
         public async Task<List<Allocation>> GetAllocations()

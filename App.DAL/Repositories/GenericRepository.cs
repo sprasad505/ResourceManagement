@@ -557,7 +557,6 @@ namespace App.DAL.Repositories
             }
         }
 
-
         public string DeletePoint(string Id)
         {
             try
