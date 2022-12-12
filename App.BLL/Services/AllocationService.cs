@@ -43,7 +43,6 @@ namespace App.BLL.Services
                 if (test == null)
                 {
                     Resource r = new Resource();
-                    //var data1 = dbContext.Resources.Find(a.EmployeeId);
                     var result1 = dbContext.Set<Resource>().ToList();
                     foreach (var item1 in result1)
                     {
@@ -58,6 +57,7 @@ namespace App.BLL.Services
                     string password = new string(Enumerable.Repeat(chars, 8)
                         .Select(s => s[random.Next(s.Length)]).ToArray());
                     CreatePasswordHash(password, out byte[] PasswordHash, out byte[] PasswordSalt);
+                    Console.WriteLine("password : " + password);
                     genericRepository.Adduser(r.Email,PasswordHash,PasswordSalt );
                     return genericRepository.AddAlloc(a);
                 }
