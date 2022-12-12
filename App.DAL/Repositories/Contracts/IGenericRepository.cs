@@ -5,6 +5,7 @@ using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
 using App.DAL.Models;
+using Microsoft.VisualBasic;
 
 namespace App.DAL.Repositories.Contracts
 {
@@ -23,13 +24,13 @@ namespace App.DAL.Repositories.Contracts
         Task<Project> SearchProject(string name);
         Task<List<Sprint>> SearchSprint(string Id);
         Task<List<Story>> SearchStory(string Id);
-        public Resource AddResources(Resource r);
-        public Project AddProjects(Project p);
-        public Team AddTeams(Team t);
+        public string AddResources(Resource r);
+        public string AddProjects(Project p);
+        public string AddTeams(Team t);
         public string AddAlloc(Allocation a);
-        public Sprint AddSprint(Sprint s);
-        public Story AddStory(Story st);
-        public Point AddPoint(Point po);
+        public string AddSprint(Sprint s);
+        public string AddStory(Story st);
+        public string AddPoint(Point po);
         public void Adduser(string email, byte[] passwordHash, byte[] passwordSalt);
         public User Login(Userdto request);
         public InterCalender AddHolidays(InterCalender c);

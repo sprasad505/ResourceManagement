@@ -17,7 +17,7 @@ namespace App.BLL.Services
             this.genericRepository = genericRepository;
         }
 
-        public Sprint AddSprints(Sprint s)
+        public string AddSprints(Sprint s)
         {
             return this.genericRepository.AddSprint(s);
         }

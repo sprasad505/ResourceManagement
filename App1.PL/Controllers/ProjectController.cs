@@ -16,10 +16,10 @@ namespace App1.PL.Controllers
             _projectService = projectService;
         }
         [HttpPost("AddProject")]
-        public Project AddProjects(Project p)
+        public ContentResult AddProjects(Project p)
         {
-            _projectService.AddProjects(p);
-            return p;
+            var data = this._projectService.AddProjects(p);
+            return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
         [HttpGet("Projects")]
         public async Task<List<Project>> GetProjects()

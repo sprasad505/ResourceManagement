@@ -23,9 +23,10 @@ namespace App1.PL.Controllers
             return points;
         }
         [HttpPost("AddPoint")]
-        public Point AddPoint(Point po)
+        public ContentResult AddPoint(Point po)
         {
-            return this.pointService.AddPoint(po);
+            var data = this.pointService.AddPoint(po);
+            return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
         [HttpPatch("UpdatePoint/{id}")]
         public ContentResult PatchPoint(string Id, Point po)

@@ -9,7 +9,7 @@ namespace App.BLL.Services.Contracts
 {
     public interface ISprintService
     {
-        public Sprint AddSprints(Sprint s);
+        public string AddSprints(Sprint s);
         Task<List<Sprint>> GetSprints();
         Task<List<Sprint>> SearchSprint(string Id);
         public string PatchSprint(long Id, Sprint s);

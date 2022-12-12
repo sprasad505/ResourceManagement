@@ -17,10 +17,10 @@ namespace App1.PL.Controllers
             this.teamService = teamService;
         }
         [HttpPost("AddTeam")]
-        public Team AddTeams(Team t)
+        public ContentResult AddTeams(Team t)
         {
-            this.teamService.AddTeams(t);
-            return t;
+            var data = this.teamService.AddTeams(t);
+            return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
         [HttpGet("Teams")]
         public async Task<List<Team>> GetTeams()

@@ -23,9 +23,10 @@ namespace App1.PL.Controllers
             return sprints;
         }
         [HttpPost("AddSprint")]
-        public Sprint AddSprint(Sprint s)
+        public ContentResult AddSprint(Sprint s)
         {
-            return this.sprintService.AddSprints(s);
+            var data = this.sprintService.AddSprints(s);
+            return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
         [HttpGet("SearchSprint/{id}")]
         public async Task<List<Sprint>> SearchSprint(string name)

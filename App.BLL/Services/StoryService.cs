@@ -17,7 +17,7 @@ namespace App.BLL.Services
             this.genericRepository = genericRepository;
         }
 
-        public Story AddStory(Story st)
+        public string AddStory(Story st)
         {
             return this.genericRepository.AddStory(st);
         }

@@ -16,7 +16,7 @@ namespace App.BLL.Services
         {
             this.genericRepository = genericRepository;
         }
-        public Project AddProjects(Project p)
+        public string AddProjects(Project p)
         {
             return genericRepository.AddProjects(p);
         }

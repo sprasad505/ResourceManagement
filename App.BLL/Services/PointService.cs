@@ -17,7 +17,7 @@ namespace App.BLL.Services
             this.genericRepository = genericRepository;
         }
 
-        public Point AddPoint(Point po)
+        public string AddPoint(Point po)
         {
             try
             {
