@@ -26,7 +26,7 @@ namespace App.BLL.Services
         {
             return await genericRepository.GetAllocations();
         }
-        public Allocation AddAlloc(Allocation a)
+        public string AddAlloc(Allocation a)
         {
             try
             {

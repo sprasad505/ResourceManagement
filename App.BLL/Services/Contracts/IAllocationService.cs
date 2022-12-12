@@ -9,7 +9,7 @@ namespace App.BLL.Services.Contracts
 {
     public interface IAllocationService
     {
-        public Allocation AddAlloc(Allocation a);
+        public string AddAlloc(Allocation a);
         Task<List<Allocation>> GetAllocations();
         Task<List<Allocation>> SearchAllocation(string Id);
         public string PatchAlloc(string Id, Allocation a);

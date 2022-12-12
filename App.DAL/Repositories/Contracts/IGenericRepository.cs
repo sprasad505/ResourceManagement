@@ -26,7 +26,7 @@ namespace App.DAL.Repositories.Contracts
         public Resource AddResources(Resource r);
         public Project AddProjects(Project p);
         public Team AddTeams(Team t);
-        public Allocation AddAlloc(Allocation a);
+        public string AddAlloc(Allocation a);
         public Sprint AddSprint(Sprint s);
         public Story AddStory(Story st);
         public Point AddPoint(Point po);
