@@ -209,7 +209,7 @@ namespace App.DAL.Repositories
                 });
                 return json;
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 throw ex;
             }
