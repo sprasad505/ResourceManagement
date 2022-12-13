@@ -87,11 +87,6 @@ namespace App.DAL.Repositories
         {
             try
             {
-                var data = this.resourcedbContext.Teams.Find(Convert.ToString(t.Name));
-                if (data != null)
-                {
-                    throw new APIException(404, "Content with matching Id already exists");
-                }
                 this.resourcedbContext.Add(t);
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(t);
