@@ -232,7 +232,7 @@ namespace App.DAL.Repositories
                 {
                     throw new APIException(404, "ProjectId doesnot exist");
                 }
-                if (st.Sprint == null)
+                if (st.SprintId == null)
                 {
                     throw new APIException(404, "Add Sprint Id");
                 }
