@@ -186,8 +186,12 @@ namespace App.DAL.Repositories
                 }
                 this.resourcedbContext.Add(t);
                 this.resourcedbContext.SaveChanges();
-                var json = JsonConvert.SerializeObject(t);
-                return json;
+                var json = JsonConvert.SerializeObject(t, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
+                return "success";
             }
             catch(Exception ex)
             {
@@ -216,8 +220,12 @@ namespace App.DAL.Repositories
                 st.ModifiedOn = DateTime.Now;
                 this.resourcedbContext.Add(st);
                 this.resourcedbContext.SaveChanges();
-                var json = JsonConvert.SerializeObject(st);
-                return json;
+                var json = JsonConvert.SerializeObject(st, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
+                return "success";
             }
             catch (Exception e)
             {

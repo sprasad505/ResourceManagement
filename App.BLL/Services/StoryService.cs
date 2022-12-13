@@ -19,7 +19,8 @@ namespace App.BLL.Services
 
         public string AddStory(Story st)
         {
-            return this.genericRepository.AddStory(st);
+            var data = this.genericRepository.AddStory(st);
+            return data;
         }
 
         public async Task<Story> DeleteStory(string Id)
@@ -45,7 +46,8 @@ namespace App.BLL.Services
 
         public string PatchStory(string Id, Story st)
         {
-            return this.genericRepository.PatchStory(Id, st);
+            var data = this.genericRepository.PatchStory(Id, st);
+            return data;
         }
     }
 }
