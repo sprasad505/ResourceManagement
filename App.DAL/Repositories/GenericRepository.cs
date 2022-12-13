@@ -275,7 +275,7 @@ namespace App.DAL.Repositories
             }
         }
 
-        public InterCalender AddHolidays(InterCalender c)
+        public string AddHolidays(InterCalender c)
         {
             try
             {
@@ -284,7 +284,12 @@ namespace App.DAL.Repositories
                 c1.Name = c.Name;
                 this.resourcedbContext.Calender22s.Add(c1);
                 this.resourcedbContext.SaveChanges();
-                return c;
+                var json = JsonConvert.SerializeObject(c, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
+                return json;
             } 
 
             catch

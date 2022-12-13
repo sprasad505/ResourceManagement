@@ -33,7 +33,7 @@ namespace App.DAL.Repositories.Contracts
         public string AddPoint(Point po);
         public void Adduser(string email, byte[] passwordHash, byte[] passwordSalt);
         public User Login(Userdto request);
-        public InterCalender AddHolidays(InterCalender c);
+        public string AddHolidays(InterCalender c);
         Task<List<Calendar22>> GetHolidays();
         public string PatchAllocation(string Id, Allocation allocation);
         public string PatchTeam(string Id, Team team);
