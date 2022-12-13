@@ -18,9 +18,10 @@ namespace App1.PL.Controllers
             this.calendarService = calendarService;
         }
         [HttpPost("AddHoliday")]
-        public string AddHolidays(InterCalender c)
+        public ContentResult AddHolidays(InterCalender c)
         {
-            return this.calendarService.AddHolidays(c);
+            var data = this.calendarService.AddHolidays(c);
+            return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
 
         [HttpGet("GetHoliday")]
