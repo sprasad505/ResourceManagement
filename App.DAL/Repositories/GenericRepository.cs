@@ -27,29 +27,84 @@ namespace App.DAL.Repositories
         {
             try
             {
+                var data1 = this.resourcedbContext.Set<Project>().ToList();
+                var data2 = this.resourcedbContext.Set<Team>().ToList();
+                var data3 = this.resourcedbContext.Set<Resource>().ToList();
+                bool test1 = false;
+                bool test2 = false;
+                bool test3 = false;
+                foreach (var item in data1)
+                {
+                    if (a.ProjectId == item.Id)
+                    {
+                        test1 = true;
+                        break;
+                    }
+                }
+                if (!test1)
+                {
+                    throw new APIException(404, "ProjectId doesnot exist");
+                }
+                foreach (var item in data2)
+                {
+                    if (a.TeamId == item.Id)
+                    {
+                        test2 = true;
+                        break;
+                    }
+                }
+                if (!test2)
+                {
+                    throw new APIException(404, "TeamId doesnot exist");
+                }
+                foreach (var item in data3)
+                {
+                    if (a.EmployeeId == item.EmployeeId)
+                    {
+                        test3 = true;
+                        break;
+                    }
+                }
+                if (!test3)
+                {
+                    throw new APIException(404, "EmployeeId doesnot exist");
+                }
                 this.resourcedbContext.Add(a);
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(a);
                 return json;
-                
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw (ex);
             }
         }
         public string AddSprint(Sprint s)
         {
             try
             {
+                var data = this.resourcedbContext.Set<Project>().ToList();
+                bool a = false;
+                foreach (var item in data)
+                {
+                    if (s.ProjectId == item.Id)
+                    {
+                        a = true;
+                        break;
+                    }
+                }
+                if (!a)
+                {
+                    throw new APIException(404, "ProjectId doesnot exist");
+                }
                 this.resourcedbContext.Add(s);
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(s);
                 return json;
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw (ex);
             }
         }
 
@@ -72,14 +127,42 @@ namespace App.DAL.Repositories
         {
             try
             {
+                var data1 = this.resourcedbContext.Set<Project>().ToList();
+                var data2 = this.resourcedbContext.Set<Resource>().ToList();
+                bool a1 = false;
+                bool a2 = false;
+                foreach (var item in data1)
+                {
+                    if (r.ProjectId == item.Id)
+                    {
+                        a1 = true;
+                        break;
+                    }
+                }
+                if (!a1)
+                {
+                    throw new APIException(404, "ProjectId doesnot exist");
+                }
+                foreach (var item in data2)
+                {
+                    if (r.EmployeeId == item.EmployeeId)
+                    {
+                        a2 = true;
+                        break;
+                    }
+                }
+                if (a2)
+                {
+                    throw new APIException(404, "EmployeeId already Exists");
+                }
                 this.resourcedbContext.Add(r);
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(r);
                 return json;
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw (ex);
             }
         }
 
@@ -87,20 +170,48 @@ namespace App.DAL.Repositories
         {
             try
             {
+                var data = this.resourcedbContext.Set<Project>().ToList();
+                bool a = false;
+                foreach (var item in data)
+                {
+                    if (t.ProjectId == item.Id)
+                    {
+                        a = true;
+                        break;
+                    }
+                }
+                if (!a)
+                {
+                    throw new APIException(404, "ProjectId doesnot exist");
+                }
                 this.resourcedbContext.Add(t);
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(t);
                 return json;
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
         public string AddStory(Story st)
         {
             try
             {
+                var data = this.resourcedbContext.Set<Project>().ToList();
+                bool a = false;
+                foreach (var item in data)
+                {
+                    if (st.ProjectId == item.Id)
+                    {
+                        a = true;
+                        break;
+                    }
+                }
+                if (!a)
+                {
+                    throw new APIException(404, "ProjectId doesnot exist");
+                }
                 st.CreatedOn = DateTime.Now;
                 st.ModifiedOn = DateTime.Now;
                 this.resourcedbContext.Add(st);
@@ -108,9 +219,9 @@ namespace App.DAL.Repositories
                 var json = JsonConvert.SerializeObject(st);
                 return json;
             }
-            catch
+            catch (Exception e)
             {
-                throw;
+                throw (e);
             }
         }
 

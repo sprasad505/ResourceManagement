@@ -33,9 +33,9 @@ builder.Services.AddCors(options =>
     options.AddPolicy(MyAllowSpecificOrigins,
                           policy =>
                           {
-                              policy.WithOrigins("*")
-                                                  .AllowAnyHeader()
-                                                  .AllowAnyMethod();
+                              policy.AllowAnyOrigin()
+                                    .AllowAnyHeader()
+                                    .AllowAnyMethod();
                           });
 });
 builder.Services.AddDbContext<ResourcedbContext>(options =>
