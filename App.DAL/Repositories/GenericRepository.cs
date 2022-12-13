@@ -71,7 +71,11 @@ namespace App.DAL.Repositories
                 }
                 this.resourcedbContext.Add(a);
                 this.resourcedbContext.SaveChanges();
-                var json = JsonConvert.SerializeObject(a);
+                var json = JsonConvert.SerializeObject(a, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
                 return json;
             }
             catch (Exception ex)
@@ -99,7 +103,11 @@ namespace App.DAL.Repositories
                 }
                 this.resourcedbContext.Add(s);
                 this.resourcedbContext.SaveChanges();
-                var json = JsonConvert.SerializeObject(s);
+                var json = JsonConvert.SerializeObject(s, Formatting.Indented,
+                 new JsonSerializerSettings()
+                 {
+                     ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                 });
                 return json;
             }
             catch (Exception ex)
@@ -114,7 +122,11 @@ namespace App.DAL.Repositories
             {
                 this.resourcedbContext.Add(p);
                 this.resourcedbContext.SaveChanges();
-                var json = JsonConvert.SerializeObject(p);
+                var json = JsonConvert.SerializeObject(p, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
                 return json;
             }
             catch
@@ -157,7 +169,11 @@ namespace App.DAL.Repositories
                 }
                 this.resourcedbContext.Add(r);
                 this.resourcedbContext.SaveChanges();
-                var json = JsonConvert.SerializeObject(r);
+                var json = JsonConvert.SerializeObject(r, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
                 return json;
             }
             catch (Exception ex)
@@ -186,12 +202,12 @@ namespace App.DAL.Repositories
                 }
                 this.resourcedbContext.Add(t);
                 this.resourcedbContext.SaveChanges();
-                var json = JsonConvert.SerializeObject(t, Formatting.Indented,
+                var json=JsonConvert.SerializeObject(t, Formatting.Indented,
                 new JsonSerializerSettings()
                 {
                     ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                 });
-                return "success";
+                return json;
             }
             catch(Exception ex)
             {
@@ -216,6 +232,10 @@ namespace App.DAL.Repositories
                 {
                     throw new APIException(404, "ProjectId doesnot exist");
                 }
+                if (st.Sprint == null)
+                {
+                    throw new APIException(404, "Add Sprint Id");
+                }
                 st.CreatedOn = DateTime.Now;
                 st.ModifiedOn = DateTime.Now;
                 this.resourcedbContext.Add(st);
@@ -225,7 +245,7 @@ namespace App.DAL.Repositories
                 {
                     ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                 });
-                return "success";
+                return json;
             }
             catch (Exception e)
             {
@@ -242,7 +262,11 @@ namespace App.DAL.Repositories
                 this.resourcedbContext.SaveChanges();
                 this.resourcedbContext.Add(po);
                 this.resourcedbContext.SaveChanges();
-                var json = JsonConvert.SerializeObject(po);
+                var json = JsonConvert.SerializeObject(po, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
                 return json;
             }
             catch

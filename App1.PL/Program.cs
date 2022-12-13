@@ -38,6 +38,8 @@ builder.Services.AddCors(options =>
                                     .AllowAnyMethod();
                           });
 });
+
+
 builder.Services.AddDbContext<ResourcedbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("Sql"));
