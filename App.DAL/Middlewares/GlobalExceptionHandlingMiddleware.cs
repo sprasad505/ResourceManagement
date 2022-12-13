@@ -42,7 +42,6 @@ namespace App.DAL.Middlewares
                 string json = JsonConvert.SerializeObject(problem);
                 context.Response.ContentType = "application/json";
                 await context.Response.WriteAsync(json);
-
                 return;
             }
         }
