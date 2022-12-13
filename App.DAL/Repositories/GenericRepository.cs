@@ -189,7 +189,7 @@ namespace App.DAL.Repositories
                 var json = JsonConvert.SerializeObject(t);
                 return json;
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 throw ex;
             }
