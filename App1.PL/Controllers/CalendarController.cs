@@ -18,7 +18,7 @@ namespace App1.PL.Controllers
             this.calendarService = calendarService;
         }
         [HttpPost("AddHoliday")]
-        public InterCalender AddHolidays(InterCalender c)
+        public string AddHolidays(InterCalender c)
         {
             return this.calendarService.AddHolidays(c);
         }

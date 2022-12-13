@@ -9,7 +9,7 @@ namespace App.BLL.Services.Contracts
 {
     public interface ICalendarService
     {
-        public InterCalender AddHolidays(InterCalender c);
+        public string AddHolidays(InterCalender c);
         Task<List<Calendar22>> GetHolidays();
     }
 }
