@@ -23,13 +23,13 @@ namespace App1.PL.Controllers
             return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
         [HttpGet("Allocations")]
-        public async Task<List<Allocation>> GetAllocations()
+        public async Task<List<Alloc>> GetAllocations()
         {
-            List<Allocation> allocations = await this.allocationService.GetAllocations();
+            List<Alloc> allocations = await this.allocationService.GetAllocations();
             return allocations;
         }
         [HttpGet("SearchAllocation/{id}")]
-        public async Task<List<Allocation>> SearchAllocation(string id)
+        public async Task<List<Alloc>> SearchAllocation(string id)
         {
             return await allocationService.SearchAllocation(id);
         }
