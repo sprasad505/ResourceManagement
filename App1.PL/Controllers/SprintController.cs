@@ -29,9 +29,9 @@ namespace App1.PL.Controllers
             return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
         [HttpGet("SearchSprint/{id}")]
-        public async Task<List<Sprint>> SearchSprint(string name)
+        public async Task<List<Sprint>> SearchSprint(string id)
         {
-            return await this.sprintService.SearchSprint(name);  
+            return await this.sprintService.SearchSprint(id);  
         }
         [HttpPatch("UpdateSprint/{id}")]
         public ContentResult PatchSprint(long Id, Sprint s)
