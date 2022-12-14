@@ -612,7 +612,6 @@ namespace App.DAL.Repositories
                 {
                     throw new APIException(404, "No content with matching Id");
                 }
-                return "Empty";
                 data.Name = st.Name;
                 data.ModifiedOn = DateTime.Now;
                 this.resourcedbContext.SaveChanges();
