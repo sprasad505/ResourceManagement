@@ -5,9 +5,11 @@ using App.DAL.Repositories.Contracts;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using Newtonsoft.Json;
 using System.Globalization;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace App.DAL.Repositories
 {
@@ -331,16 +333,56 @@ namespace App.DAL.Repositories
                 throw ex;
             }
         }
-        public async Task<List<Allocation>> GetAllocations()
+        public async Task<List<Alloc>> GetAllocations()
         {
             try
             {
-                var output = await this.resourcedbContext.Set<Allocation>().ToListAsync();
-                if (output == null)
+                List<Alloc> a = new List<Alloc>();
+                var test2=resourcedbContext.Allocations.Join
+                                (resourcedbContext.Resources,
+                                a => a.EmployeeId,
+                                b => b.EmployeeId,
+                                (a, b) => new
+                                {
+                                    Id = a.Id,
+                                    EmployeeId = a.EmployeeId,
+                                    Name = b.Name,
+                                    TeamId = a.TeamId,
+                                    ProjectId = a.ProjectId,
+                                    Role = a.Role,
+                                    HoursPerDay = a.HoursPerDay
+                                }).Join(resourcedbContext.Teams,
+                                a=>a.TeamId,
+                                b=>b.Id,
+                                (a, b) => new
+                                {
+                                    Id = a.Id,
+                                    EmployeeId = a.EmployeeId,
+                                    Name = a.Name,
+                                    TeamId = a.TeamId,
+                                    TeamName = b.Name,
+                                    ProjectId = a.ProjectId,
+                                    Role = a.Role,
+                                    HoursPerDay = a.HoursPerDay
+                                }).ToList();
+                foreach(var item in test2)
+                {
+                    a.Add(new Alloc
+                    {
+                        Id = item.Id,
+                        EmployeeId = item.EmployeeId,
+                        Name = item.Name,
+                        TeamId = item.TeamId,
+                        TeamName = item.TeamName,
+                        ProjectId = item.ProjectId
+                    });
+                }
+                //var output = await this.resourcedbContext.Set<Allocation>().ToListAsync();
+                if (test2 == null)
                 {
                     throw new APIException(404, "Table is empty");
                 }
-                return output;
+                return a;
             }
             catch (Exception ex)
             {
@@ -448,7 +490,11 @@ namespace App.DAL.Repositories
                 data.Role = alloc.Role;
                 data.HoursPerDay = alloc.HoursPerDay;
                 this.resourcedbContext.SaveChanges();
-                var json = JsonConvert.SerializeObject(data);
+                var json = JsonConvert.SerializeObject(data, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
                 return json;
             }
             catch (Exception ex)
@@ -467,7 +513,11 @@ namespace App.DAL.Repositories
                 }
                 data.Name = proj.Name;
                 this.resourcedbContext.SaveChanges();
-                var json = JsonConvert.SerializeObject(data);
+                var json = JsonConvert.SerializeObject(data, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
                 return json;
             }
             catch (Exception ex)
@@ -486,8 +536,13 @@ namespace App.DAL.Repositories
                     throw new APIException(404, "No content with matching Id");
                 }
                 data.Name = team.Name;
+                data.ProjectId = team.ProjectId;
                 this.resourcedbContext.SaveChanges();
-                var json = JsonConvert.SerializeObject(data);
+                var json = JsonConvert.SerializeObject(data, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
                 return json;
             }
             catch (Exception ex)
@@ -508,7 +563,11 @@ namespace App.DAL.Repositories
                 data.Name = sprint.Name;
                 data.Duration = sprint.Duration;
                 this.resourcedbContext.SaveChanges();
-                var json = JsonConvert.SerializeObject(data);
+                var json = JsonConvert.SerializeObject(data, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
                 return json;
             }
             catch (Exception ex)
@@ -530,8 +589,13 @@ namespace App.DAL.Repositories
                 data.Email = res.Email;
                 data.Name = res.Name;
                 data.Designation = res.Designation;
+                data.ProjectId = res.ProjectId;
                 this.resourcedbContext.SaveChanges();
-                var json = JsonConvert.SerializeObject(data);
+                var json = JsonConvert.SerializeObject(data, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
                 return json;
             }
             catch (Exception ex)
@@ -552,7 +616,11 @@ namespace App.DAL.Repositories
                 data.Name = st.Name;
                 data.ModifiedOn = DateTime.Now;
                 this.resourcedbContext.SaveChanges();
-                var json = JsonConvert.SerializeObject(data);
+                var json = JsonConvert.SerializeObject(data, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
                 return json;
             }
             catch (Exception ex)
@@ -577,7 +645,11 @@ namespace App.DAL.Repositories
                 data.UserId = po.UserId;
                 data.Points = po.Points;
                 this.resourcedbContext.SaveChanges();
-                var json = JsonConvert.SerializeObject(data);
+                var json = JsonConvert.SerializeObject(data, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
                 return json;
             }
             catch (Exception ex)
@@ -596,7 +668,11 @@ namespace App.DAL.Repositories
                 }
                 this.resourcedbContext.Projects.Remove(data);
                 this.resourcedbContext.SaveChanges();
-                var json = JsonConvert.SerializeObject(data);
+                var json = JsonConvert.SerializeObject(data, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
                 return json;
             }
             catch (Exception ex)
@@ -616,7 +692,11 @@ namespace App.DAL.Repositories
                 }
                 this.resourcedbContext.Allocations.Remove(data);
                 this.resourcedbContext.SaveChanges();
-                var json = JsonConvert.SerializeObject(data);
+                var json = JsonConvert.SerializeObject(data, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
                 return json;
             }
             catch (Exception ex)
@@ -636,7 +716,11 @@ namespace App.DAL.Repositories
                 }
                 this.resourcedbContext.Teams.Remove(data);
                 this.resourcedbContext.SaveChanges();
-                var json = JsonConvert.SerializeObject(data);
+                var json = JsonConvert.SerializeObject(data, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
                 return json;
             }
             catch (Exception ex)
@@ -656,7 +740,11 @@ namespace App.DAL.Repositories
                 }
                 this.resourcedbContext.Sprints.Remove(data);
                 this.resourcedbContext.SaveChanges();
-                var json = JsonConvert.SerializeObject(data);
+                var json = JsonConvert.SerializeObject(data, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
                 return json;
             }
             catch (Exception ex)
@@ -676,7 +764,11 @@ namespace App.DAL.Repositories
                 }
                 this.resourcedbContext.Resources.Remove(data);
                 this.resourcedbContext.SaveChanges();
-                var json = JsonConvert.SerializeObject(data);
+                var json = JsonConvert.SerializeObject(data, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
                 return json;
             }
             catch (Exception ex)
@@ -704,7 +796,11 @@ namespace App.DAL.Repositories
                         this.resourcedbContext.SaveChanges();
                     }
                 }
-                var json = JsonConvert.SerializeObject(data);
+                var json = JsonConvert.SerializeObject(data, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
                 return data;
             }
             catch(Exception ex)
@@ -727,7 +823,11 @@ namespace App.DAL.Repositories
                 this.resourcedbContext.SaveChanges();
                 this.resourcedbContext.Points.Remove(data);
                 this.resourcedbContext.SaveChanges();
-                var json = JsonConvert.SerializeObject(data);
+                var json = JsonConvert.SerializeObject(data, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
                 return json;
             }
             catch(Exception ex)
@@ -736,11 +836,12 @@ namespace App.DAL.Repositories
             }
         }
 
-        public async Task<List<Allocation>> SearchAllocation(string Id)
+        public async Task<List<Alloc>> SearchAllocation(string Id)
         {
             try
             {
                 List<Allocation> a = new List<Allocation>();
+                long id=0;
                 var result = await this.resourcedbContext.Set<Allocation>().ToListAsync();
                 foreach (var item in result)
                 {
@@ -753,7 +854,28 @@ namespace App.DAL.Repositories
                 {
                     throw new APIException(409, "Not found");
                 }
-                return a;
+                List<Alloc> allocs = new List<Alloc>();
+                foreach(var item in a)
+                {
+                    var team = this.resourcedbContext.Teams.Find(item.TeamId);
+                    string teamname = team.Name;
+                    var employeelist = this.resourcedbContext.Set<Resource>().ToList();
+                    foreach(var item2 in employeelist)
+                    {
+                        if(item2.EmployeeId == item.EmployeeId)
+                        {
+                            id = item2.Id;
+                            break;
+                        }
+                    }
+                    var employee = this.resourcedbContext.Resources.Find(Convert.ToInt64(id));
+                    string employeename = employee.Name;
+                    allocs.Add(new Alloc { Id = item.Id, EmployeeId = item.EmployeeId, 
+                                      Name = employeename, TeamId = item.TeamId,
+                                      TeamName = teamname, ProjectId = item.ProjectId});
+                }
+
+                return allocs;
             }
             catch (Exception ex)
             {

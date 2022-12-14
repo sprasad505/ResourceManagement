@@ -11,14 +11,14 @@ namespace App.DAL.Repositories.Contracts
 {
     public interface IGenericRepository<TModel> where TModel : class
     {
-        Task<List<Allocation>> GetAllocations();
+        Task<List<Alloc>> GetAllocations();
         Task<List<Team>> GetTeams();
         Task<List<Project>> GetProjects();
         Task<List<Resource>> GetResources();
         Task<List<Sprint>> GetSprints();
         Task<List<Story>> GetStories();
         Task<List<Point>> GetPoints();
-        Task<List<Allocation>>SearchAllocation(string Id);
+        Task<List<Alloc>>SearchAllocation(string Id);
         Task<List<Resource>> SearchResource(string Id);
         Task<List<Team>> SearchTeam(string Id);
         Task<Project> SearchProject(string name);

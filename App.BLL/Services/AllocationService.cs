@@ -22,7 +22,7 @@ namespace App.BLL.Services
             this.dbContext = dbcontext;
         }
 
-        public async Task<List<Allocation>> GetAllocations()
+        public async Task<List<Alloc>> GetAllocations()
         {
             return await genericRepository.GetAllocations();
         }
@@ -83,7 +83,7 @@ namespace App.BLL.Services
             return data;
         }
 
-        public async Task<List<Allocation>> SearchAllocation(string Id)
+        public async Task<List<Alloc>> SearchAllocation(string Id)
         {
             var result = await genericRepository.SearchAllocation(Id);
             return result;
