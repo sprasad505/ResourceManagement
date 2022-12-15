@@ -221,22 +221,35 @@ namespace App.DAL.Repositories
             try
             {
                 var data = this.resourcedbContext.Set<Project>().ToList();
-                bool a = false;
+                bool checkproj = false;
+                bool checksp = false;
                 foreach (var item in data)
                 {
                     if (st.ProjectId == item.Id)
                     {
-                        a = true;
+                        checkproj = true;
                         break;
                     }
                 }
-                if (!a)
+                if (!checkproj)
                 {
                     throw new APIException(404, "ProjectId doesnot exist");
                 }
                 if (st.SprintId == null)
                 {
                     throw new APIException(404, "Add Sprint Id");
+                }
+                foreach (var item in data)
+                {
+                    if (st.SprintId == item.Id)
+                    {
+                        checksp = true;
+                        break;
+                    }
+                }
+                if (!checksp)
+                {
+                    throw new APIException(404, "SprintId doesnot exist");
                 }
                 st.CreatedOn = DateTime.Now;
                 st.ModifiedOn = DateTime.Now;
@@ -258,8 +271,12 @@ namespace App.DAL.Repositories
         public string AddPoint(Point po)
         {
             try
-            {
+            {   
                 var data = this.resourcedbContext.Stories.Find(po.StoryId);
+                if(data == null)
+                {
+                    throw new APIException(404, "Story Doesn't exist!");
+                }
                 data.ModifiedOn = DateTime.Now;
                 this.resourcedbContext.SaveChanges();
                 this.resourcedbContext.Add(po);
@@ -374,7 +391,9 @@ namespace App.DAL.Repositories
                         Name = item.Name,
                         TeamId = item.TeamId,
                         TeamName = item.TeamName,
-                        ProjectId = item.ProjectId
+                        ProjectId = item.ProjectId,
+                        Role = item.Role,
+                        HoursPerDay = item.HoursPerDay
                     });
                 }
                 //var output = await this.resourcedbContext.Set<Allocation>().ToListAsync();
@@ -871,7 +890,8 @@ namespace App.DAL.Repositories
                     string employeename = employee.Name;
                     allocs.Add(new Alloc { Id = item.Id, EmployeeId = item.EmployeeId, 
                                       Name = employeename, TeamId = item.TeamId,
-                                      TeamName = teamname, ProjectId = item.ProjectId});
+                                      TeamName = teamname, ProjectId = item.ProjectId,
+                                      Role = item.Role, HoursPerDay = item.HoursPerDay});
                 }
 
                 return allocs;
