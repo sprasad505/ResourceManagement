@@ -29,47 +29,47 @@ namespace App.DAL.Repositories
         {
             try
             {
-                var data1 = this.resourcedbContext.Set<Project>().ToList();
-                var data2 = this.resourcedbContext.Set<Team>().ToList();
-                var data3 = this.resourcedbContext.Set<Resource>().ToList();
-                bool test1 = false;
-                bool test2 = false;
-                bool test3 = false;
-                foreach (var item in data1)
+                var dataProj = this.resourcedbContext.Set<Project>().ToList();
+                var dataTeam = this.resourcedbContext.Set<Team>().ToList();
+                var dataRes = this.resourcedbContext.Set<Resource>().ToList();
+                bool testProj = false;
+                bool testTeam = false;
+                bool testRes = false;
+                foreach (var item in dataProj)
                 {
                     if (a.ProjectId == item.Id)
                     {
-                        test1 = true;
+                        testProj = true;
                         break;
                     }
                 }
-                if (!test1)
+                if (!testProj)
                 {
-                    throw new APIException(404, "ProjectId doesnot exist");
+                    throw new APIException(409, "Retry with a valid ProjectId");
                 }
-                foreach (var item in data2)
+                foreach (var item in dataTeam)
                 {
                     if (a.TeamId == item.Id)
                     {
-                        test2 = true;
+                        testTeam = true;
                         break;
                     }
                 }
-                if (!test2)
+                if (!testTeam)
                 {
-                    throw new APIException(404, "TeamId doesnot exist");
+                    throw new APIException(409, "Retry with a valid TeamId");
                 }
-                foreach (var item in data3)
+                foreach (var item in dataRes)
                 {
                     if (a.EmployeeId == item.EmployeeId)
                     {
-                        test3 = true;
+                        testRes = true;
                         break;
                     }
                 }
-                if (!test3)
+                if (!testRes)
                 {
-                    throw new APIException(404, "EmployeeId doesnot exist");
+                    throw new APIException(409, "Retry with a valid EmployeeId");
                 }
                 this.resourcedbContext.Add(a);
                 this.resourcedbContext.SaveChanges();
@@ -89,19 +89,19 @@ namespace App.DAL.Repositories
         {
             try
             {
-                var data = this.resourcedbContext.Set<Project>().ToList();
-                bool a = false;
-                foreach (var item in data)
+                var dataProj = this.resourcedbContext.Set<Project>().ToList();
+                bool testProj = false;
+                foreach (var item in dataProj)
                 {
                     if (s.ProjectId == item.Id)
                     {
-                        a = true;
+                        testProj = true;
                         break;
                     }
                 }
-                if (!a)
+                if (!testProj)
                 {
-                    throw new APIException(404, "ProjectId doesnot exist");
+                    throw new APIException(409, "Retry with a valid ProjcetId");
                 }
                 this.resourcedbContext.Add(s);
                 this.resourcedbContext.SaveChanges();
@@ -136,38 +136,90 @@ namespace App.DAL.Repositories
                 throw;
             }
         }
+        public string AddLeave(Leave l)
+        {
+            try
+            {
+                var emp = resourcedbContext.Set<Resource>().ToList();
+                var holiday = resourcedbContext.Set<Calendar22>().ToList();
+                bool checkemp = false;
+                bool checkholiday = false;
+                foreach (var item in emp)
+                {
+                    if(l.EmployeeId == item.EmployeeId)
+                    {
+                        checkemp = true;
+                        break;
+                    }
+                }
+                if(!checkemp)
+                {
+                    throw new APIException(409, "Retry with a valid EmployeeId");
+                }
+                foreach(var item in holiday)
+                {
+                    if(l.LeaveDate == item.Date)
+                    {
+                        checkholiday = true;
+                        break;
+                    }
+                }
+                if(checkholiday)
+                {
+                    throw new APIException(404, "Date is already a holiday");
+                }
+                l.CreatedDate = DateTime.Now;
+                l.ModifiedDate = DateTime.Now;
+                if(l.Hours == 0)
+                {
+                    l.Hours = 8;
+                }
+                this.resourcedbContext.Add(l);
+                this.resourcedbContext.SaveChanges();
+                var json = JsonConvert.SerializeObject(l, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
+                return json;
+            }
+            catch(Exception ex)
+            {
+                throw(ex);
+            }
+        }
 
         public string AddResources(Resource r)
         {
             try
             {
-                var data1 = this.resourcedbContext.Set<Project>().ToList();
-                var data2 = this.resourcedbContext.Set<Resource>().ToList();
-                bool a1 = false;
-                bool a2 = false;
-                foreach (var item in data1)
+                var dataProj = this.resourcedbContext.Set<Project>().ToList();
+                var dataRes = this.resourcedbContext.Set<Resource>().ToList();
+                bool testProj = false;
+                bool testRes = false;
+                foreach (var item in dataProj)
                 {
                     if (r.ProjectId == item.Id)
                     {
-                        a1 = true;
+                        testProj = true;
                         break;
                     }
                 }
-                if (!a1)
+                if (!testProj)
                 {
-                    throw new APIException(404, "ProjectId doesnot exist");
+                    throw new APIException(409, "Retry with a valid ProjectId");
                 }
-                foreach (var item in data2)
+                foreach (var item in dataRes)
                 {
                     if (r.EmployeeId == item.EmployeeId)
                     {
-                        a2 = true;
+                        testRes = true;
                         break;
                     }
                 }
-                if (a2)
+                if (testRes)
                 {
-                    throw new APIException(404, "EmployeeId already Exists");
+                    throw new APIException(409, "Retry with a new EmployeeId");
                 }
                 this.resourcedbContext.Add(r);
                 this.resourcedbContext.SaveChanges();
@@ -188,19 +240,19 @@ namespace App.DAL.Repositories
         {
             try
             {
-                var data = this.resourcedbContext.Set<Project>().ToList();
-                bool a = false;
-                foreach (var item in data)
+                var dataProj = this.resourcedbContext.Set<Project>().ToList();
+                bool testProj = false;
+                foreach (var item in dataProj)
                 {
                     if (t.ProjectId == item.Id)
                     {
-                        a = true;
+                        testProj = true;
                         break;
                     }
                 }
-                if (!a)
+                if (!testProj)
                 {
-                    throw new APIException(404, "ProjectId doesnot exist");
+                    throw new APIException(409, "Retry with a valid ProjectId");
                 }
                 this.resourcedbContext.Add(t);
                 this.resourcedbContext.SaveChanges();
@@ -220,10 +272,10 @@ namespace App.DAL.Repositories
         {
             try
             {
-                var data = this.resourcedbContext.Set<Project>().ToList();
+                var dataProj = this.resourcedbContext.Set<Project>().ToList();
                 bool checkproj = false;
                 bool checksp = false;
-                foreach (var item in data)
+                foreach (var item in dataProj)
                 {
                     if (st.ProjectId == item.Id)
                     {
@@ -233,13 +285,13 @@ namespace App.DAL.Repositories
                 }
                 if (!checkproj)
                 {
-                    throw new APIException(404, "ProjectId doesnot exist");
+                    throw new APIException(409, "Retry with a valid ProjectId");
                 }
                 if (st.SprintId == null)
                 {
-                    throw new APIException(404, "Add Sprint Id");
+                    throw new APIException(409, "Add a Sprint Id");
                 }
-                foreach (var item in data)
+                foreach (var item in dataProj)
                 {
                     if (st.SprintId == item.Id)
                     {
@@ -249,7 +301,7 @@ namespace App.DAL.Repositories
                 }
                 if (!checksp)
                 {
-                    throw new APIException(404, "SprintId doesnot exist");
+                    throw new APIException(409, "Retry with a valid SprintId");
                 }
                 st.CreatedOn = DateTime.Now;
                 st.ModifiedOn = DateTime.Now;
@@ -324,7 +376,7 @@ namespace App.DAL.Repositories
                 var output = await this.resourcedbContext.Set<Sprint>().ToListAsync();
                 if (output == null)
                 {
-                    throw new APIException(404, "Table is empty");
+                    throw new APIException(404, "Sprints are empty");
                 }
                 return output;
             }
@@ -333,7 +385,31 @@ namespace App.DAL.Repositories
                 throw ex;
             }
         }
-        
+        public async Task<List<Leave>> GetLeaves(string EmployeeId)
+        {
+            try
+            {
+                List<Leave> leave = new List<Leave>();
+                var data = await this.resourcedbContext.Set<Leave>().ToListAsync();
+                foreach(var item in data)
+                {
+                    if(item.EmployeeId == EmployeeId)
+                    {
+                        leave.Add(item);
+                    }
+                }
+                if (leave == null)
+                {
+                    throw new APIException(404, "No Leaves for this employee");
+                }
+                return leave;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public async Task<List<Calendar22>> GetHolidays()
         {
             try
@@ -341,7 +417,7 @@ namespace App.DAL.Repositories
                 var output = await this.resourcedbContext.Set<Calendar22>().ToListAsync();
                 if (output == null)
                 {
-                    throw new APIException(404, "Table is empty");
+                    throw new APIException(404, "Holidays are empty");
                 }
                 return output;
             }
@@ -399,7 +475,7 @@ namespace App.DAL.Repositories
                 //var output = await this.resourcedbContext.Set<Allocation>().ToListAsync();
                 if (test2 == null)
                 {
-                    throw new APIException(404, "Table is empty");
+                    throw new APIException(404, "Allocations are empty");
                 }
                 return a;
             }
@@ -416,7 +492,7 @@ namespace App.DAL.Repositories
                 var output = await this.resourcedbContext.Set<Project>().ToListAsync();
                 if (output == null)
                 {
-                    throw new APIException(404, "Table is empty");
+                    throw new APIException(404, "Projects are empty");
                 }
                 return output;
             }
@@ -433,7 +509,7 @@ namespace App.DAL.Repositories
                 var output = await this.resourcedbContext.Set<Resource>().ToListAsync();
                 if (output == null)
                 {
-                    throw new APIException(404, "Table is empty");
+                    throw new APIException(404, "Resources are empty");
                 }
                 return output;
             }
@@ -450,7 +526,7 @@ namespace App.DAL.Repositories
                 var output = await this.resourcedbContext.Set<Team>().ToListAsync();
                 if (output == null)
                 {
-                    throw new APIException(404, "Table is empty");
+                    throw new APIException(404, "Teams are empty");
                 }
                 return output;
             }
@@ -466,7 +542,7 @@ namespace App.DAL.Repositories
                 var output = await this.resourcedbContext.Set<Story>().ToListAsync();
                 if (output == null)
                 {
-                    throw new APIException(404, "Table is empty");
+                    throw new APIException(404, "Stories are empty");
                 }
                 return output;
             }
@@ -483,7 +559,7 @@ namespace App.DAL.Repositories
                 var output =  await this.resourcedbContext.Set<Point>().ToListAsync();
                 if(output == null)
                 {
-                    throw new APIException(404, "Table is empty");
+                    throw new APIException(404, "Points are empty");
                 }
                 return output;
             }
@@ -531,6 +607,38 @@ namespace App.DAL.Repositories
                     throw new APIException(404, "No content with matching Id");
                 }
                 data.Name = proj.Name;
+                this.resourcedbContext.SaveChanges();
+                var json = JsonConvert.SerializeObject(data, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
+                return json;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public string PatchLeave(string Id, Leave l)
+        {
+            try
+            {   
+                var data = this.resourcedbContext.Leaves.Find(Convert.ToInt64(Id));
+                if (data == null)
+                {
+                    throw new APIException(404, "No content with matching Id");
+                }
+                data.LeaveDate = l.LeaveDate;
+                data.ModifiedDate = DateTime.Now;
+                if(l.Hours == null)
+                {
+                    data.Hours = 8;
+                }
+                else
+                {
+                    data.Hours = l.Hours;
+                }
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data, Formatting.Indented,
                 new JsonSerializerSettings()
@@ -685,6 +793,29 @@ namespace App.DAL.Repositories
                     throw new APIException(404, "No content with matching Id");
                 }
                 this.resourcedbContext.Projects.Remove(data);
+                this.resourcedbContext.SaveChanges();
+                var json = JsonConvert.SerializeObject(data, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
+                return json;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public string DeleteLeave(string LeaveId)
+        {
+            try
+            {
+                var data = this.resourcedbContext.Leaves.Find(Convert.ToInt64(LeaveId));
+                if (data == null)
+                {
+                    throw new APIException(404, "No content with matching Id");
+                }
+                this.resourcedbContext.Leaves.Remove(data);
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data, Formatting.Indented,
                 new JsonSerializerSettings()

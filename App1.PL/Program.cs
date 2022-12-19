@@ -58,6 +58,7 @@ builder.Services.AddScoped<ISprintService, SprintService>();
 builder.Services.AddScoped<ICalendarService, CalendarService>();
 builder.Services.AddScoped<IStoryService, StoryService>();
 builder.Services.AddScoped<IPointService, PointService>();
+builder.Services.AddScoped<ILeaveService, LeaveService>();
 builder.Services.AddScoped<GlobalExceptionHandlingMiddleware>();
 
 builder.Services.AddControllers();
