@@ -19,5 +19,7 @@ namespace App.DAL.Models
 
         public virtual Project? Project { get; set; }
         public virtual ICollection<Allocation> Allocations { get; set; }
+        public virtual ICollection<Leave> Leaves { get; set; }
+
     }
 }

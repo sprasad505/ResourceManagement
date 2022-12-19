@@ -25,6 +25,7 @@ namespace App.DAL.DataContext
         public virtual DbSet<Sprint> Sprints { get; set; } = null!;
         public virtual DbSet<Point> Points { get; set; } = null!;
         public virtual DbSet<Story> Stories { get; set; } = null!;
+        public virtual DbSet<Leave> Leaves { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -161,6 +162,27 @@ namespace App.DAL.DataContext
                     .WithMany(p => p.Stories)
                     .HasForeignKey(d => d.SprintId)
                     .HasConstraintName("FK_Story_Sprint");
+            });
+
+            modelBuilder.Entity<Leave>(entity =>
+            {
+                entity.ToTable("Leave");
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.EmployeeId)
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LeaveDate).HasColumnType("date");
+
+                entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Employee)
+                    .WithMany(p => p.Leaves)
+                    .HasPrincipalKey(p => p.EmployeeId)
+                    .HasForeignKey(d => d.EmployeeId)
+                    .HasConstraintName("FK_Leave_Resource");
             });
 
 
