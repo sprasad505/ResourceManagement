@@ -14,7 +14,7 @@ namespace App1.PL.Controllers
         {
             this.leaveService = leaveService;
         }
-        [HttpGet("GetLeave")]
+        [HttpGet("GetLeave/{EmployeeId}")]
         public async Task<List<Leave>> GetLeaves(string EmployeeId)
         {
             return await leaveService.GetLeaves(EmployeeId);
@@ -25,13 +25,13 @@ namespace App1.PL.Controllers
             var data = this.leaveService.AddLeave(l);
             return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
-        [HttpPatch("UpdateLeave")]
+        [HttpPatch("UpdateLeave/{id}")]
         public ContentResult PatchLeave(string Id, Leave l)
         {
             var data = this.leaveService.PatchLeave(Id, l);
             return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
-        [HttpDelete("DeleteLeave")]
+        [HttpDelete("DeleteLeave/{id}")]
         public ContentResult DeleteLeave(string Id)
         {
             var data = this.leaveService.DeleteLeave(Id);
