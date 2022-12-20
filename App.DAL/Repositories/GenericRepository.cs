@@ -368,7 +368,18 @@ namespace App.DAL.Repositories
                 throw;
             }
         }
-
+        public async Task<List<Leave>> GetallLeaves()
+        {
+            try
+            {
+                var result = await this.resourcedbContext.Set<Leave>().ToListAsync();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public async Task<List<Sprint>> GetSprints()
         {
             try

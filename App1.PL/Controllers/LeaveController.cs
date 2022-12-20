@@ -14,6 +14,11 @@ namespace App1.PL.Controllers
         {
             this.leaveService = leaveService;
         }
+        [HttpGet("GetLeaves")]
+        public async Task<List<Leave>> GetallLeaves()
+        {
+            return await leaveService.GetallLeaves();
+        }
         [HttpGet("GetLeave/{EmployeeId}")]
         public async Task<List<Leave>> GetLeaves(string EmployeeId)
         {

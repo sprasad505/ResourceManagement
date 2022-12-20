@@ -31,6 +31,10 @@ namespace App.BLL.Services
         {
             return await this.genericRepository.GetLeaves(EmployeeId);
         }
+        public async Task<List<Leave>> GetallLeaves()
+        {
+            return await this.genericRepository.GetallLeaves();
+        }
 
         public string PatchLeave(string Id, Leave l)
         {

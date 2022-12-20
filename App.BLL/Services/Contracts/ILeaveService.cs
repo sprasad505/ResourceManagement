@@ -10,6 +10,7 @@ namespace App.BLL.Services.Contracts
     public interface ILeaveService
     {
         Task<List<Leave>> GetLeaves(string EmployeeId);
+        Task<List<Leave>> GetallLeaves();
         public string AddLeave(Leave l);
         public string PatchLeave(string Id, Leave l);
         public string DeleteLeave(string Id);
