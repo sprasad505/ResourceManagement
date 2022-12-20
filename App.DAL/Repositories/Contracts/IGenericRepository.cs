@@ -13,6 +13,7 @@ namespace App.DAL.Repositories.Contracts
     {
         Task<List<Alloc>> GetAllocations();
         Task<List<Team>> GetTeams();
+        Task<List<Leave>> GetallLeaves();
         Task<List<Project>> GetProjects();
         Task<List<Resource>> GetResources();
         Task<List<Sprint>> GetSprints();
