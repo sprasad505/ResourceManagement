@@ -58,7 +58,7 @@ namespace App.BLL.Services
                         .Select(s => s[random.Next(s.Length)]).ToArray());
                     CreatePasswordHash(password, out byte[] PasswordHash, out byte[] PasswordSalt);
                     Console.WriteLine("password : " + password);
-                    genericRepository.Adduser(r.Email,PasswordHash,PasswordSalt );
+                    genericRepository.Adduser(r.Email, PasswordHash, PasswordSalt);
                     return genericRepository.AddAlloc(a);
                 }
                 else
@@ -70,6 +70,11 @@ namespace App.BLL.Services
             {
                 throw;
             }
+        }
+        public string AddScrumMaster(Allocation a)
+        {
+            var data = genericRepository.AddScrumMaster(a);
+            return data;
         }
         public string PatchAlloc(string Id, Allocation a)
         {
@@ -86,6 +91,11 @@ namespace App.BLL.Services
         public async Task<List<Alloc>> SearchAllocation(string Id)
         {
             var result = await genericRepository.SearchAllocation(Id);
+            return result;
+        }
+        public async Task<List<Resource>> GetScrumMaster()
+        {
+            var result = await genericRepository.GetScrumMaster();
             return result;
         }
         public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)

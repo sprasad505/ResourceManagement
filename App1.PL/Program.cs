@@ -12,6 +12,7 @@ using Serilog;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using App.DAL.Middlewares;
+using System.Text.Json.Serialization;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
@@ -39,6 +40,8 @@ builder.Services.AddCors(options =>
                           });
 });
 
+builder.Services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddDbContext<ResourcedbContext>(options =>
 {

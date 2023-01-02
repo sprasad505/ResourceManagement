@@ -85,6 +85,38 @@ namespace App.DAL.Repositories
                 throw (ex);
             }
         }
+        public string AddScrumMaster(Allocation a)
+        {
+            try
+            {
+                var dataAlloc = this.resourcedbContext.Set<Allocation>().ToList();
+                bool testAlloc = false;
+                foreach (var item in dataAlloc)
+                {
+                    if (item.EmployeeId == a.EmployeeId && item.Role == Allocation.Designation.ScrumMaster)
+                    {
+                        testAlloc = true;   
+                    }
+                }
+                if(testAlloc)
+                {
+                    throw new APIException(409, "Employee is already a ScrumMaster");
+                }
+                a.Role = Allocation.Designation.ScrumMaster;
+                this.resourcedbContext.Add(a);
+                this.resourcedbContext.SaveChanges();
+                var json = JsonConvert.SerializeObject(a, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
+                return json;
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+        }
         public string AddSprint(Sprint s)
         {
             try
@@ -1063,6 +1095,38 @@ namespace App.DAL.Repositories
                 return r;
             }
             catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<List<Resource>> GetScrumMaster()
+        {
+            try
+            {
+                List<Resource> r = new List<Resource>();
+                var dataAlloc = this.resourcedbContext.Set<Allocation>().ToList();
+                var result = await this.resourcedbContext.Set<Resource>().ToListAsync();
+                foreach(var allocation in dataAlloc)
+                {
+                    if(allocation.Role == Allocation.Designation.ScrumMaster)
+                    {
+                        foreach(var item in result)
+                        {
+                            if(item.EmployeeId == allocation.EmployeeId)
+                            {
+                                r.Add(item);
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (r == null)
+                {
+                    throw new APIException(409, "Not found");
+                }
+                return r;
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }
