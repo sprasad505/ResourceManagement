@@ -8,6 +8,8 @@ namespace App.DAL.Models
         public Resource()
         {
             Allocations = new HashSet<Allocation>();
+            Leaves = new HashSet<Leave>();
+
         }
 
         public long Id { get; set; }
