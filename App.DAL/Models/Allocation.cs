@@ -20,7 +20,8 @@ namespace App.DAL.Models
             ScrumMaster,
             Lead,
             Developer,
-            QAEngineer
+            QAEngineer,
+            Admin
         }
     }
 }

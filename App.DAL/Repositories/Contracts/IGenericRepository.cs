@@ -26,11 +26,13 @@ namespace App.DAL.Repositories.Contracts
         Task<Project> SearchProject(string name);
         Task<List<Sprint>> SearchSprint(string Id);
         Task<List<Story>> SearchStory(string Id);
+        Task<List<Resource>> GetScrumMaster();
         public string AddLeave(Leave l);
         public string AddResources(Resource r);
         public string AddProjects(Project p);
         public string AddTeams(Team t);
         public string AddAlloc(Allocation a);
+        public string AddScrumMaster(Allocation a);
         public string AddSprint(Sprint s);
         public string AddStory(Story st);
         public string AddPoint(Point po);
