@@ -2,6 +2,7 @@
 using App.BLL.Services.Contracts;
 using App.DAL.DataContext;
 using App.DAL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -17,7 +18,7 @@ namespace App1.PL.Controllers
         {
             this.calendarService = calendarService;
         }
-        [HttpPost("AddHoliday")]
+        [HttpPost("AddHoliday"), Authorize(Roles = "Admin")]
         public ContentResult AddHolidays(InterCalender c)
         {
             var data = this.calendarService.AddHolidays(c);

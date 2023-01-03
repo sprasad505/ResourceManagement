@@ -15,7 +15,7 @@ namespace App1.PL.Controllers
         {
             _projectService = projectService;
         }
-        [HttpPost("AddProject")]
+        [HttpPost("AddProject"), Authorize(Roles = "Admin,ScrumMaster")]
         public ContentResult AddProjects(Project p)
         {
             var data = this._projectService.AddProjects(p);
@@ -33,13 +33,13 @@ namespace App1.PL.Controllers
             Project result = await _projectService.SearchProject(name);
             return result;
         }
-        [HttpPatch("UpdateProject/{id}")]
+        [HttpPatch("UpdateProject/{id}"), Authorize(Roles = "Admin,ScrumMaster")]
         public ContentResult PatchProj(string Id, Project p)
         {
              var data=_projectService.PatchProject(Id, p);
             return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
-        [HttpDelete("DeleteProject/{id}")]
+        [HttpDelete("DeleteProject/{id}"), Authorize(Roles = "Admin,ScrumMaster")]
         public ContentResult DeleteProject(string Id)
         {
             var data=_projectService.DeleteProject(Id);
