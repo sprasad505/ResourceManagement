@@ -10,6 +10,8 @@ namespace App.BLL.Services.Contracts
     public interface IResourceService
     {
         public string AddResources(Resource r);
+        public string AddScrumMaster(Resource r);
+        Task<List<Resource>> GetScrumMaster();
         Task<List<Resource>> GetResources();
         Task<List<Resource>> SearchResource(string Id);
         public string PatchResource(string Id, Resource r);

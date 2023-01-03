@@ -16,12 +16,19 @@ namespace App.DAL.Models
         public string EmployeeId { get; set; } = null!;
         public string? Email { get; set; }
         public string Name { get; set; } = null!;
-        public string Designation { get; set; } = null!;
+        public Designation? Role{ get; set; } = null!;
         public long? ProjectId { get; set; }
-
         public virtual Project? Project { get; set; }
         public virtual ICollection<Allocation> Allocations { get; set; }
         public virtual ICollection<Leave> Leaves { get; set; }
+        public enum Designation
+        {
+            ScrumMaster,
+            Lead,
+            Developer,
+            QAEngineer,
+            Admin
+        }
 
     }
 }

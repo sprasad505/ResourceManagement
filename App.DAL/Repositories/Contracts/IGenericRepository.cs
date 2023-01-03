@@ -32,7 +32,7 @@ namespace App.DAL.Repositories.Contracts
         public string AddProjects(Project p);
         public string AddTeams(Team t);
         public string AddAlloc(Allocation a);
-        public string AddScrumMaster(Allocation a);
+        public string AddScrumMaster(Resource r);
         public string AddSprint(Sprint s);
         public string AddStory(Story st);
         public string AddPoint(Point po);

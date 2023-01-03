@@ -15,7 +15,6 @@ namespace App.DAL.Models
         public long? TeamId { get; set; }
         public string TeamName { get; set; }
         public long? ProjectId { get; set; }
-        public Designation Role { get; set; }
         public double HoursPerDay { get; set; }
     }
 }

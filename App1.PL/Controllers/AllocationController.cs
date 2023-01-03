@@ -22,18 +22,6 @@ namespace App1.PL.Controllers
             var data = this.allocationService.AddAlloc(a);
             return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
-        [HttpPost("ProjectManager")]
-        public ContentResult AddScrumMaster(Allocation a)
-        {
-            var data = this.allocationService.AddScrumMaster(a);
-            return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
-        }
-        [HttpGet("GetScrumMasters")]
-        public async Task<List<Resource>> GetScrumMaster()
-        {
-            List<Resource> scrum = await this.allocationService.GetScrumMaster();
-            return scrum;
-        }
         [HttpGet("Allocations")]
         public async Task<List<Alloc>> GetAllocations()
         {
