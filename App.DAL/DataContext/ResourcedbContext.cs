@@ -71,8 +71,6 @@ namespace App.DAL.DataContext
                 entity.HasIndex(e => e.EmployeeId, "empid")
                     .IsUnique();
 
-                entity.Property(e => e.Designation).HasMaxLength(50);
-
                 entity.Property(e => e.Email)
                     .HasMaxLength(50)
                     .IsUnicode(false);

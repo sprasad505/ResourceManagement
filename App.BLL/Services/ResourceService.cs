@@ -41,6 +41,16 @@ namespace App.BLL.Services
         {
             return await genericRepository.SearchResource(Id);
         }
+        public string AddScrumMaster(Resource r)
+        {
+            var data = genericRepository.AddScrumMaster(r);
+            return data;
+        }
+        public async Task<List<Resource>> GetScrumMaster()
+        {
+            var result = await genericRepository.GetScrumMaster();
+            return result;
+        }
     }
 
 }

@@ -85,27 +85,27 @@ namespace App.DAL.Repositories
                 throw (ex);
             }
         }
-        public string AddScrumMaster(Allocation a)
+        public string AddScrumMaster(Resource r)
         {
             try
             {
-                var dataAlloc = this.resourcedbContext.Set<Allocation>().ToList();
-                bool testAlloc = false;
-                foreach (var item in dataAlloc)
+                var dataRes = this.resourcedbContext.Set<Resource>().ToList();
+                bool testRes = false;
+                foreach (var item in dataRes)
                 {
-                    if (item.EmployeeId == a.EmployeeId && item.Role == Allocation.Designation.ScrumMaster)
+                    if (item.EmployeeId == r.EmployeeId )
                     {
-                        testAlloc = true;   
+                        testRes = true;   
                     }
                 }
-                if(testAlloc)
+                if(testRes)
                 {
-                    throw new APIException(409, "Employee is already a ScrumMaster");
+                    throw new APIException(409, "Employee already exists");
                 }
-                a.Role = Allocation.Designation.ScrumMaster;
-                this.resourcedbContext.Add(a);
+                r.Role = Resource.Designation.ScrumMaster;
+                this.resourcedbContext.Add(r);
                 this.resourcedbContext.SaveChanges();
-                var json = JsonConvert.SerializeObject(a, Formatting.Indented,
+                var json = JsonConvert.SerializeObject(r, Formatting.Indented,
                 new JsonSerializerSettings()
                 {
                     ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
@@ -485,7 +485,6 @@ namespace App.DAL.Repositories
                                     Name = b.Name,
                                     TeamId = a.TeamId,
                                     ProjectId = a.ProjectId,
-                                    Role = a.Role,
                                     HoursPerDay = a.HoursPerDay
                                 }).Join(resourcedbContext.Teams,
                                 a=>a.TeamId,
@@ -498,7 +497,6 @@ namespace App.DAL.Repositories
                                     TeamId = a.TeamId,
                                     TeamName = b.Name,
                                     ProjectId = a.ProjectId,
-                                    Role = a.Role,
                                     HoursPerDay = a.HoursPerDay
                                 }).ToList();
                 foreach(var item in test2)
@@ -511,7 +509,6 @@ namespace App.DAL.Repositories
                         TeamId = item.TeamId,
                         TeamName = item.TeamName,
                         ProjectId = item.ProjectId,
-                        Role = item.Role,
                         HoursPerDay = item.HoursPerDay
                     });
                 }
@@ -625,7 +622,6 @@ namespace App.DAL.Repositories
                 data.EmployeeId = alloc.EmployeeId;
                 data.TeamId = alloc.TeamId;
                 data.ProjectId = alloc.ProjectId;
-                data.Role = alloc.Role;
                 data.HoursPerDay = alloc.HoursPerDay;
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data, Formatting.Indented,
@@ -758,7 +754,7 @@ namespace App.DAL.Repositories
                 data.EmployeeId = res.EmployeeId;
                 data.Email = res.Email;
                 data.Name = res.Name;
-                data.Designation = res.Designation;
+                data.Role = res.Role;
                 data.ProjectId = res.ProjectId;
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data, Formatting.Indented,
@@ -1065,7 +1061,7 @@ namespace App.DAL.Repositories
                     allocs.Add(new Alloc { Id = item.Id, EmployeeId = item.EmployeeId, 
                                       Name = employeename, TeamId = item.TeamId,
                                       TeamName = teamname, ProjectId = item.ProjectId,
-                                      Role = item.Role, HoursPerDay = item.HoursPerDay});
+                                      HoursPerDay = item.HoursPerDay});
                 }
 
                 return allocs;
@@ -1104,25 +1100,18 @@ namespace App.DAL.Repositories
             try
             {
                 List<Resource> r = new List<Resource>();
-                var dataAlloc = this.resourcedbContext.Set<Allocation>().ToList();
                 var result = await this.resourcedbContext.Set<Resource>().ToListAsync();
-                foreach(var allocation in dataAlloc)
+                foreach(var item in result)
                 {
-                    if(allocation.Role == Allocation.Designation.ScrumMaster)
+                    if(item.Role == Resource.Designation.ScrumMaster)
                     {
-                        foreach(var item in result)
-                        {
-                            if(item.EmployeeId == allocation.EmployeeId)
-                            {
-                                r.Add(item);
-                                break;
-                            }
-                        }
+                        r.Add(item);
                     }
+
                 }
                 if (r == null)
                 {
-                    throw new APIException(409, "Not found");
+                    throw new APIException(409, "No Scrum Masters to show");
                 }
                 return r;
             }
