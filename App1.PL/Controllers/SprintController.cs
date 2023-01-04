@@ -22,7 +22,7 @@ namespace App1.PL.Controllers
             List<Sprint> sprints = await sprintService.GetSprints();
             return sprints;
         }
-        [HttpPost("AddSprint")]
+        [HttpPost("AddSprint"), Authorize(Roles = "Admin,ScrumMaster")]
         public ContentResult AddSprint(Sprint s)
         {
             var data = this.sprintService.AddSprints(s);
@@ -33,13 +33,13 @@ namespace App1.PL.Controllers
         {
             return await this.sprintService.SearchSprint(id);  
         }
-        [HttpPatch("UpdateSprint/{id}")]
+        [HttpPatch("UpdateSprint/{id}"), Authorize(Roles = "Admin,ScrumMaster")]
         public ContentResult PatchSprint(long Id, Sprint s)
         {
             var data = this.sprintService.PatchSprint(Id, s);
             return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
-        [HttpDelete("DeleteSprint/{id}")]
+        [HttpDelete("DeleteSprint/{id}"), Authorize(Roles = "Admin,ScrumMaster")]
         public ContentResult DeleteSprint(string Id)
         {
             var data = this.sprintService.DeleteSprint(Id);
