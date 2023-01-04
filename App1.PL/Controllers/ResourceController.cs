@@ -26,7 +26,7 @@ namespace App1.PL.Controllers
             var data = this._resourceService.AddScrumMaster(r);
             return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
-        [HttpGet("GetScrumMasters"), Authorize(Roles = "Admin")]
+        [HttpGet("GetScrumMasters"), Authorize(Roles= "Admin")]
         public async Task<List<Resource>> GetScrumMaster()
         {
             List<Resource> scrum = await this._resourceService.GetScrumMaster();
