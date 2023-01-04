@@ -51,15 +51,14 @@ namespace App.BLL.Services
                 }
             }
             List<Claim> claims = new List<Claim>
-            {
-                new Claim("Username", user.Username),
-                new Claim("ID", r.Id.ToString()),
-                new Claim("Role",((int?)r.Role).ToString())
-            };
-
+             {
+                 new Claim("Name", user.Username),
+                 new Claim("Id", r.Id.ToString()),
+                 new Claim("role", r.Role.ToString())
+             };
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(configuration.GetSection("AppSettings:Token").Value));
 
-            var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+            var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
                 claims: claims,
