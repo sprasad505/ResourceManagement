@@ -53,8 +53,8 @@ namespace App.BLL.Services
             List<Claim> claims = new List<Claim>
             {
                 new Claim("Username", user.Username),
-                new Claim("ID",r.Id.ToString()),
-                new Claim("Role",r.Role.ToString())
+                new Claim("ID", r.Id.ToString()),
+                new Claim("Role",((int?)r.Role).ToString())
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(configuration.GetSection("AppSettings:Token").Value));
