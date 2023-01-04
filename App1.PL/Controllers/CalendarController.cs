@@ -18,7 +18,7 @@ namespace App1.PL.Controllers
         {
             this.calendarService = calendarService;
         }
-        [HttpPost("AddHoliday"), Authorize(Roles = "Admin")]
+        [HttpPost("AddHoliday"), Authorize(Roles = "4")]
         public ContentResult AddHolidays(InterCalender c)
         {
             var data = this.calendarService.AddHolidays(c);

@@ -20,13 +20,13 @@ namespace App1.PL.Controllers
         {
             _resourceService = resourceService;
         }
-        [HttpPost("AddScrumMaster"), Authorize(Roles = "Admin")]
+        [HttpPost("AddScrumMaster"), Authorize(Roles = "4")]
         public ContentResult AddScrumMaster(Resource r)
         {
             var data = this._resourceService.AddScrumMaster(r);
             return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
-        [HttpGet("GetScrumMasters"), Authorize(Roles= "Admin")]
+        [HttpGet("GetScrumMasters"), Authorize(Roles= "4")]
         public async Task<List<Resource>> GetScrumMaster()
         {
             List<Resource> scrum = await this._resourceService.GetScrumMaster();
