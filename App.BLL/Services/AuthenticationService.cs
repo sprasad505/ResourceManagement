@@ -52,7 +52,8 @@ namespace App.BLL.Services
             }
             List<Claim> claims = new List<Claim>
              {
-                 new Claim("Name", user.Username),
+                 new Claim("Name", r.Name) ,
+                 new Claim("UserName", user.Username),
                  new Claim("Id", r.Id.ToString()),
                  new Claim("role", ((int?)r.Role).ToString())
              };
