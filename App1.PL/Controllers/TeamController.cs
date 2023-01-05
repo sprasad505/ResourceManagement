@@ -16,7 +16,7 @@ namespace App1.PL.Controllers
         {
             this.teamService = teamService;
         }
-        [HttpPost("AddTeam")]
+        [HttpPost("AddTeam"), Authorize(Roles = "0,4")]
         public ContentResult AddTeams(Team t)
         {
             var data = this.teamService.AddTeams(t);
@@ -33,13 +33,13 @@ namespace App1.PL.Controllers
         {
             return await teamService.SearchTeam(Id);
         }
-        [HttpPatch("UpdateTeam/{id}")]
+        [HttpPatch("UpdateTeam/{id}"), Authorize(Roles = "0,4")]
         public ContentResult PatchTeam(string Id, Team t)
         {
             var data=teamService.PatchTeam(Id, t);
             return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
-        [HttpDelete("DeleteTeam/{id}")]
+        [HttpDelete("DeleteTeam/{id}"), Authorize(Roles = "0,4")]
         public ContentResult DeleteTeam(string Id)
         {
             var data=teamService.DeleteTeam(Id);

@@ -22,7 +22,7 @@ namespace App1.PL.Controllers
             List<Story> stories = await storyService.GetStories();
             return stories;
         }
-        [HttpPost("AddStory")]
+        [HttpPost("AddStory"), Authorize(Roles = "0,4")]
         public ContentResult AddStory(Story s)
         {
             var data = this.storyService.AddStory(s);
@@ -33,13 +33,13 @@ namespace App1.PL.Controllers
         {
             return await storyService.SearchStory(Id);
         }
-        [HttpPatch("UpdateStory/{id}")]
+        [HttpPatch("UpdateStory/{id}"), Authorize(Roles = "0,4")]
         public ContentResult PatchStory(string Id, Story s)
         {
             var data = this.storyService.PatchStory(Id, s);
             return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
-        [HttpDelete("DeleteStory/{id}")]
+        [HttpDelete("DeleteStory/{id}"), Authorize(Roles = "0,4")]
         public ContentResult DeleteStory(string Id)
         {
             var data = this.storyService.DeleteStory(Id);

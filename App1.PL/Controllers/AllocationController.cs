@@ -16,7 +16,7 @@ namespace App1.PL.Controllers
         {
             this.allocationService = allocationService;
         }
-        [HttpPost("AddAllocation")]
+        [HttpPost("AddAllocation"), Authorize(Roles = "0,4")]
         public ContentResult AddAlloc(Allocation a)
         {
             var data = this.allocationService.AddAlloc(a);
@@ -33,13 +33,13 @@ namespace App1.PL.Controllers
         {
             return await allocationService.SearchAllocation(id);
         }
-        [HttpPatch("UpdateAllocation/{id}")]
+        [HttpPatch("UpdateAllocation/{id}"), Authorize(Roles = "0,4")]
         public ContentResult PatchAlloc(string Id, Allocation a)
         {
             var data=allocationService.PatchAlloc(Id, a);
             return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
-        [HttpDelete("DeleteAllocation/{id}")]
+        [HttpDelete("DeleteAllocation/{id}"), Authorize(Roles = "0,4")]
         public ContentResult DeleteAllocation(string Id)
         {
             var data=allocationService.DeleteAllocation(Id);
