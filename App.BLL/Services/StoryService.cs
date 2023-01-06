@@ -32,6 +32,10 @@ namespace App.BLL.Services
         {
             return await this.genericRepository.GetStories();
         }
+        public async Task<List<Story>> GetAddedStories(string Id)
+        {
+            return await this.genericRepository.GetAddedStories(Id);
+        }
         public async Task<List<Story>> SearchStory(string Id)
         {
             try
@@ -47,6 +51,11 @@ namespace App.BLL.Services
         public string PatchStory(string Id, Story st)
         {
             var data = this.genericRepository.PatchStory(Id, st);
+            return data;
+        }
+        public string AddStorytoSprint(List<Story> st)
+        {
+            var data = this.genericRepository.AddStorytoSprint(st);
             return data;
         }
     }

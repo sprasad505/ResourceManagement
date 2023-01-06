@@ -14,7 +14,7 @@ namespace App.DAL.Models
         }
 
         public long Id { get; set; }
-        public string Name { get; set; } = null!;
+        public string? Name { get; set; }
         public DateTime? CreatedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }
         public long? SprintId { get; set; }
