@@ -793,6 +793,35 @@ namespace App.DAL.Repositories
                 throw ex;
             }
         }
+        public string AddStorytoSprint(List<Story> st)
+        {
+            try
+            {
+                long? id = 0;
+                foreach (var stItem in st)
+                {
+                    var data = this.resourcedbContext.Stories.Find(Convert.ToInt64(stItem.Id));
+                    if (data == null)
+                    {
+                        throw new APIException(404, "No content with matching Id");
+                    }
+                    id = stItem.SprintId;
+                    data.ModifiedOn = DateTime.Now;
+                    data.SprintId = stItem.SprintId;
+                    this.resourcedbContext.SaveChanges();
+                    /*json = JsonConvert.SerializeObject(data, Formatting.Indented,
+                    new JsonSerializerSettings()
+                    {
+                        ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                    });*/
+                }
+                return "Stories added to Sprint" + id;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public string PatchPoint(string Id, Point po)
         {
@@ -1184,6 +1213,30 @@ namespace App.DAL.Repositories
                 return s;
             }
             catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<List<Story>> GetAddedStories(string Id)
+        {
+            try
+            {
+                List<Story> s = new List<Story>();
+                var result = await this.resourcedbContext.Set<Story>().ToListAsync();
+                foreach (var item in result)
+                {
+                    if (item.SprintId == Convert.ToInt64(Id))
+                    {
+                        s.Add(item);
+                    }
+                }
+                if (s == null)
+                {
+                    throw new APIException(409, "Not found");
+                }
+                return s;
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }

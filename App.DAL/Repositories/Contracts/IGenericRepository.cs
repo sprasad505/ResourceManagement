@@ -27,6 +27,7 @@ namespace App.DAL.Repositories.Contracts
         Task<List<Sprint>> SearchSprint(string Id);
         Task<List<Story>> SearchStory(string Id);
         Task<List<Resource>> GetScrumMaster();
+        Task<List<Story>> GetAddedStories(string Id);
         public string AddLeave(Leave l);
         public string AddResources(Resource r);
         public string AddProjects(Project p);
@@ -48,6 +49,7 @@ namespace App.DAL.Repositories.Contracts
         public string PatchSprint(long Id, Sprint sprint);
         public string PatchStory(string Id, Story st);
         public string PatchPoint(String Id,Point po);
+        public string AddStorytoSprint(List<Story> st);    
         public string DeleteAllocation(string Id);
         public string DeleteTeam(string Id);
         public string DeleteProject(string Id);

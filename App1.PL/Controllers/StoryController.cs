@@ -33,10 +33,21 @@ namespace App1.PL.Controllers
         {
             return await storyService.SearchStory(Id);
         }
+        [HttpGet("GetAddedStories/{id}")]
+        public async Task<List<Story>> GetAddedStories(string Id)
+        {
+            return await storyService.GetAddedStories(Id);
+        }
         [HttpPatch("UpdateStory/{id}"), Authorize(Roles = "0,4")]
         public ContentResult PatchStory(string Id, Story s)
         {
             var data = this.storyService.PatchStory(Id, s);
+            return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
+        }
+        [HttpPatch("AddStorytoSprint"), Authorize(Roles = "0,4")]
+        public ContentResult AddStorytoSprint(List<Story> s)
+        {
+            var data = this.storyService.AddStorytoSprint(s);
             return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
         [HttpDelete("DeleteStory/{id}"), Authorize(Roles = "0,4")]
@@ -45,5 +56,6 @@ namespace App1.PL.Controllers
             var data = this.storyService.DeleteStory(Id);
             return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
+
     }
 }
