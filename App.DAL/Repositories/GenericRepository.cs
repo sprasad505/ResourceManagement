@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using Newtonsoft.Json;
+using System.Data;
 using System.Globalization;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using static System.Net.Mime.MediaTypeNames;
@@ -306,7 +307,6 @@ namespace App.DAL.Repositories
             {
                 var dataProj = this.resourcedbContext.Set<Project>().ToList();
                 bool checkproj = false;
-                bool checksp = false;
                 foreach (var item in dataProj)
                 {
                     if (st.ProjectId == item.Id)
@@ -318,22 +318,6 @@ namespace App.DAL.Repositories
                 if (!checkproj)
                 {
                     throw new APIException(409, "Retry with a valid ProjectId");
-                }
-                if (st.SprintId == null)
-                {
-                    throw new APIException(409, "Add a Sprint Id");
-                }
-                foreach (var item in dataProj)
-                {
-                    if (st.SprintId == item.Id)
-                    {
-                        checksp = true;
-                        break;
-                    }
-                }
-                if (!checksp)
-                {
-                    throw new APIException(409, "Retry with a valid SprintId");
                 }
                 st.CreatedOn = DateTime.Now;
                 st.ModifiedOn = DateTime.Now;
@@ -797,6 +781,8 @@ namespace App.DAL.Repositories
         {
             try
             {
+                var datasprint = this.resourcedbContext.Set<Sprint>().ToList();
+                bool checksp = false;
                 long? id = 0;
                 foreach (var stItem in st)
                 {
@@ -804,6 +790,22 @@ namespace App.DAL.Repositories
                     if (data == null)
                     {
                         throw new APIException(404, "No content with matching Id");
+                    }
+                    if (stItem.SprintId == null)
+                    {
+                        throw new APIException(409, "Add a Sprint Id");
+                    }
+                    foreach (var item in datasprint)
+                    {
+                        if (stItem.SprintId == item.Id)
+                        {
+                            checksp = true;
+                            break;
+                        }
+                    }
+                    if (!checksp)
+                    {
+                        throw new APIException(409, "Retry with a valid SprintId");
                     }
                     id = stItem.SprintId;
                     data.ModifiedOn = DateTime.Now;
