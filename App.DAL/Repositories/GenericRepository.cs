@@ -136,6 +136,7 @@ namespace App.DAL.Repositories
                 {
                     throw new APIException(409, "Retry with a valid ProjcetId");
                 }
+                s.PlanningSprint = false;
                 this.resourcedbContext.Add(s);
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(s, Formatting.Indented,
@@ -378,7 +379,6 @@ namespace App.DAL.Repositories
                 });
                 return json;
             } 
-
             catch
             {
                 throw;
@@ -712,6 +712,7 @@ namespace App.DAL.Repositories
                 }
                 data.Name = sprint.Name;
                 data.Duration = sprint.Duration;
+                data.PlanningSprint = false;
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data, Formatting.Indented,
                 new JsonSerializerSettings()
@@ -723,6 +724,29 @@ namespace App.DAL.Repositories
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+        public string PlanningSprint(String Id)
+        {
+            try
+            {
+                var data = this.resourcedbContext.Sprints.Find(Convert.ToInt64(Id));
+                if (data == null)
+                {
+                    throw new APIException(404, "No content with matching Id");
+                }
+                data.PlanningSprint = true;
+                this.resourcedbContext.SaveChanges();
+                var json = JsonConvert.SerializeObject(data, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
+                return json;
+            }
+            catch(Exception e)
+            {
+                throw e;
             }
         }
 
@@ -789,7 +813,7 @@ namespace App.DAL.Repositories
                     var data = this.resourcedbContext.Stories.Find(Convert.ToInt64(stItem.Id));
                     if (data == null)
                     {
-                        throw new APIException(404, "No content with matching Id");
+                        throw new APIException(409, "No content with matching Id");
                     }
                     if (stItem.SprintId == null)
                     {
@@ -858,10 +882,35 @@ namespace App.DAL.Repositories
             try
             {
                 var data = this.resourcedbContext.Projects.Find(Convert.ToInt64(ProjectId));
+                /*var sprintdata = this.resourcedbContext.Set<Sprint>().ToList();
+                var allocdata = this.resourcedbContext.Set<Allocation>().ToList();
+                var teamdata = this.resourcedbContext.Set<Team>().ToList();
+                foreach(var sprint in sprintdata)
+                {
+                    if(sprint.ProjectId == Convert.ToInt64(ProjectId))
+                    {
+                        DeleteSprint((sprint.Id).ToString());
+                    }
+                }
+                foreach (var alloc in allocdata)
+                {
+                    if (alloc.ProjectId == Convert.ToInt64(ProjectId))
+                    {
+                        DeleteSprint((alloc.Id).ToString());
+                    }
+                }
+                foreach (var team in teamdata)
+                {
+                    if (team.ProjectId == Convert.ToInt64(ProjectId))
+                    {
+                        DeleteSprint((team.Id).ToString());
+                    }
+                }*/
                 if (data == null)
                 {
                     throw new APIException(404, "No content with matching Id");
                 }
+                
                 this.resourcedbContext.Projects.Remove(data);
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data, Formatting.Indented,
@@ -953,10 +1002,18 @@ namespace App.DAL.Repositories
             try
             {
                 var data = this.resourcedbContext.Sprints.Find(Convert.ToInt64(Id));
+                //var storydata = this.resourcedbContext.Set<Story>().ToList();
                 if (data == null)
                 {
                     throw new APIException(404, "No content with matching Id");
                 }
+               /* foreach(var story in storydata)
+                {
+                    if(story.SprintId == Convert.ToInt64(Id))
+                    {
+                        DeleteStory((story.Id).ToString());
+                    }
+                }*/
                 this.resourcedbContext.Sprints.Remove(data);
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data, Formatting.Indented,
@@ -1188,11 +1245,15 @@ namespace App.DAL.Repositories
                         s.Add(item);
                     }
                 }
+                if (s == null)
+                {
+                    throw new APIException(409, "Not found");
+                }
                 return s;
             }
-            catch
+            catch (Exception e)
             {
-                throw;
+                throw e;
             }
         }
         public async Task<List<Story>> SearchStory(string Id)

@@ -1,5 +1,6 @@
 ﻿using App.BLL.Services.Contracts;
 using App.DAL.DataContext;
+using App.DAL.Middlewares;
 using App.DAL.Models;
 using App.DAL.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
@@ -74,17 +75,24 @@ namespace App.BLL.Services
 
         public string Login(Userdto request)
         {
-            var data=genericRepository.Login(request);
-            if (data == null)
+            try
             {
-                return "Wrong Credentials!";
+                var data = genericRepository.Login(request);
+                if (data == null)
+                {
+                    return "Wrong Credentials!";
+                }
+                else if (!VerifyPasswordHash(request.Password, data.PasswordHash, data.PasswordSalt))
+                {
+                    throw new APIException(409, "Wrong Credentials");
+                }
+                string token = CreateToken(request);
+                return token;
             }
-            else if (!VerifyPasswordHash(request.Password, data.PasswordHash, data.PasswordSalt))
+            catch (Exception e)
             {
-                return "Wrong Credentials!";
+                throw e;
             }
-            string token = CreateToken(request);
-            return token;
         }
 
         public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)

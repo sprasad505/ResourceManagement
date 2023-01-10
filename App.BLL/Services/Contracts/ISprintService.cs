@@ -11,6 +11,7 @@ namespace App.BLL.Services.Contracts
     {
         public string AddSprints(Sprint s);
         Task<List<Sprint>> GetSprints();
+        public string PlanningSprint(string Id);
         Task<List<Sprint>> SearchSprint(string Id);
         public string PatchSprint(long Id, Sprint s);
         public string DeleteSprint(string Id);

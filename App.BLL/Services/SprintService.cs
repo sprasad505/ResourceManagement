@@ -41,5 +41,9 @@ namespace App.BLL.Services
         {
             return await this.genericRepository.SearchSprint(Id);
         }
+        public string PlanningSprint(string Id)
+        {
+            return  this.genericRepository.PlanningSprint(Id); 
+        }
     }
 }
