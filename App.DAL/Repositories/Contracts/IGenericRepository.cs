@@ -49,7 +49,8 @@ namespace App.DAL.Repositories.Contracts
         public string PatchSprint(long Id, Sprint sprint);
         public string PatchStory(string Id, Story st);
         public string PatchPoint(String Id,Point po);
-        public string AddStorytoSprint(List<Story> st);    
+        public string AddStorytoSprint(List<Story> st);
+        public string PlanningSprint(string Id);
         public string DeleteAllocation(string Id);
         public string DeleteTeam(string Id);
         public string DeleteProject(string Id);

@@ -33,6 +33,12 @@ namespace App1.PL.Controllers
         {
             return await this.sprintService.SearchSprint(id);  
         }
+        [HttpPatch("PlanningSprint/{id}")]
+        public ContentResult PlanningSprint(string id)
+        {
+            var data = this.sprintService.PlanningSprint(id);
+            return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
+        }
         [HttpPatch("UpdateSprint/{id}"), Authorize(Roles = "0,4")]
         public ContentResult PatchSprint(long Id, Sprint s)
         {

@@ -19,6 +19,7 @@ namespace App.DAL.Models
         public DateTime? EndDate { get; set; }
         public long Duration { get; set; }
         public long? ProjectId { get; set; }
+        public bool? PlanningSprint { get; set; }
         public virtual Project? Project { get; set; }
         public virtual ICollection<Story> Stories { get; set; }
     }
