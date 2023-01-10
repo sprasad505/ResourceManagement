@@ -730,10 +730,22 @@ namespace App.DAL.Repositories
         {
             try
             {
+                var sprintdata = this.resourcedbContext.Set<Sprint>().ToList();
                 var data = this.resourcedbContext.Sprints.Find(Convert.ToInt64(Id));
                 if (data == null)
                 {
                     throw new APIException(404, "No content with matching Id");
+                }
+                if (data.PlanningSprint == true)
+                {
+                    throw new APIException(409, "Already the Planning Sprint");
+                }
+                foreach (var sprint in sprintdata)
+                {
+                    if(sprint.ProjectId == data.ProjectId && sprint.Id != Convert.ToInt64(Id))
+                    {
+                        sprint.PlanningSprint = false;
+                    }
                 }
                 data.PlanningSprint = true;
                 this.resourcedbContext.SaveChanges();
