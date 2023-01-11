@@ -861,6 +861,7 @@ namespace App.DAL.Repositories
             }
         }
 
+
         public string PatchPoint(string Id, Point po)
         {
             try
@@ -1288,6 +1289,30 @@ namespace App.DAL.Repositories
                 return s;
             }
             catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<List<Story>> StoriesLeft(string Id)
+        {
+            try
+            {
+                List<Story> s = new List<Story>();
+                var result = await this.resourcedbContext.Set<Story>().ToListAsync();
+                foreach (var item in result)
+                {
+                    if (item.ProjectId == Convert.ToInt64(Id) && item.SprintId == null)
+                    {
+                        s.Add(item);
+                    }
+                }
+                if (s == null)
+                {
+                    throw new APIException(409, "Not found");
+                }
+                return s;
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }
