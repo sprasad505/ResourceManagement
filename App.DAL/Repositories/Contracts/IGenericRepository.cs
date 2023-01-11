@@ -26,6 +26,7 @@ namespace App.DAL.Repositories.Contracts
         Task<Project> SearchProject(string name);
         Task<List<Sprint>> SearchSprint(string Id);
         Task<List<Story>> SearchStory(string Id);
+        Task<List<Story>> StoriesLeft(string Id);
         Task<List<Resource>> GetScrumMaster();
         Task<List<Story>> GetAddedStories(string Id);
         public string AddLeave(Leave l);

@@ -38,6 +38,11 @@ namespace App1.PL.Controllers
         {
             return await storyService.GetAddedStories(Id);
         }
+        [HttpGet("StoriesLeft/{id}")]
+        public async Task<List<Story>> StoriesLeft(string Id)
+        {
+            return await storyService.StoriesLeft(Id);
+        }
         [HttpPatch("UpdateStory/{id}"), Authorize(Roles = "0,4")]
         public ContentResult PatchStory(string Id, Story s)
         {

@@ -12,6 +12,7 @@ namespace App.BLL.Services.Contracts
         public string AddStory(Story st);
         Task<List<Story>> GetStories();
         Task<List<Story>> SearchStory(string Id);
+        Task<List<Story>> StoriesLeft(string Id);
         Task<List<Story>> GetAddedStories(string Id);
         public string PatchStory(string Id, Story st);
         Task<Story> DeleteStory(string Id);

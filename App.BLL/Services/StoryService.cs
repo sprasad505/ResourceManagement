@@ -38,14 +38,11 @@ namespace App.BLL.Services
         }
         public async Task<List<Story>> SearchStory(string Id)
         {
-            try
-            {
-                return await this.genericRepository.SearchStory(Id);
-            }
-            catch
-            {
-                throw;
-            }
+          return await this.genericRepository.SearchStory(Id);       
+        }
+        public async Task<List<Story>> StoriesLeft(string Id)
+        {
+            return await this.genericRepository.StoriesLeft(Id);
         }
 
         public string PatchStory(string Id, Story st)
