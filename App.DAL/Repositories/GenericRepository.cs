@@ -813,13 +813,13 @@ namespace App.DAL.Repositories
                 throw ex;
             }
         }
-        public string AddStorytoSprint(List<Story> st)
+        public List<Story> AddStorytoSprint(List<Story> st)
         {
             try
             {
                 var datasprint = this.resourcedbContext.Set<Sprint>().ToList();
+                List<Story> storyadded = new List<Story>();
                 bool checksp = false;
-                long? id = 0;
                 foreach (var stItem in st)
                 {
                     var data = this.resourcedbContext.Stories.Find(Convert.ToInt64(stItem.Id));
@@ -843,17 +843,12 @@ namespace App.DAL.Repositories
                     {
                         throw new APIException(409, "Retry with a valid SprintId");
                     }
-                    id = stItem.SprintId;
                     data.ModifiedOn = DateTime.Now;
                     data.SprintId = stItem.SprintId;
                     this.resourcedbContext.SaveChanges();
-                    /*json = JsonConvert.SerializeObject(data, Formatting.Indented,
-                    new JsonSerializerSettings()
-                    {
-                        ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                    });*/
+                    storyadded.Add(data);    
                 }
-                return "Stories added to Sprint" + id;
+                return storyadded;
             }
             catch (Exception ex)
             {
@@ -895,35 +890,42 @@ namespace App.DAL.Repositories
             try
             {
                 var data = this.resourcedbContext.Projects.Find(Convert.ToInt64(ProjectId));
-                /*var sprintdata = this.resourcedbContext.Set<Sprint>().ToList();
+                var sprintdata = this.resourcedbContext.Set<Sprint>().ToList();
                 var allocdata = this.resourcedbContext.Set<Allocation>().ToList();
                 var teamdata = this.resourcedbContext.Set<Team>().ToList();
-                foreach(var sprint in sprintdata)
+                var resdata = this.resourcedbContext.Set<Resource>().ToList();
+                if (data == null)
                 {
-                    if(sprint.ProjectId == Convert.ToInt64(ProjectId))
-                    {
-                        DeleteSprint((sprint.Id).ToString());
-                    }
+                    throw new APIException(404, "No content with matching Id");
                 }
                 foreach (var alloc in allocdata)
                 {
                     if (alloc.ProjectId == Convert.ToInt64(ProjectId))
                     {
-                        DeleteSprint((alloc.Id).ToString());
+                        DeleteAllocation((alloc.Id).ToString());
+                    }
+                }
+                foreach (var sprint in sprintdata)
+                {
+                    if (sprint.ProjectId == Convert.ToInt64(ProjectId))
+                    {
+                        DeleteSprint((sprint.Id).ToString());
                     }
                 }
                 foreach (var team in teamdata)
                 {
                     if (team.ProjectId == Convert.ToInt64(ProjectId))
                     {
-                        DeleteSprint((team.Id).ToString());
+                        DeleteTeam((team.Id).ToString());
                     }
-                }*/
-                if (data == null)
-                {
-                    throw new APIException(404, "No content with matching Id");
                 }
-                
+                foreach (var resource in resdata )
+                {
+                    if(resource.ProjectId == Convert.ToInt64(ProjectId))
+                    {
+                        DeleteResource((resource.Id).ToString());
+                    }
+                }
                 this.resourcedbContext.Projects.Remove(data);
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data, Formatting.Indented,
@@ -1015,18 +1017,18 @@ namespace App.DAL.Repositories
             try
             {
                 var data = this.resourcedbContext.Sprints.Find(Convert.ToInt64(Id));
-                //var storydata = this.resourcedbContext.Set<Story>().ToList();
+                var storydata = this.resourcedbContext.Set<Story>().ToList();
                 if (data == null)
                 {
                     throw new APIException(404, "No content with matching Id");
                 }
-               /* foreach(var story in storydata)
+                foreach (var story in storydata)
                 {
-                    if(story.SprintId == Convert.ToInt64(Id))
+                    if (story.SprintId == Convert.ToInt64(Id))
                     {
                         DeleteStory((story.Id).ToString());
                     }
-                }*/
+                }
                 this.resourcedbContext.Sprints.Remove(data);
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data, Formatting.Indented,
@@ -1051,6 +1053,14 @@ namespace App.DAL.Repositories
                 {
                     throw new APIException(404, "No content with matching Id");
                 }
+                var leavedata = this.resourcedbContext.Set<Leave>().ToList();
+                foreach(var leave in leavedata)
+                {
+                    if(leave.EmployeeId == data.EmployeeId)
+                    {
+                        DeleteLeave((leave.Id).ToString());
+                    }
+                }
                 this.resourcedbContext.Resources.Remove(data);
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data, Formatting.Indented,
@@ -1074,8 +1084,6 @@ namespace App.DAL.Repositories
                 {
                     throw new APIException(404, "No content with matching Id");
                 }
-                this.resourcedbContext.Stories.Remove(data);
-                this.resourcedbContext.SaveChanges();
                 var result = await this.resourcedbContext.Set<Point>().ToListAsync();
                 foreach (var item in result)
                 {
@@ -1085,6 +1093,8 @@ namespace App.DAL.Repositories
                         this.resourcedbContext.SaveChanges();
                     }
                 }
+                this.resourcedbContext.Stories.Remove(data);
+                this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data, Formatting.Indented,
                 new JsonSerializerSettings()
                 {
