@@ -105,11 +105,11 @@ namespace App.DAL.DataContext
             {
                 entity.ToTable("Sprint");
 
-                entity.Property(e => e.EndDate).HasColumnType("datetime");
+                entity.Property(e => e.endDate).HasColumnType("datetime");
 
                 entity.Property(e => e.Name).HasMaxLength(50);
 
-                entity.Property(e => e.StartDate).HasColumnType("datetime");
+                entity.Property(e => e.startDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Project)
                     .WithMany(p => p.Sprints)

@@ -15,8 +15,8 @@ namespace App.DAL.Models
 
         public long Id { get; set; }
         public string Name { get; set; } = null!;
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        public DateTime? startDate { get; set; }
+        public DateTime? endDate { get; set; }
         public long Duration { get; set; }
         public long? ProjectId { get; set; }
         public bool? PlanningSprint { get; set; }

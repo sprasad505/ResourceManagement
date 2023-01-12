@@ -13,7 +13,7 @@ namespace App.DAL.Models
         public DateTime? CreatedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public DateTime LeaveDate { get; set; }
-        public int? Hours { get; set; }
+        public int? hours { get; set; }
 
         public virtual Resource? Employee { get; set; } = null!;
     }
