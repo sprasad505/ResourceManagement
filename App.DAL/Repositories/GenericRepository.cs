@@ -204,9 +204,9 @@ namespace App.DAL.Repositories
                 }
                 l.CreatedDate = DateTime.Now;
                 l.ModifiedDate = DateTime.Now;
-                if(l.Hours == 0)
+                if(l.hours == 0)
                 {
-                    l.Hours = 8;
+                    l.hours = 8;
                 }
                 this.resourcedbContext.Add(l);
                 this.resourcedbContext.SaveChanges();
@@ -654,13 +654,13 @@ namespace App.DAL.Repositories
                 }
                 data.LeaveDate = l.LeaveDate;
                 data.ModifiedDate = DateTime.Now;
-                if(l.Hours == null)
+                if(l.hours == null)
                 {
-                    data.Hours = 8;
+                    data.hours = 8;
                 }
                 else
                 {
-                    data.Hours = l.Hours;
+                    data.hours = l.hours;
                 }
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data, Formatting.Indented,
