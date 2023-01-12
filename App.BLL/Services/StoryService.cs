@@ -50,7 +50,7 @@ namespace App.BLL.Services
             var data = this.genericRepository.PatchStory(Id, st);
             return data;
         }
-        public string AddStorytoSprint(List<Story> st)
+        public List<Story> AddStorytoSprint(List<Story> st)
         {
             var data = this.genericRepository.AddStorytoSprint(st);
             return data;
