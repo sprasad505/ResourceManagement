@@ -107,7 +107,7 @@ namespace App.DAL.DataContext
 
                 entity.Property(e => e.endDate).HasColumnType("datetime");
 
-                entity.Property(e => e.Name).HasMaxLength(50);
+                entity.Property(e => e.name).HasMaxLength(50);
 
                 entity.Property(e => e.startDate).HasColumnType("datetime");
 

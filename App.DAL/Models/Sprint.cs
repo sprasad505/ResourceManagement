@@ -14,7 +14,7 @@ namespace App.DAL.Models
         }
 
         public long Id { get; set; }
-        public string Name { get; set; } = null!;
+        public string name { get; set; } = null!;
         public DateTime? startDate { get; set; }
         public DateTime? endDate { get; set; }
         public long Duration { get; set; }

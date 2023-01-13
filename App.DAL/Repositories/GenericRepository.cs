@@ -710,7 +710,7 @@ namespace App.DAL.Repositories
                 {
                     throw new APIException(404, "No content with matching Id");
                 }
-                data.Name = sprint.Name;
+                data.name = sprint.name;
                 data.Duration = sprint.Duration;
                 data.PlanningSprint = false;
                 this.resourcedbContext.SaveChanges();
