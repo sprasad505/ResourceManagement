@@ -58,7 +58,7 @@ namespace App.DAL.Repositories.Contracts
         public string DeleteResource(string Id);
         public string DeleteSprint(string Id);
         public string DeleteLeave(string Id);
-        Task<Story> DeleteStory(string Id);
+        public string DeleteStory(string Id);
         public string DeletePoint(string Id);
     }
 }

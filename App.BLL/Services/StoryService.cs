@@ -23,9 +23,9 @@ namespace App.BLL.Services
             return data;
         }
 
-        public async Task<Story> DeleteStory(string Id)
+        public string DeleteStory(string Id)
         {
-            return await this.genericRepository.DeleteStory(Id);
+            return  this.genericRepository.DeleteStory(Id);
         }
 
         public async Task<List<Story>> GetStories()

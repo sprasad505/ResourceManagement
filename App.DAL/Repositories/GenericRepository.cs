@@ -1075,7 +1075,7 @@ namespace App.DAL.Repositories
                 throw ex;
             }
         }
-        public async Task<Story> DeleteStory(string Id)
+        public  string DeleteStory(string Id)
         {
             try
             {
@@ -1084,10 +1084,10 @@ namespace App.DAL.Repositories
                 {
                     throw new APIException(404, "No content with matching Id");
                 }
-                var result = await this.resourcedbContext.Set<Point>().ToListAsync();
+                var result = this.resourcedbContext.Set<Point>().ToList();
                 foreach (var item in result)
                 {
-                    if(item.StoryId.Equals(Id))
+                    if(item.StoryId == Convert.ToInt64(Id))
                     {
                         this.resourcedbContext.Points.Remove(item);
                         this.resourcedbContext.SaveChanges();
@@ -1100,7 +1100,7 @@ namespace App.DAL.Repositories
                 {
                     ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                 });
-                return data;
+                return json;
             }
             catch(Exception ex)
             {
