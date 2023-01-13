@@ -15,7 +15,7 @@ namespace App.BLL.Services.Contracts
         Task<List<Story>> StoriesLeft(string Id);
         Task<List<Story>> GetAddedStories(string Id);
         public string PatchStory(string Id, Story st);
-        Task<Story> DeleteStory(string Id);
+        public string DeleteStory(string Id);
         public List<Story> AddStorytoSprint(List<Story> st);
         
     }
