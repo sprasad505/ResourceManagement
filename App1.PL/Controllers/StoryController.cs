@@ -50,10 +50,9 @@ namespace App1.PL.Controllers
             return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
         [HttpPatch("AddStorytoSprint"), Authorize(Roles = "0,4")]
-        public ContentResult AddStorytoSprint(List<Story> s)
+        public List<Story> AddStorytoSprint(List<Story> s)
         {
-            var data = this.storyService.AddStorytoSprint(s);
-            return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
+            return this.storyService.AddStorytoSprint(s);
         }
         [HttpDelete("DeleteStory/{id}"), Authorize(Roles = "0,4")]
         public ContentResult DeleteStory(string Id)
