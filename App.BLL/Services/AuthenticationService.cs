@@ -56,6 +56,7 @@ namespace App.BLL.Services
                  new Claim("Name", r.Name) ,
                  new Claim("UserName", user.Username),
                  new Claim("Id", r.Id.ToString()),
+                 new Claim("EmpId", r.EmployeeId),
                  new Claim("role", ((int?)r.Role).ToString())
              };
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(configuration.GetSection("AppSettings:Token").Value));

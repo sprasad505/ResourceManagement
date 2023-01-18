@@ -200,7 +200,7 @@ namespace App.DAL.Repositories
                 }
                 if(checkholiday)
                 {
-                    throw new APIException(404, "Date is already a holiday");
+                    throw new APIException(409, "Date is already a holiday");
                 }
                 l.CreatedDate = DateTime.Now;
                 l.ModifiedDate = DateTime.Now;
@@ -344,7 +344,7 @@ namespace App.DAL.Repositories
                 var data = this.resourcedbContext.Stories.Find(po.StoryId);
                 if(data == null)
                 {
-                    throw new APIException(404, "Story Doesn't exist!");
+                    throw new APIException(409, "Story Doesn't exist!");
                 }
                 data.ModifiedOn = DateTime.Now;
                 this.resourcedbContext.SaveChanges();
@@ -403,7 +403,7 @@ namespace App.DAL.Repositories
                 var output = await this.resourcedbContext.Set<Sprint>().ToListAsync();
                 if (output == null)
                 {
-                    throw new APIException(404, "Sprints are empty");
+                    throw new APIException(409, "Sprints are empty");
                 }
                 return output;
             }
@@ -427,7 +427,7 @@ namespace App.DAL.Repositories
                 }
                 if (leave == null)
                 {
-                    throw new APIException(404, "No Leaves for this employee");
+                    throw new APIException(409, "No Leaves for this employee");
                 }
                 return leave;
             }
@@ -499,7 +499,7 @@ namespace App.DAL.Repositories
                 //var output = await this.resourcedbContext.Set<Allocation>().ToListAsync();
                 if (test2 == null)
                 {
-                    throw new APIException(404, "Allocations are empty");
+                    throw new APIException(409, "Allocations are empty");
                 }
                 return a;
             }
@@ -516,7 +516,7 @@ namespace App.DAL.Repositories
                 var output = await this.resourcedbContext.Set<Project>().ToListAsync();
                 if (output == null)
                 {
-                    throw new APIException(404, "Projects are empty");
+                    throw new APIException(409, "Projects are empty");
                 }
                 return output;
             }
@@ -533,7 +533,7 @@ namespace App.DAL.Repositories
                 var output = await this.resourcedbContext.Set<Resource>().ToListAsync();
                 if (output == null)
                 {
-                    throw new APIException(404, "Resources are empty");
+                    throw new APIException(409, "Resources are empty");
                 }
                 return output;
             }
@@ -550,7 +550,7 @@ namespace App.DAL.Repositories
                 var output = await this.resourcedbContext.Set<Team>().ToListAsync();
                 if (output == null)
                 {
-                    throw new APIException(404, "Teams are empty");
+                    throw new APIException(409, "Teams are empty");
                 }
                 return output;
             }
@@ -566,7 +566,7 @@ namespace App.DAL.Repositories
                 var output = await this.resourcedbContext.Set<Story>().ToListAsync();
                 if (output == null)
                 {
-                    throw new APIException(404, "Stories are empty");
+                    throw new APIException(409, "Stories are empty");
                 }
                 return output;
             }
@@ -583,7 +583,7 @@ namespace App.DAL.Repositories
                 var output =  await this.resourcedbContext.Set<Point>().ToListAsync();
                 if(output == null)
                 {
-                    throw new APIException(404, "Points are empty");
+                    throw new APIException(409, "Points are empty");
                 }
                 return output;
             }
@@ -601,7 +601,7 @@ namespace App.DAL.Repositories
                 var data = this.resourcedbContext.Allocations.Find(Convert.ToInt64(Id));
                 if (data == null)
                 {
-                    throw new APIException(404, "No content with matching Id");
+                    throw new APIException(409, "No content with matching Id");
                 }
                 data.EmployeeId = alloc.EmployeeId;
                 data.TeamId = alloc.TeamId;
@@ -627,7 +627,7 @@ namespace App.DAL.Repositories
                 var data = this.resourcedbContext.Projects.Find(Convert.ToInt64(Id));
                 if (data == null)
                 {
-                    throw new APIException(404, "No content with matching Id");
+                    throw new APIException(409, "No content with matching Id");
                 }
                 data.Name = proj.Name;
                 this.resourcedbContext.SaveChanges();
@@ -650,7 +650,7 @@ namespace App.DAL.Repositories
                 var data = this.resourcedbContext.Leaves.Find(Convert.ToInt64(Id));
                 if (data == null)
                 {
-                    throw new APIException(404, "No content with matching Id");
+                    throw new APIException(409, "No content with matching Id");
                 }
                 data.LeaveDate = l.LeaveDate;
                 data.ModifiedDate = DateTime.Now;
@@ -683,7 +683,7 @@ namespace App.DAL.Repositories
                 var data = this.resourcedbContext.Teams.Find(Convert.ToInt64(Id));
                 if (data == null)
                 {
-                    throw new APIException(404, "No content with matching Id");
+                    throw new APIException(409, "No content with matching Id");
                 }
                 data.Name = team.Name;
                 data.ProjectId = team.ProjectId;
@@ -708,7 +708,7 @@ namespace App.DAL.Repositories
                 var data = this.resourcedbContext.Sprints.Find(Convert.ToInt64(Id));
                 if (data == null)
                 {
-                    throw new APIException(404, "No content with matching Id");
+                    throw new APIException(409, "No content with matching Id");
                 }
                 data.name = sprint.name;
                 data.Duration = sprint.Duration;
@@ -734,7 +734,7 @@ namespace App.DAL.Repositories
                 var data = this.resourcedbContext.Sprints.Find(Convert.ToInt64(Id));
                 if (data == null)
                 {
-                    throw new APIException(404, "No content with matching Id");
+                    throw new APIException(409, "No content with matching Id");
                 }
                 if (data.PlanningSprint == true)
                 {
@@ -769,7 +769,7 @@ namespace App.DAL.Repositories
                 var data = this.resourcedbContext.Resources.Find(Convert.ToInt64(Id));
                 if (data == null)
                 {
-                    throw new APIException(404, "No content with matching Id");
+                    throw new APIException(409, "No content with matching Id");
                 }
                 data.EmployeeId = res.EmployeeId;
                 data.Email = res.Email;
@@ -796,7 +796,7 @@ namespace App.DAL.Repositories
                 var data = this.resourcedbContext.Stories.Find(Convert.ToInt64(Id));
                 if (data == null)
                 {
-                    throw new APIException(404, "No content with matching Id");
+                    throw new APIException(409, "No content with matching Id");
                 }
                 data.Name = st.Name;
                 data.ModifiedOn = DateTime.Now;
@@ -864,7 +864,7 @@ namespace App.DAL.Repositories
                 var data = this.resourcedbContext.Points.Find(Convert.ToInt64(Id));
                 if (data == null)
                 {
-                    throw new APIException(404, "No content with matching Id");
+                    throw new APIException(409, "No content with matching Id");
                 }
                 var data1 = this.resourcedbContext.Stories.Find(data.StoryId);
                 data1.ModifiedOn = DateTime.Now;
@@ -896,7 +896,7 @@ namespace App.DAL.Repositories
                 var resdata = this.resourcedbContext.Set<Resource>().ToList();
                 if (data == null)
                 {
-                    throw new APIException(404, "No content with matching Id");
+                    throw new APIException(409, "No content with matching Id");
                 }
                 foreach (var alloc in allocdata)
                 {
@@ -947,7 +947,7 @@ namespace App.DAL.Repositories
                 var data = this.resourcedbContext.Leaves.Find(Convert.ToInt64(LeaveId));
                 if (data == null)
                 {
-                    throw new APIException(404, "No content with matching Id");
+                    throw new APIException(409, "No content with matching Id");
                 }
                 this.resourcedbContext.Leaves.Remove(data);
                 this.resourcedbContext.SaveChanges();
@@ -971,7 +971,7 @@ namespace App.DAL.Repositories
                 var data = this.resourcedbContext.Allocations.Find(Convert.ToInt64(AllocationId));
                 if (data == null)
                 {
-                    throw new APIException(404, "No content with matching Id");
+                    throw new APIException(409, "No content with matching Id");
                 }
                 this.resourcedbContext.Allocations.Remove(data);
                 this.resourcedbContext.SaveChanges();
@@ -995,7 +995,7 @@ namespace App.DAL.Repositories
                 var data = this.resourcedbContext.Teams.Find(Convert.ToInt64(TeamId));
                 if (data == null)
                 {
-                    throw new APIException(404, "No content with matching Id");
+                    throw new APIException(409, "No content with matching Id");
                 }
                 this.resourcedbContext.Teams.Remove(data);
                 this.resourcedbContext.SaveChanges();
@@ -1020,7 +1020,7 @@ namespace App.DAL.Repositories
                 var storydata = this.resourcedbContext.Set<Story>().ToList();
                 if (data == null)
                 {
-                    throw new APIException(404, "No content with matching Id");
+                    throw new APIException(409, "No content with matching Id");
                 }
                 foreach (var story in storydata)
                 {
@@ -1051,7 +1051,7 @@ namespace App.DAL.Repositories
                 var data = this.resourcedbContext.Resources.Find(Convert.ToInt64(EmployeeId));
                 if (data == null)
                 {
-                    throw new APIException(404, "No content with matching Id");
+                    throw new APIException(409, "No content with matching Id");
                 }
                 var leavedata = this.resourcedbContext.Set<Leave>().ToList();
                 foreach(var leave in leavedata)
@@ -1082,7 +1082,7 @@ namespace App.DAL.Repositories
                 var data = this.resourcedbContext.Stories.Find(Convert.ToInt64(Id));
                 if (data == null)
                 {
-                    throw new APIException(404, "No content with matching Id");
+                    throw new APIException(409, "No content with matching Id");
                 }
                 var result = this.resourcedbContext.Set<Point>().ToList();
                 foreach (var item in result)
@@ -1115,7 +1115,7 @@ namespace App.DAL.Repositories
                 var data = this.resourcedbContext.Points.Find(Convert.ToInt64(Id));
                 if (data == null)
                 {
-                    throw new APIException(404, "No content with matching Id");
+                    throw new APIException(409, "No content with matching Id");
                 }
                 var data1 = this.resourcedbContext.Stories.Find(data.StoryId);
                 data1.ModifiedOn = DateTime.Now;
