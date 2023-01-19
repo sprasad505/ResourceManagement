@@ -134,7 +134,7 @@ namespace App.DAL.Repositories
                 }
                 if (!testProj)
                 {
-                    throw new APIException(409, "Retry with a valid ProjcetId");
+                    throw new APIException(409, "Retry with a valid ProjectId");
                 }
                 s.PlanningSprint = false;
                 this.resourcedbContext.Add(s);
@@ -253,7 +253,7 @@ namespace App.DAL.Repositories
                 }
                 if (testRes)
                 {
-                    throw new APIException(409, "Retry with a new EmployeeId");
+                    throw new APIException(409, "Employee Already exists! Retry with a new EmployeeId");
                 }
                 this.resourcedbContext.Add(r);
                 this.resourcedbContext.SaveChanges();
@@ -444,7 +444,7 @@ namespace App.DAL.Repositories
                 var output = await this.resourcedbContext.Set<Calendar22>().ToListAsync();
                 if (output == null)
                 {
-                    throw new APIException(404, "Holidays are empty");
+                    throw new APIException(409, "Holidays are empty");
                 }
                 return output;
             }
@@ -738,7 +738,7 @@ namespace App.DAL.Repositories
                 }
                 if (data.PlanningSprint == true)
                 {
-                    throw new APIException(409, "Already the Planning Sprint");
+                    throw new APIException(409, "Selected Sprint is already a Planning Sprint");
                 }
                 foreach (var sprint in sprintdata)
                 {
@@ -1151,7 +1151,7 @@ namespace App.DAL.Repositories
                 }
                 if (a == null)
                 {
-                    throw new APIException(409, "Not found");
+                    throw new APIException(409, "No Allocations found");
                 }
                 List<Alloc> allocs = new List<Alloc>();
                 foreach(var item in a)
@@ -1197,7 +1197,7 @@ namespace App.DAL.Repositories
                 }
                 if (r == null)
                 {
-                    throw new APIException(409, "Not found");
+                    throw new APIException(409, "No Resources found");
                 }
                 return r;
             }
@@ -1222,7 +1222,7 @@ namespace App.DAL.Repositories
                 }
                 if (r == null)
                 {
-                    throw new APIException(409, "No Scrum Masters to show");
+                    throw new APIException(409, "No Scrum Masters found");
                 }
                 return r;
             }
@@ -1246,7 +1246,7 @@ namespace App.DAL.Repositories
                 }
                 if (t == null)
                 {
-                    throw new APIException(409, "Not found");
+                    throw new APIException(409, "No Teams found");
                 }
                 return t;
             }
@@ -1270,7 +1270,7 @@ namespace App.DAL.Repositories
                 }
                 if (s == null)
                 {
-                    throw new APIException(409, "Not found");
+                    throw new APIException(409, "No Sprints found");
                 }
                 return s;
             }
@@ -1294,7 +1294,7 @@ namespace App.DAL.Repositories
                 }
                 if (s == null)
                 {
-                    throw new APIException(409, "Not found");
+                    throw new APIException(409, "No Stories found");
                 }
                 return s;
             }
@@ -1318,7 +1318,7 @@ namespace App.DAL.Repositories
                 }
                 if (s == null)
                 {
-                    throw new APIException(409, "Not found");
+                    throw new APIException(409, "No Stories left");
                 }
                 return s;
             }
@@ -1342,7 +1342,7 @@ namespace App.DAL.Repositories
                 }
                 if (s == null)
                 {
-                    throw new APIException(409, "Not found");
+                    throw new APIException(409, "No Added Sories found");
                 }
                 return s;
             }
