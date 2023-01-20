@@ -78,7 +78,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         .GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value)),
         ValidateIssuer = false,
         ValidateAudience = false,
-        RequireExpirationTime = false
+        RequireExpirationTime = false,
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero
 
     };
 });

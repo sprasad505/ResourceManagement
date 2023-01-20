@@ -178,11 +178,13 @@ namespace App.DAL.Repositories
                 var holiday = resourcedbContext.Set<Calendar22>().ToList();
                 bool checkemp = false;
                 bool checkholiday = false;
+                string name = null;
                 foreach (var item in emp)
                 {
                     if(l.EmployeeId == item.EmployeeId)
                     {
                         checkemp = true;
+                        name = item.Name;
                         break;
                     }
                 }
@@ -202,6 +204,7 @@ namespace App.DAL.Repositories
                 {
                     throw new APIException(409, "Date is already a holiday");
                 }
+                l.Name = name;
                 l.CreatedDate = DateTime.Now;
                 l.ModifiedDate = DateTime.Now;
                 if(l.hours == 0)
