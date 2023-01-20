@@ -65,7 +65,7 @@ namespace App.BLL.Services
 
             var token = new JwtSecurityToken(
                 claims: claims,
-               // expires: DateTime.Now.AddDays(1),
+                expires: DateTime.Now.AddDays(1),
                 signingCredentials: cred
                 );
 
