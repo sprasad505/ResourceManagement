@@ -12,7 +12,7 @@ namespace App.DAL.Models
         public long Id { get; set; }
         public long StoryId { get; set; }
         public int Points { get; set; }
-        public long UserId { get; set; }
+        public long TeamId { get; set; }
         public virtual Story? Story { get; set; } = null!;
     }
 }

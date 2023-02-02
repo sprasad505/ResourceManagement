@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using App.DAL.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace App1.PL.Controllers
 {
@@ -16,22 +17,22 @@ namespace App1.PL.Controllers
             _projectService = projectService;
         }
         [HttpPost("AddProject"), Authorize(Roles = "4,0")]
-        public ContentResult AddProjects(Project p)
+        public ContentResult AddProjects(Project p, [FromHeader]string id)
         {
-            var data = this._projectService.AddProjects(p);
+            var data = this._projectService.AddProjects(p,id);
             return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
-        [HttpGet("Projects")]
+        [HttpGet("Projects"), Authorize(Roles = "4")]
         public async Task<List<Project>> GetProjects()
         {
             List<Project> projects = await _projectService.GetProjects();
             return projects;
         }
-        [HttpGet("SearchProject/{name}")]
-        public async Task<Project> SearchProject(string name)
+        [HttpGet("UserProjects/{id}")]
+        public async Task<List<Project>> SearchProject(string id)
         {
-            Project result = await _projectService.SearchProject(name);
-            return result;
+            List<Project> projects = await _projectService.SearchProject(id);
+            return projects;
         }
         [HttpPatch("UpdateProject/{id}"), Authorize(Roles = "4,0")]
         public ContentResult PatchProj(string Id, Project p)

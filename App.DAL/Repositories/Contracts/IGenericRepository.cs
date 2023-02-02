@@ -23,15 +23,16 @@ namespace App.DAL.Repositories.Contracts
         Task<List<Alloc>>SearchAllocation(string Id);
         Task<List<Resource>> SearchResource(string Id);
         Task<List<Team>> SearchTeam(string Id);
-        Task<Project> SearchProject(string name);
+        Task<List<Project>> SearchProject(string Id);
         Task<List<Sprint>> SearchSprint(string Id);
         Task<List<Story>> SearchStory(string Id);
         Task<List<Story>> StoriesLeft(string Id);
+        Task<List<Point>> SearchPoint(string Id);
         Task<List<Resource>> GetScrumMaster();
         Task<List<Story>> GetAddedStories(string Id);
         public string AddLeave(Leave l);
         public string AddResources(Resource r);
-        public string AddProjects(Project p);
+        public string AddProjects(Project p, string id);
         public string AddTeams(Team t);
         public string AddAlloc(Allocation a);
         public string AddScrumMaster(Resource r);

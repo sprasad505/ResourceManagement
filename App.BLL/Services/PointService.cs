@@ -53,6 +53,17 @@ namespace App.BLL.Services
                 throw;
             }
         }
+        public async Task<List<Point>> SearchPoint(string Id)
+        {
+            try
+            {
+                return await this.genericRepository.SearchPoint(Id);
+            }
+            catch
+            {
+                throw;
+            }
+        }
 
         public string PatchPoint(string Id, Point po)
         {

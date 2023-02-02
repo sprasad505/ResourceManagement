@@ -16,9 +16,9 @@ namespace App.BLL.Services
         {
             this.genericRepository = genericRepository;
         }
-        public string AddProjects(Project p)
+        public string AddProjects(Project p, string id)
         {
-            return genericRepository.AddProjects(p);
+            return genericRepository.AddProjects(p, id);
         }
 
         public string DeleteProject(string Id)
@@ -36,9 +36,9 @@ namespace App.BLL.Services
             var data = genericRepository.PatchProject(Id, p);
             return data;
         }
-        public async Task<Project> SearchProject(string name)
+        public async Task<List<Project>> SearchProject(string id)
         {
-            var result = await genericRepository.SearchProject(name);
+            var result = await genericRepository.SearchProject(id);
             return result;
         }
     }
