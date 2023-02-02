@@ -152,7 +152,7 @@ namespace App.DAL.Repositories
             }
         }
 
-        public string AddProjects(Project p)
+        public string AddProjects(Project p, string id)
         {
             try
             {
@@ -163,6 +163,18 @@ namespace App.DAL.Repositories
                 {
                     ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                 });
+                Resource r = new Resource();
+                var datares = this.resourcedbContext.Set<Resource>().ToList();
+                foreach (var res in datares)
+                {
+                    if (res.EmployeeId == id)
+                    {
+                        r = res;
+                        break;
+                    }
+                }
+                r.ProjectId = p.Id;
+                this.resourcedbContext.SaveChanges();
                 return json;
             }
             catch
@@ -873,7 +885,7 @@ namespace App.DAL.Repositories
                 data1.ModifiedOn = DateTime.Now;
                 this.resourcedbContext.SaveChanges();
 
-                data.UserId = po.UserId;
+                data.TeamId = po.TeamId;
                 data.Points = po.Points;
                 this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(data, Formatting.Indented,
@@ -1306,6 +1318,30 @@ namespace App.DAL.Repositories
                 throw ex;
             }
         }
+        public async Task<List<Point>> SearchPoint(string Id)
+        {
+            try
+            {
+                List<Point> p = new List<Point>();
+                var result = await this.resourcedbContext.Set<Point>().ToListAsync();
+                foreach (var item in result)
+                {
+                    if (item.StoryId == Convert.ToInt64(Id))
+                    {
+                        p.Add(item);
+                    }
+                }
+                if (p == null)
+                {
+                    throw new APIException(409, "No Story Points found");
+                }
+                return p;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public async Task<List<Story>> StoriesLeft(string Id)
         {
             try
@@ -1354,23 +1390,30 @@ namespace App.DAL.Repositories
                 throw ex;
             }
         }
-        public async Task<Project> SearchProject(string name)
+        public async Task<List<Project>> SearchProject(string id)
         {
             try
             {
-                Project p = new Project();
-                var result = await this.resourcedbContext.Set<Project>().ToListAsync();
-                foreach (var item in result)
+                List<Project> p = new List<Project>();
+                var projdata = await this.resourcedbContext.Set<Project>().ToListAsync();
+                var allocdata = await this.resourcedbContext.Set<Allocation>().ToListAsync();
+                foreach (var item in allocdata)
                 {
-                    if (item.Name == name)
+                    if (item.EmployeeId == id)
                     {
-                        p = item;
-                        break;
+                        foreach(var project in projdata)
+                        {
+                            if(project.Id == item.ProjectId)
+                            {
+                                p.Add(project);
+                                break;
+                            }
+                        }
                     }
                 }
-                if (p.Id == null)
+                if (p == null)
                 {
-                    throw new APIException(409, "Not found");
+                    throw new APIException(409, "No Projects Found");
                 }
                 return p;
             }

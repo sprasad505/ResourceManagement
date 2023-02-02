@@ -22,6 +22,12 @@ namespace App1.PL.Controllers
             List<Point> points = await pointService.GetPoints();
             return points;
         }
+        [HttpGet("SearchPoint/{id}")]
+        public async Task<List<Point>> SearchPoint(string Id)
+        {
+            List<Point> points = await pointService.SearchPoint(Id);
+            return points;
+        }
         [HttpPost("AddPoint")]
         public ContentResult AddPoint(Point po)
         {

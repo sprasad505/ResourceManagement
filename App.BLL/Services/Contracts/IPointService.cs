@@ -11,6 +11,7 @@ namespace App.BLL.Services.Contracts
     {
             public string AddPoint(Point po);
             Task<List<Point>> GetPoints();
+            Task<List<Point>> SearchPoint(string Id);
             public string PatchPoint(string Id,Point po);
             public string DeletePoint(string Id);
      
