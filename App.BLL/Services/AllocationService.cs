@@ -34,7 +34,7 @@ namespace App.BLL.Services
                 var result = dbContext.Set<Allocation>().ToList();
                 foreach (var item in result)
                 {
-                    if (item.EmployeeId == a.EmployeeId)
+                    if (item.ResourceId == a.ResourceId)
                     {
                         test = item;
                         break;
@@ -42,24 +42,15 @@ namespace App.BLL.Services
                 }
                 if (test == null)
                 {
-                    Resource r = new Resource();
-                    var result1 = dbContext.Set<Resource>().ToList();
-                    foreach (var item1 in result1)
-                    {
-                        if (item1.EmployeeId == a.EmployeeId)
-                        {
-                            r = item1;
-                            break;
-                        }
-                    }
-                    Random random = new Random();
-                    /* string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-                     string password = new string(Enumerable.Repeat(chars, 8)
-                         .Select(s => s[random.Next(s.Length)]).ToArray());*/
-                    string password = r.Name + "@123";
+                    var resource = dbContext.Resources.Find(a.ResourceId);
+                    /*Random random = new Random();
+                    string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                    string password = new string(Enumerable.Repeat(chars, 8)
+                        .Select(s => s[random.Next(s.Length)]).ToArray());*/
+                    string password = resource.Name + "@123";
                     CreatePasswordHash(password, out byte[] PasswordHash, out byte[] PasswordSalt);
                     Console.WriteLine("password : " + password);
-                    genericRepository.Adduser(r.Email, PasswordHash, PasswordSalt);
+                    genericRepository.Adduser(resource.Email, PasswordHash, PasswordSalt);
                     return genericRepository.AddAlloc(a);
                 }
                 else

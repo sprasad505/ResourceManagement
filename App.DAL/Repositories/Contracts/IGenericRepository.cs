@@ -38,7 +38,7 @@ namespace App.DAL.Repositories.Contracts
         public string AddScrumMaster(Resource r);
         public string AddSprint(Sprint s);
         public string AddStory(Story st);
-        public string AddPoint(Point po);
+        public string AddPoint(List<Point> po);
         public void Adduser(string email, byte[] passwordHash, byte[] passwordSalt);
         public User Login(Userdto request);
         public string AddHolidays(InterCalender c);

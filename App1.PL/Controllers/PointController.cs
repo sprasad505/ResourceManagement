@@ -29,7 +29,7 @@ namespace App1.PL.Controllers
             return points;
         }
         [HttpPost("AddPoint")]
-        public ContentResult AddPoint(Point po)
+        public ContentResult AddPoint(List<Point> po)
         {
             var data = this.pointService.AddPoint(po);
             return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);

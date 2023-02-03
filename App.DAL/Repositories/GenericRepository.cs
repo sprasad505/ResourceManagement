@@ -33,9 +33,19 @@ namespace App.DAL.Repositories
                 var dataProj = this.resourcedbContext.Set<Project>().ToList();
                 var dataTeam = this.resourcedbContext.Set<Team>().ToList();
                 var dataRes = this.resourcedbContext.Set<Resource>().ToList();
+                var dataalloc = this.resourcedbContext.Set<Allocation>().ToList();
                 bool testProj = false;
                 bool testTeam = false;
                 bool testRes = false;
+                bool testalloc = false;
+                foreach(var alloc in dataalloc)
+                {
+                    if(a.ResourceId == alloc.ResourceId && a.ProjectId == alloc.ProjectId)
+                    {
+                        testalloc = true;
+                        break;
+                    }
+                }
                 foreach (var item in dataProj)
                 {
                     if (a.ProjectId == item.Id)
@@ -62,7 +72,7 @@ namespace App.DAL.Repositories
                 }
                 foreach (var item in dataRes)
                 {
-                    if (a.EmployeeId == item.EmployeeId)
+                    if (a.ResourceId == item.Id)
                     {
                         testRes = true;
                         break;
@@ -70,7 +80,11 @@ namespace App.DAL.Repositories
                 }
                 if (!testRes)
                 {
-                    throw new APIException(409, "Retry with a valid EmployeeId");
+                    throw new APIException(409, "Retry with a valid ResourceId");
+                }
+                if(testalloc)
+                {
+                    throw new APIException(409, "Resource Already Allocated to the same project");
                 }
                 this.resourcedbContext.Add(a);
                 this.resourcedbContext.SaveChanges();
@@ -352,16 +366,30 @@ namespace App.DAL.Repositories
             }
         }
 
-        public string AddPoint(Point po)
+        public string AddPoint(List<Point> po)
         {
             try
-            {   
-                var data = this.resourcedbContext.Stories.Find(po.StoryId);
-                if(data == null)
+            {
+                var datapoint = resourcedbContext.Set<Point>().ToList();
+               /* foreach(var item in po)
+                {
+                    var data = this.resourcedbContext.Stories.Find(item.StoryId);
+                    if (data == null)
+                    {
+                        throw new APIException(409, "Story Doesn't exist!");
+                    }
+                    foreach (var p in datapoint)
+                    {
+                        if(item.StoryId == p.Id && item.TeamId == p.TeamId) 
+                    }
+                }
+                */
+                //var data = this.resourcedbContext.Stories.Find(po.StoryId);
+                /*if(data == null)
                 {
                     throw new APIException(409, "Story Doesn't exist!");
                 }
-                data.ModifiedOn = DateTime.Now;
+                data.ModifiedOn = DateTime.Now;*/
                 this.resourcedbContext.SaveChanges();
                 this.resourcedbContext.Add(po);
                 this.resourcedbContext.SaveChanges();
@@ -475,12 +503,12 @@ namespace App.DAL.Repositories
                 List<Alloc> a = new List<Alloc>();
                 var test2=resourcedbContext.Allocations.Join
                                 (resourcedbContext.Resources,
-                                a => a.EmployeeId,
-                                b => b.EmployeeId,
+                                a => a.ResourceId,
+                                b => b.Id,
                                 (a, b) => new
                                 {
                                     Id = a.Id,
-                                    EmployeeId = a.EmployeeId,
+                                    EmployeeId = b.EmployeeId,
                                     Name = b.Name,
                                     TeamId = a.TeamId,
                                     ProjectId = a.ProjectId,
@@ -512,7 +540,7 @@ namespace App.DAL.Repositories
                     });
                 }
                 //var output = await this.resourcedbContext.Set<Allocation>().ToListAsync();
-                if (test2 == null)
+                if (test2.Count == 0)
                 {
                     throw new APIException(409, "Allocations are empty");
                 }
@@ -612,13 +640,27 @@ namespace App.DAL.Repositories
         {
             try
             {
-
+                bool testalloc = false;
+                var dataalloc = this.resourcedbContext.Set<Allocation>().ToList();
+                foreach (var a in dataalloc)
+                {
+                    if (alloc.ResourceId == a.ResourceId && alloc.ProjectId == a.ProjectId)
+                    {
+                        testalloc = true;
+                        break;
+                    }
+                }
                 var data = this.resourcedbContext.Allocations.Find(Convert.ToInt64(Id));
                 if (data == null)
                 {
                     throw new APIException(409, "No content with matching Id");
                 }
-                data.EmployeeId = alloc.EmployeeId;
+                if(testalloc)
+                {
+                    throw new APIException(409, "Resource already allocated to the same project");
+                }
+            
+                data.ResourceId = alloc.ResourceId;
                 data.TeamId = alloc.TeamId;
                 data.ProjectId = alloc.ProjectId;
                 data.HoursPerDay = alloc.HoursPerDay;
@@ -1164,7 +1206,7 @@ namespace App.DAL.Repositories
                         a.Add(item);
                     }
                 }
-                if (a == null)
+                if (a.Count == 0)
                 {
                     throw new APIException(409, "No Allocations found");
                 }
@@ -1173,18 +1215,10 @@ namespace App.DAL.Repositories
                 {
                     var team = this.resourcedbContext.Teams.Find(item.TeamId);
                     string teamname = team.Name;
-                    var employeelist = this.resourcedbContext.Set<Resource>().ToList();
-                    foreach(var item2 in employeelist)
-                    {
-                        if(item2.EmployeeId == item.EmployeeId)
-                        {
-                            id = item2.Id;
-                            break;
-                        }
-                    }
-                    var employee = this.resourcedbContext.Resources.Find(Convert.ToInt64(id));
-                    string employeename = employee.Name;
-                    allocs.Add(new Alloc { Id = item.Id, EmployeeId = item.EmployeeId, 
+                    var resource = this.resourcedbContext.Resources.Find(item.ResourceId);
+                    string employeename = resource.Name;
+                    string employeeId = resource.EmployeeId;
+                    allocs.Add(new Alloc { Id = item.Id, EmployeeId = employeeId, 
                                       Name = employeename, TeamId = item.TeamId,
                                       TeamName = teamname, ProjectId = item.ProjectId,
                                       HoursPerDay = item.HoursPerDay});
@@ -1408,7 +1442,7 @@ namespace App.DAL.Repositories
                 var allocdata = await this.resourcedbContext.Set<Allocation>().ToListAsync();
                 foreach (var item in allocdata)
                 {
-                    if (item.EmployeeId == id)
+                    if (item.ResourceId == Convert.ToInt64(id))
                     {
                         foreach(var project in projdata)
                         {
