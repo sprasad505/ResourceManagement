@@ -15,7 +15,7 @@ namespace App.BLL.Services.Contracts
         public string PatchAlloc(string Id, Allocation a);
         public string DeleteAllocation(string Id);
         public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt);
-
+        public string GetTeams(string projId, string resId);
 
     }
 }

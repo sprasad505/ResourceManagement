@@ -177,16 +177,7 @@ namespace App.DAL.Repositories
                 {
                     ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                 });
-                Resource r = new Resource();
-                var datares = this.resourcedbContext.Set<Resource>().ToList();
-                foreach (var res in datares)
-                {
-                    if (res.EmployeeId == id)
-                    {
-                        r = res;
-                        break;
-                    }
-                }
+                var r = this.resourcedbContext.Resources.Find(Convert.ToInt64(id));
                 r.ProjectId = p.Id;
                 this.resourcedbContext.SaveChanges();
                 return json;
@@ -371,8 +362,9 @@ namespace App.DAL.Repositories
             try
             {
                 var datapoint = resourcedbContext.Set<Point>().ToList();
-               /* foreach(var item in po)
+                foreach (var item in po)
                 {
+                    bool checkpoint = true;
                     var data = this.resourcedbContext.Stories.Find(item.StoryId);
                     if (data == null)
                     {
@@ -380,19 +372,23 @@ namespace App.DAL.Repositories
                     }
                     foreach (var p in datapoint)
                     {
-                        if(item.StoryId == p.Id && item.TeamId == p.TeamId) 
+                        if (item.StoryId == p.StoryId && item.TeamId == p.TeamId)
+                        {
+                            checkpoint = false;
+                            p.Points = item.Points;
+                            data.ModifiedOn = DateTime.Now;
+                            this.resourcedbContext.SaveChanges();
+                            break;
+                        }
+                    }
+                    if (checkpoint)
+                    {
+                        data.ModifiedOn = DateTime.Now;
+                        this.resourcedbContext.SaveChanges();
+                        this.resourcedbContext.Add(item);
+                        this.resourcedbContext.SaveChanges();
                     }
                 }
-                */
-                //var data = this.resourcedbContext.Stories.Find(po.StoryId);
-                /*if(data == null)
-                {
-                    throw new APIException(409, "Story Doesn't exist!");
-                }
-                data.ModifiedOn = DateTime.Now;*/
-                this.resourcedbContext.SaveChanges();
-                this.resourcedbContext.Add(po);
-                this.resourcedbContext.SaveChanges();
                 var json = JsonConvert.SerializeObject(po, Formatting.Indented,
                 new JsonSerializerSettings()
                 {
@@ -1464,6 +1460,28 @@ namespace App.DAL.Repositories
             {
                 throw ex;
             }
+        }
+        public string GetTeams(string projId, string resId)
+        {
+            TeamIdModel team = new TeamIdModel();
+            var allocdata = this.resourcedbContext.Set<Allocation>().ToList();
+            foreach(var item in allocdata)
+            {
+                if(item.ProjectId == Convert.ToInt64(projId) && item.ResourceId == Convert.ToInt64(resId))
+                {
+                    team.teamId = item.TeamId.ToString();
+                }
+            }
+            if(team == null)
+            {
+                throw new APIException(409, "Invalid projectId or ResourceId");
+            }
+            var json = JsonConvert.SerializeObject(team, Formatting.Indented,
+                 new JsonSerializerSettings()
+                 {
+                     ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                 });
+            return json;
         }
         public void Adduser(string email, byte[] passwordHash, byte[] passwordSalt)
         {
