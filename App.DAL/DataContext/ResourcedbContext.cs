@@ -40,25 +40,20 @@ namespace App.DAL.DataContext
         {
             modelBuilder.Entity<Allocation>(entity =>
             {
-                entity.Property(e => e.EmployeeId)
-                    .HasMaxLength(10)
-                    .IsUnicode(false);
-
-                entity.HasOne(d => d.Employee)
-                    .WithMany(p => p.Allocations)
-                    .HasPrincipalKey(p => p.EmployeeId)
-                    .HasForeignKey(d => d.EmployeeId)
-                    .HasConstraintName("Employeef");
-
                 entity.HasOne(d => d.Project)
                     .WithMany(p => p.Allocations)
                     .HasForeignKey(d => d.ProjectId)
-                    .HasConstraintName("Projectf");
+                    .HasConstraintName("project");
+
+                entity.HasOne(d => d.Resource)
+                    .WithMany(p => p.Allocations)
+                    .HasForeignKey(d => d.ResourceId)
+                    .HasConstraintName("emp");
 
                 entity.HasOne(d => d.Team)
                     .WithMany(p => p.Allocations)
                     .HasForeignKey(d => d.TeamId)
-                    .HasConstraintName("Teamf");
+                    .HasConstraintName("team1");
             });
 
             modelBuilder.Entity<Project>(entity =>
