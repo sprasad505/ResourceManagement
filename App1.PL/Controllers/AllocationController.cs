@@ -45,5 +45,12 @@ namespace App1.PL.Controllers
             var data=allocationService.DeleteAllocation(Id);
             return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
         }
+        [HttpGet("GetTeam/{projId}")]
+        public ContentResult GetTeams(string projId, [FromHeader] string id)
+        {
+            var data = allocationService.GetTeams(projId, id);
+            return Content(data.ToString(), "application/json", System.Text.Encoding.UTF8);
+        }
+        
     }
 }

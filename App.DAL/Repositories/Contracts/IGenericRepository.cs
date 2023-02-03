@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime;
 using System.Text;
@@ -61,5 +62,6 @@ namespace App.DAL.Repositories.Contracts
         public string DeleteLeave(string Id);
         public string DeleteStory(string Id);
         public string DeletePoint(string Id);
+        public string GetTeams(string projecId, string resId);
     }
 }

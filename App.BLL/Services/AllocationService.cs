@@ -80,6 +80,10 @@ namespace App.BLL.Services
             var result = await genericRepository.SearchAllocation(Id);
             return result;
         }
+        public string GetTeams(string projId, string resId)
+        {
+            return genericRepository.GetTeams(projId, resId);
+        }
         public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512())
