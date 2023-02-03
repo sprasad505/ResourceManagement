@@ -1299,14 +1299,23 @@ namespace App.DAL.Repositories
             try
             {
                 List<Story> s = new List<Story>();
-                var result = await this.resourcedbContext.Set<Story>().ToListAsync();
-                foreach (var item in result)
+                var datastory = await this.resourcedbContext.Set<Story>().ToListAsync();
+                var datapoint = await this.resourcedbContext.Set<Point>().ToListAsync();
+                foreach (var story in datastory)
                 {
-                    if (item.ProjectId == Convert.ToInt64(Id))
+                    if (story.ProjectId == Convert.ToInt64(Id))
                     {
-                        s.Add(item);
+                        foreach(var point in datapoint)
+                        {
+                            if(point.StoryId == story.Id)
+                            {
+                                story.Points.Add(point);
+                            }
+                        }
+                        s.Add(story);
                     }
                 }
+                
                 if (s == null)
                 {
                     throw new APIException(409, "No Stories found");
